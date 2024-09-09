@@ -1,0 +1,102 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "PrivateClinicManagementDBContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "PrivateClinic",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[ACCOUNT]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CHECKUP]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EQUIPMENT]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EXAMINITION_APPOINTMENT]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICAL_RECORD]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICINE_ORDER]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICINE_STORAGE]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ORDER]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ORDER_DETAILS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PRESCRIPTION]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PRICE_LIST]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ROLE]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TREATMENT]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TREATMENT_ORDER]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[USER]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "laptop-e47jik8o\\mssqlserver02.PrivateClinicManagementDB.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
