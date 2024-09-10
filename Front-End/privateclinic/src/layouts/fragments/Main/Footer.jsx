@@ -1,108 +1,112 @@
 import React, { useEffect } from 'react';
 
 const Footer = () => {
-    useEffect(() => {
-        const loadScript = (src, callback) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = callback;
-            document.head.appendChild(script);
-        };
+  // Function to load scripts with promises
+  const loadScript = (src) => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true; // or script.defer = true;
+      script.onload = () => resolve(src);
+      script.onerror = () => reject(new Error(`Failed to load script ${src}`));
+      document.body.appendChild(script);
+    });
+  };
 
-        loadScript('/assets/js/main.js', () => {
-            loadScript('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js', () => {
-                loadScript('/assets/vendor/php-email-form/validate.js', () => {
-                    loadScript('/assets/vendor/aos/aos.js', () => {
-                        loadScript('/assets/vendor/glightbox/js/glightbox.min.js', () => {
-                            loadScript('/assets/vendor/purecounter/purecounter_vanilla.js', () => {
-                                loadScript('/assets/vendor/swiper/swiper-bundle.min.js', () => {
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    }, []);
-    return (
-        <footer id="footer" className="footer light-background">
+  useEffect(() => {
+    // Array of script paths
+    const scriptPaths = [
+      '/assets/js/main.js',
+      '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
+      '/assets/vendor/php-email-form/validate.js',
+      '/assets/vendor/aos/aos.js',
+      '/assets/vendor/glightbox/js/glightbox.min.js',
+      '/assets/vendor/purecounter/purecounter_vanilla.js',
+      '/assets/vendor/swiper/swiper-bundle.min.js'
+    ];
 
-        <div className="container footer-top">
-          <div className="row gy-4">
-            <div className="col-lg-4 col-md-6 footer-about">
-              <a href="/" className="logo d-flex align-items-center">
-                <span className="sitename">Medicio</span>
-              </a>
-              <div className="footer-contact pt-3">
-                <p>A108 Adam Street</p>
-                <p>New York, NY 535022</p>
-                <p className="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-                <p><strong>Email:</strong> <span>info@example.com</span></p>
-              </div>
-              <div className="social-links d-flex mt-4">
-                <a href="/"><i className="bi bi-twitter-x"></i></a>
-                <a href="/"><i className="bi bi-facebook"></i></a>
-                <a href="/"><i className="bi bi-instagram"></i></a>
-                <a href="/"><i className="bi bi-linkedin"></i></a>
-              </div>
+    // Load scripts sequentially
+    scriptPaths.reduce((promise, path) => {
+      return promise.then(() => loadScript(path));
+    }, Promise.resolve())
+      .catch((error) => {
+        console.error('Script loading error:', error);
+      });
+  }, []);
+  return (
+    <footer id="footer" className="footer light-background">
+
+      <div className="container footer-top">
+        <div className="row gy-4">
+          <div className="col-lg-4 col-md-6 footer-about">
+            <a href="/" className="logo d-flex align-items-center">
+              <span className="sitename">Phòng Khám Cleveland</span>
+            </a>
+            <div className="footer-contact pt-3">
+              <p>42/23 Lam Sơn</p>
+              <p>Phường 2, Tân Bình, TP.HCM</p>
+              <p className="mt-3"><strong>Phone:</strong> <span>0942 256 346</span></p>
+              <p><strong>Email:</strong> <span>clevelandclinic@gmail.com</span></p>
             </div>
-    
-            <div className="col-lg-2 col-md-3 footer-links">
-              <h4>Useful Links</h4>
-              <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/">About us</a></li>
-                <li><a href="/">Services</a></li>
-                <li><a href="/">Terms of service</a></li>
-                <li><a href="/">Privacy policy</a></li>
-              </ul>
+            <div className="social-links d-flex mt-4">
+              <a href="/"><i className="bi bi-twitter-x"></i></a>
+              <a href="/"><i className="bi bi-facebook"></i></a>
+              <a href="/"><i className="bi bi-instagram"></i></a>
+              <a href="/"><i className="bi bi-linkedin"></i></a>
             </div>
-    
-            <div className="col-lg-2 col-md-3 footer-links">
-              <h4>Our Services</h4>
-              <ul>
-                <li><a href="/">Web Design</a></li>
-                <li><a href="/">Web Development</a></li>
-                <li><a href="/">Product Management</a></li>
-                <li><a href="/">Marketing</a></li>
-                <li><a href="/">Graphic Design</a></li>
-              </ul>
-            </div>
-    
-            <div className="col-lg-2 col-md-3 footer-links">
-              <h4>Hic solutasetp</h4>
-              <ul>
-                <li><a href="/">Molestiae accusamus iure</a></li>
-                <li><a href="/">Excepturi dignissimos</a></li>
-                <li><a href="/">Suscipit distinctio</a></li>
-                <li><a href="/">Dilecta</a></li>
-                <li><a href="/">Sit quas consectetur</a></li>
-              </ul>
-            </div>
-    
-            <div className="col-lg-2 col-md-3 footer-links">
-              <h4>Nobis illum</h4>
-              <ul>
-                <li><a href="/">Ipsam</a></li>
-                <li><a href="/">Laudantium dolorum</a></li>
-                <li><a href="/">Dinera</a></li>
-                <li><a href="/">Trodelas</a></li>
-                <li><a href="/">Flexo</a></li>
-              </ul>
-            </div>
-    
           </div>
-        </div>
-    
-        <div className="container copyright text-center mt-4">
-          <p>© <span>Copyright</span> <strong className="px-1 sitename">Medicio</strong> <span>All Rights Reserved</span></p>
-          <div className="credits">
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+          <div className="col-lg-2 col-md-3 footer-links">
+            <h4>Truy Cập</h4>
+            <ul>
+              <li><a href="/">Trang Chủ</a></li>
+              <li><a href="/">Dịch Vụ</a></li>
+              <li><a href="/">Đặt Lịch Khám</a></li>
+            </ul>
           </div>
+
+          <div className="col-lg-2 col-md-3 footer-links">
+            <h4>Dịch Vụ Của Chúng Tôi</h4>
+            <ul>
+              <li><a href="/">Tổng Quát</a></li>
+              <li><a href="/">Mua Thuốc</a></li>
+              <li><a href="/">Chích Ngừa</a></li>
+              <li><a href="/">Xét Nghiệm</a></li>
+            </ul>
+          </div>
+
+          <div className="col-lg-2 col-md-3 footer-links">
+            <h4>Các Bác Sĩ</h4>
+            <ul>
+              <li><a href="/">Walter White</a></li>
+              <li><a href="/">Jhonson</a></li>
+              <li><a href="/">William Anderson</a></li>
+              <li><a href="/">Amanda Jepson</a></li>
+            </ul>
+          </div>
+
+          <div className="col-lg-2 col-md-3 footer-links">
+            <h4>Liên Lạc</h4>
+            <ul>
+              <li><a href="/">Facebook</a></li>
+              <li><a href="/">Zalo</a></li>
+              <li><a href="/">X</a></li>
+              <li><a href="/">Linkedin</a></li>
+            </ul>
+          </div>
+
         </div>
-    
-      </footer>
-    );
+      </div>
+
+      <div className="container copyright text-center mt-4">
+        <p>© <span>Copyright 2024</span> <strong className="px-1 sitename">Cleveland Clinic</strong> <span>All Rights Reserved</span></p>
+        <div className="credits">
+          Designed by <a href="https://google.com/">PA</a>
+        </div>
+      </div>
+
+    </footer>
+  );
 };
 
 export default Footer;
