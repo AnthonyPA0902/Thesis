@@ -25,12 +25,12 @@ const Header = () => {
                     <nav id="navmenu" className="navmenu">
                         <ul>
                             <li><a href="/">Trang Chủ</a></li>
-                            <li><a href="/">Dịch Vụ</a></li>
+                            <li><a href="/service">Dịch Vụ</a></li>
                         </ul>
                         <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
                     </nav>
 
-                    <a className="cta-btn" href="index.html#appointment">Đặt Lịch Khám</a>
+                    <a className="cta-btn" href="/appointment">Đặt Lịch Khám</a>
 
                 </div>
 

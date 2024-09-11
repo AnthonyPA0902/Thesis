@@ -9,7 +9,7 @@ const Main = () => {
                 <div id="hero-carousel" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
                     <div className="carousel-item active">
-                        <img src="assets/img/hero-carousel/hero-carousel-1.jpg" alt="" />
+                        <img src="/assets/img/hero-carousel/hero-carousel-1.jpg" alt="" />
                         <div className="container">
                             <h2>Chào Mừng Đến Với Phòng Khám Cleveland</h2>
                             <p>Phòng khám với 5 năm kinh nghiệm trong việc khám bệnh và đưa ra các liệu trình trị bệnh phổ biến. Cùng với đội ngũ y bác sĩ hàng đầu và các trang thiết bị tân tiến trên thế giới, chúng tôi cung cấp cho khách hàng những dịch vụ hiện đại, an toàn và tốt nhất hiện nay.</p>
@@ -18,7 +18,7 @@ const Main = () => {
                     </div>
 
                     <div className="carousel-item">
-                        <img src="assets/img/hero-carousel/hero-carousel-2.jpg" alt="" />
+                        <img src="/assets/img/hero-carousel/hero-carousel-2.jpg" alt="" />
                         <div className="container">
                             <h2>Dịch Vụ Của Chúng Tôi</h2>
                             <p>Chúng tôi cung cấp các dịch vụ khám chữa bệnh hàng đầu, được phổ biến rộng rãi trong các dịch vụ y tế hiện nay. Các dịch vụ này được áp dụng thành công ở nhiều nơi trên thế giới và chúng tôi mang lại quy trình đăng ký dịch vụ tiện lợi và nhanh chóng.</p>
@@ -27,7 +27,7 @@ const Main = () => {
                     </div>
 
                     <div className="carousel-item">
-                        <img src="assets/img/hero-carousel/hero-carousel-3.jpg" alt="" />
+                        <img src="/assets/img/hero-carousel/hero-carousel-3.jpg" alt="" />
                         <div className="container">
                             <h2>Đội Ngũ Bác Sĩ</h2>
                             <p>Các bác sĩ ở Cleveland là những người có chuyên môn cao và thâm niên trong nghề. Họ được đào tào kỹ càng ở nước ngoài và đạt được nhiều thành tựu cao trong lĩnh vực y tế.</p>
@@ -89,8 +89,8 @@ const Main = () => {
             <section id="featured-services" className="featured-services section">
 
             <div className="container section-title">
-                    <h2>Dịch Vụ<br /></h2>
-                    <p>Chúng Tôi Cung Cấp Đa Dạng Các Dịch Vụ Khám Chữa Bệnh</p>
+                    <h2>Dịch Vụ Phổ Biến<br /></h2>
+                    <p>Các dịch vụ được tin dùng nhiều nhất hiện nay bởi khách hàng khi đến phòng khám</p>
                 </div>
 
                 <div className="container">

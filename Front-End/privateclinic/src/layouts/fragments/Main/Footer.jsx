@@ -68,7 +68,7 @@ const Footer = () => {
           <div className="col-lg-2 col-md-3 footer-links">
             <h4>Dịch Vụ Của Chúng Tôi</h4>
             <ul>
-              <li><a href="/">Tổng Quát</a></li>
+              <li><a href="/">Khám Tổng Quát</a></li>
               <li><a href="/">Mua Thuốc</a></li>
               <li><a href="/">Chích Ngừa</a></li>
               <li><a href="/">Xét Nghiệm</a></li>
@@ -78,10 +78,10 @@ const Footer = () => {
           <div className="col-lg-2 col-md-3 footer-links">
             <h4>Các Bác Sĩ</h4>
             <ul>
-              <li><a href="/">Walter White</a></li>
-              <li><a href="/">Jhonson</a></li>
-              <li><a href="/">William Anderson</a></li>
-              <li><a href="/">Amanda Jepson</a></li>
+              <li><a href="/#doctors">Walter White</a></li>
+              <li><a href="/#doctors">Sarah Jhonson</a></li>
+              <li><a href="/#doctors">William Anderson</a></li>
+              <li><a href="/#doctors">Amanda Jepson</a></li>
             </ul>
           </div>
 

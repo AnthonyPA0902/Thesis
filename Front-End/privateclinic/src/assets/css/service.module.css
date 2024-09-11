@@ -1,0 +1,86 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.services {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+}
+
+.serviceWrapper {
+    display: flex;
+    align-items: center; /* Align button with the service box */
+    position: relative; /* Enable positioning for the button */
+    transition: all 0.3s ease; /* Smooth transition on hover */
+}
+
+.serviceBox {
+    display: flex;
+    border: 2px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px; /* Limit the width */
+    background-color: #f9f9f9;
+    transition: transform 0.3s ease; /* Smooth transition on hover */
+    flex-grow: 1; /* Allow the service box to take up available space */
+}
+
+.serviceBox:hover {
+    transform: scale(1.02); /* Slightly enlarge the box on hover */
+}
+
+.bold {
+    font-weight: 700;
+}
+.serviceImage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+}
+
+.serviceImage img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.serviceContent {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+
+.serviceContent ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.serviceContent li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #555;
+    position: relative; /* Enable pseudo-element positioning */
+    padding-left: 20px; /* Add padding for the circle */
+}
+
+.serviceContent li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px; /* Adjust to vertically center the circle */
+    width: 8px;
+    height: 8px;
+    background-color: #333; /* Circle color */
+    border-radius: 50%; /* Make it a circle */
+}
