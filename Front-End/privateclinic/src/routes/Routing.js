@@ -2,6 +2,7 @@
 import Main from '../pages/Main';
 import Service from '../pages/Service';
 import Appointment from '../pages/Appointment';
+import Login from '../pages/Login';
 
 // Routes
 const NormalRoutes = [
@@ -10,4 +11,8 @@ const NormalRoutes = [
     { path: '/appointment', component: Appointment},
 ]
 
-export {NormalRoutes};
+const AuthRoutes = [
+    { path: '/login', component: Login},
+]
+
+export {NormalRoutes, AuthRoutes};

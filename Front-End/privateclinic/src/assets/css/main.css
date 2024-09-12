@@ -241,7 +241,6 @@ h6 {
   color: var(--contrast-color);
   height: 40px;
   padding: 0;
-  transition: all 0.5s;
 }
 
 .header .branding {

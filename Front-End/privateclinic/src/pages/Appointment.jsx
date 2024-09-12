@@ -1,60 +1,59 @@
 import React from 'react';
 import styles from '../assets/css/appointment.module.css';
 import Heading from '../components/Heading';
-import backgroundImage from '../assets/img/appointment.jpg';
-
+import backgroundImage from '../assets/img/appointment-background.jpg';
 
 const Appointment = () => {
     return (
-        <main className={styles.main} style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <main className={styles.main} style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover'}}>
             {/* Header Section */}
-            <Heading title="HẸN LỊCH KHÁM" color="white" />
+            <Heading title="HẸN LỊCH KHÁM" color="black" />
             {/* Appointment Section */}
             <section id="appointment" className="appointment section light-background">
-                <div className="container"  data-aos-delay="100">
+                <div className="container" data-aos-delay="100">
 
                     <form action="forms/appointment.php" method="post" className="php-email-form">
                         <div className="row">
                             <div className="col-md-4 form-group">
-                                <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" required="" />
-                            </div>
-                            <div class="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" required="" />
+                                <input type="text" name="name" className="form-control" id="name" placeholder="Họ và Tên" required="" autoComplete='true'/>
                             </div>
                             <div className="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="tel" className="form-control" name="phone" id="phone" placeholder="Your Phone" required="" />
+                                <input type="email" className="form-control" name="email" id="email" placeholder="Email" required="" autoComplete='true'/>
+                            </div>
+                            <div className="col-md-4 form-group mt-3 mt-md-0">
+                                <input type="tel" className="form-control" name="phone" id="phone" placeholder="Số điện thoại" required="" autoComplete='true'/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-4 form-group mt-3">
-                                <input type="datetime-local" name="date" className="form-control datepicker" id="date" placeholder="Appointment Date" required="" />
+                                <input type="datetime-local" name="date" className="form-control datepicker" id="date" placeholder="Ngày Hẹn Khám" required="" />
                             </div>
                             <div className="col-md-4 form-group mt-3">
                                 <select name="department" id="department" className="form-select" required="">
-                                    <option value="">Select Service</option>
-                                    <option value="Department 1">Service 1</option>
-                                    <option value="Department 2">Service 2</option>
-                                    <option value="Department 3">Service 3</option>
+                                    <option value="">Chọn dịch vụ</option>
+                                    <option value="Department 1">Khám tổng quát</option>
+                                    <option value="Department 2">Xét nghiệm</option>
+                                    <option value="Department 3">Chích ngừa</option>
                                 </select>
                             </div>
                             <div className="col-md-4 form-group mt-3">
                                 <select name="doctor" id="doctor" className="form-select" required="">
-                                    <option value="">Select Doctor</option>
-                                    <option value="Doctor 1">Doctor Sarah</option>
-                                    <option value="Doctor 2">Doctor Johnson</option>
-                                    <option value="Doctor 3">Doctor Guy</option>
+                                    <option value="">Chọn bác sĩ</option>
+                                    <option value="Doctor 1">Bác sĩ Sarah</option>
+                                    <option value="Doctor 2">Bác sĩ Johnson</option>
+                                    <option value="Doctor 3">Bác sĩ Guy</option>
                                 </select>
                             </div>
                         </div>
 
                         <div className="form-group mt-3">
-                            <textarea className="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
+                            <textarea className="form-control" name="message" rows="5" placeholder="Ghi Chú (Tùy Chọn)"></textarea>
                         </div>
                         <div className="mt-3">
-                            <div className="loading">Loading</div>
-                            <div className="error-message"></div>
-                            <div className="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-                            <div className="text-center"><button type="submit">Make an Appointment</button></div>
+                            <div className="loading">Đang tải thông tin</div>
+                            <div className="error-message">Có lỗi xảy ra trong quá trình cập nhật thông tin</div>
+                            <div className="sent-message">Lịch hẹn khám của bạn đã được cập nhật thành công !</div>
+                            <div className="text-center"><button type="submit">Tạo Lịch Hẹn</button></div>
                         </div>
                     </form>
 

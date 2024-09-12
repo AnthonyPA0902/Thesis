@@ -10,7 +10,9 @@ const Header = () => {
                         <i className="bi bi-clock me-1"></i> Thứ 2 - Thứ 7, 8:00 - 22:00
                     </div>
                     <div className="d-flex align-items-center">
-                        <i className="bi bi-phone me-1"></i> Gọi chúng tôi - 0942 256 346
+                        <i className="bi bi-person-fill me-1"></i><a href="/login" style={{color: 'white', fontWeight: 'bold'}}> Đăng Nhập </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <i className="bi bi-person-plus me-1"></i><a href="/login" style={{color: 'white', fontWeight: 'bold'}}> Đăng Ký </a>
                     </div>
                 </div>
             </div>
@@ -30,7 +32,7 @@ const Header = () => {
                         <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
                     </nav>
 
-                    <a className="cta-btn" href="/appointment">Đặt Lịch Khám</a>
+                    <a className="cta-btn" href="/appointment">ĐẶT LỊCH KHÁM</a>
 
                 </div>
 
