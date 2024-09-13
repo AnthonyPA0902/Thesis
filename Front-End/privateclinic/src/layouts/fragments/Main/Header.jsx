@@ -12,7 +12,7 @@ const Header = () => {
                     <div className="d-flex align-items-center">
                         <i className="bi bi-person-fill me-1"></i><a href="/login" style={{color: 'white', fontWeight: 'bold'}}> Đăng Nhập </a>
                         &nbsp;&nbsp;&nbsp;
-                        <i className="bi bi-person-plus me-1"></i><a href="/login" style={{color: 'white', fontWeight: 'bold'}}> Đăng Ký </a>
+                        <i className="bi bi-person-plus me-1"></i><a href="/register" style={{color: 'white', fontWeight: 'bold'}}> Đăng Ký </a>
                     </div>
                 </div>
             </div>
@@ -33,6 +33,7 @@ const Header = () => {
                     </nav>
 
                     <a className="cta-btn" href="/appointment">ĐẶT LỊCH KHÁM</a>
+                    <a href="/admin/login" style={{color: 'black', fontWeight: 'bold', width: '100px', marginLeft: '20px'}}><img src="/assets/img/icon/gear.png" alt="gear pic"/></a>
 
                 </div>
 

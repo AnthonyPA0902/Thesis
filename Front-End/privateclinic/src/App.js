@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import MainLayout from './layouts/MainLayout';
 import AuthenticationLayout from './layouts/AuthenticationLayout';
+import AdminAuthLayout from './layouts/AdminAuthLayout';
 
-import { AuthRoutes, NormalRoutes } from './routes/Routing';
+import { AuthRoutes, NormalRoutes, AdminAuthRoutes } from './routes/Routing';
 
 
 function App() {
@@ -44,6 +45,22 @@ function App() {
               </Route>
             )
           })}
+
+          
+        {AdminAuthRoutes.map((route, index)=>{
+          const Page = route.component;
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <AdminAuthLayout>
+                  <Page />
+                </AdminAuthLayout>
+              }>
+            </Route>
+          )
+        })}
 
 
         </Routes>

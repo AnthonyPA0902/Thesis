@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./fragments/Authentication/Header";
 import Footer from "./fragments/Authentication/Footer";
 
-function MainLayout({ children }) {
+function AuthenticationLayout({ children }) {
     return (
         <div>
             <Header />
@@ -14,4 +14,4 @@ function MainLayout({ children }) {
     );
 };
 
-export default MainLayout;
+export default AuthenticationLayout;
