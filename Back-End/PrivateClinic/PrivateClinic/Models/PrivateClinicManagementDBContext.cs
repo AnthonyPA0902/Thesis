@@ -13,8 +13,6 @@ public partial class PrivateClinicManagementDBContext : DbContext
     {
     }
 
-    public virtual DbSet<Account> Accounts { get; set; }
-
     public virtual DbSet<Checkup> Checkups { get; set; }
 
     public virtual DbSet<Equipment> Equipment { get; set; }
@@ -45,32 +43,13 @@ public partial class PrivateClinicManagementDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Account>(entity =>
-        {
-            entity.ToTable("ACCOUNT");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Password)
-                .HasMaxLength(50)
-                .HasColumnName("password");
-            entity.Property(e => e.UserId).HasColumnName("userId");
-            entity.Property(e => e.Username)
-                .HasMaxLength(50)
-                .HasColumnName("username");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Accounts)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ACCOUNT_USER");
-        });
-
         modelBuilder.Entity<Checkup>(entity =>
         {
             entity.ToTable("CHECKUP");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Date)
-                .HasMaxLength(20)
+                .HasColumnType("datetime")
                 .HasColumnName("date");
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
@@ -113,20 +92,20 @@ public partial class PrivateClinicManagementDBContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Date)
-                .HasMaxLength(20)
+                .HasColumnType("datetime")
                 .HasColumnName("date");
             entity.Property(e => e.DoctorId).HasColumnName("doctorId");
-            entity.Property(e => e.EndTime)
-                .HasMaxLength(20)
-                .HasColumnName("endTime");
-            entity.Property(e => e.StartTime)
-                .HasMaxLength(20)
-                .HasColumnName("startTime");
+            entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.ExaminitionAppointments)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_EXAMINITION_APPOINTMENT_USER");
+
+            entity.HasOne(d => d.Treatment).WithMany(p => p.ExaminitionAppointments)
+                .HasForeignKey(d => d.TreatmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EXAMINITION_APPOINTMENT_TREATMENT");
         });
 
         modelBuilder.Entity<MedicalRecord>(entity =>
@@ -181,10 +160,10 @@ public partial class PrivateClinicManagementDBContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ExpiredDate)
-                .HasMaxLength(20)
+                .HasColumnType("datetime")
                 .HasColumnName("expiredDate");
             entity.Property(e => e.ImportDate)
-                .HasMaxLength(20)
+                .HasColumnType("datetime")
                 .HasColumnName("importDate");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
@@ -214,7 +193,7 @@ public partial class PrivateClinicManagementDBContext : DbContext
                 .HasColumnName("context");
             entity.Property(e => e.CustomerId).HasColumnName("customerId");
             entity.Property(e => e.Date)
-                .HasMaxLength(20)
+                .HasColumnType("datetime")
                 .HasColumnName("date");
             entity.Property(e => e.Method)
                 .HasMaxLength(30)
@@ -343,13 +322,10 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("USER");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AccountId).HasColumnName("accountId");
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .HasColumnName("address");
-            entity.Property(e => e.Birthday)
-                .HasMaxLength(20)
-                .HasColumnName("birthday");
+            entity.Property(e => e.Age).HasColumnName("age");
             entity.Property(e => e.Email)
                 .HasMaxLength(30)
                 .HasColumnName("email");

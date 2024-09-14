@@ -15,9 +15,9 @@ public partial class MedicineStorage
 
     public int? Quantity { get; set; }
 
-    public string ImportDate { get; set; }
+    public DateTime? ImportDate { get; set; }
 
-    public string ExpiredDate { get; set; }
+    public DateTime? ExpiredDate { get; set; }
 
     public string Status { get; set; }
 

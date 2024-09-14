@@ -11,7 +11,7 @@ public partial class User
 
     public string Name { get; set; }
 
-    public string Birthday { get; set; }
+    public short? Age { get; set; }
 
     public string Address { get; set; }
 
@@ -24,10 +24,6 @@ public partial class User
     public string Password { get; set; }
 
     public int RoleId { get; set; }
-
-    public int AccountId { get; set; }
-
-    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 
     public virtual ICollection<Checkup> Checkups { get; set; } = new List<Checkup>();
 

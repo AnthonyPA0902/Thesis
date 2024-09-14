@@ -9,13 +9,13 @@ public partial class ExaminitionAppointment
 {
     public int Id { get; set; }
 
-    public string Date { get; set; }
-
-    public string StartTime { get; set; }
-
-    public string EndTime { get; set; }
+    public DateTime? Date { get; set; }
 
     public int DoctorId { get; set; }
 
+    public int TreatmentId { get; set; }
+
     public virtual User Doctor { get; set; }
+
+    public virtual Treatment Treatment { get; set; }
 }

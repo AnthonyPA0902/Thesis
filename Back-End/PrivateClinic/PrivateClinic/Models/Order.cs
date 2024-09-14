@@ -13,7 +13,7 @@ public partial class Order
 
     public long? Total { get; set; }
 
-    public string Date { get; set; }
+    public DateTime? Date { get; set; }
 
     public string Method { get; set; }
 
