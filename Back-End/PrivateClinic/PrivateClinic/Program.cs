@@ -11,6 +11,15 @@ builder.Services.AddSwaggerGen();
 // Add SQL Server Connection
 builder.Services.AddSqlServer<PrivateClinicManagementDBContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowReactApp",
+		builder => builder
+			.WithOrigins("http://localhost:3000")
+			.AllowAnyHeader()
+			.AllowAnyMethod());
+});
 
 var app = builder.Build();
 
@@ -20,6 +29,9 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+// Use the CORS policy
+app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
 
