@@ -70,7 +70,7 @@ const Header = () => {
                         </nav>
 
                         <a className="cta-btn" href="/appointment">ĐẶT LỊCH KHÁM</a>
-                        <a href="/admin/login" style={{ color: 'black', fontWeight: 'bold', width: '100px', marginLeft: '20px' }}><img src="/assets/img/icon/gear.png" alt="gear pic" /></a>
+                        <a href="/admin/auth" style={{ color: 'black', fontWeight: 'bold', width: '100px', marginLeft: '20px' }}><img src="/assets/img/icon/gear.png" alt="gear pic" /></a>
 
                     </div>
 

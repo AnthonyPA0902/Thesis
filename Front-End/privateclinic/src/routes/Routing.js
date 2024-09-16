@@ -19,7 +19,7 @@ const AuthRoutes = [
 ]
 
 const AdminAuthRoutes = [
-    { path: '/admin/login', component: Auth},
+    { path: '/admin/auth', component: Auth},
 ]
 
 export {NormalRoutes, AuthRoutes,AdminAuthRoutes};

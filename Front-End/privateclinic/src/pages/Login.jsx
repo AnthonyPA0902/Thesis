@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState('');
+    const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -32,8 +32,8 @@ const Login = () => {
                     localStorage.setItem("token", data.token)
                     Swal.fire({
                         icon: 'success',
-                        title: 'Login successful',
-                        text: 'Redirecting to home page...',
+                        title: 'Đăng Nhập Thành Công',
+                        text: 'Chuyển hướng về trang chủ...',
                         showConfirmButton: false,
                         timer: 2000
                     }).then(() => {
@@ -41,12 +41,12 @@ const Login = () => {
                     });
                 }
                 else {
-                    setErrorMessage(data.message);
+                    setError(data.message);
                 }
             });
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Lỗi Hệ Thống. Xin Hãy Thử Lại Lần Nữa');
+            setError('Lỗi Hệ Thống. Xin Hãy Thử Lại Lần Nữa');
         }
     };
 
@@ -64,19 +64,19 @@ const Login = () => {
                             </div>
                             <form onSubmit={handleSubmit} method="post">
                                 <div className="form-group first" style={{ marginBottom: '20px', border: '1px solid gray', padding: '7px' }}>
-                                    <input type="text" className="form-control" id="username" name="username" value={formData.username} placeholder="Tài Khoản" style={{ fontSize: '13px' }} onChange={handleInputChange} />
+                                    <input type="text" className="form-control" id="username" name="username" value={formData.username} placeholder="Tài Khoản" style={{ fontSize: '16px' }} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group last mb-3" style={{ border: '1px solid gray', padding: '7px' }}>
-                                    <input type="password" className="form-control" id="password" name="password" value={formData.password} placeholder="Mật Khẩu" style={{ fontSize: '13px' }} onChange={handleInputChange} />
+                                    <input type="password" className="form-control" id="password" name="password" value={formData.password} placeholder="Mật Khẩu" style={{ fontSize: '16px' }} onChange={handleInputChange} />
                                 </div>
-                                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Error message displayed here */}
+                                {error && <div className="error-text" style={{fontSize: '16px'}}>{error}</div>}
 
                                 <div className="d-flex mb-5 align-items-center">
                                     <span><a href="/" style={{ color: 'black', fontWeight: '300' }}>Quay Lại Trang Chủ</a></span>
                                     <span className="ml-auto">Chưa có tài khoản ? &nbsp;<a href="/register" className="forgot-pass">Đăng Ký</a></span>
                                 </div>
 
-                                <input type="submit" value="Đăng Nhập" className="btn btn-block btn-primary" style={{ borderRadius: '15px', height: '45px', marginTop: '-40px' }} />
+                                <button type="submit" className="btn btn-block btn-primary" style={{ borderRadius: '15px', height: '45px', marginTop: '-40px' }}>Đăng Nhập</button>
 
                                 <span className="d-block text-center my-4 text-muted">&mdash; Hoặc &mdash;</span>
 

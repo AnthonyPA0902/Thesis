@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "PrivateClinic.Controllers.Admin.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/admin/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "PrivateClinic.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/login",
