@@ -21,7 +21,7 @@ namespace PrivateClinic.Controllers.Admin
 		[HttpPost("auth")]
 		public IActionResult Auth(User user)
 		{
-			var info = _dbContext.Users.SingleOrDefault(u => u.Username == user.Username && u.Password == u.Password);
+			var info = _dbContext.Users.SingleOrDefault(u => u.Username == user.Username && u.Password == user.Password);
 
 			if (info == null)
 			{
@@ -30,7 +30,7 @@ namespace PrivateClinic.Controllers.Admin
 
 			if (info.RoleId == 1) // Ngăn chặn khách hàng truy cập vào
 			{
-				return Ok(new { success = false, message = "Tài khoản của bạn không có quyền truy cập." });
+				return Ok(new { success = false, message = "Tài Khoản Của Bạn Không Có Quyền Truy Cập." });
 			}
 
 			var token = GenerateJwtToken(info);

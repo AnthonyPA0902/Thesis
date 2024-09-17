@@ -21,11 +21,16 @@ namespace PrivateClinic.Controllers
 		[HttpPost("login")]
 		public IActionResult Login(User user)
 		{
-			var info = _dbContext.Users.SingleOrDefault(u => u.Username == user.Username && u.Password == u.Password);
+			var info = _dbContext.Users.SingleOrDefault(u => u.Username == user.Username && u.Password == user.Password);
 
 			if (info == null)
 			{
 				return Ok(new { success = false, message = "Bạn Đã Nhập Sai Tên Tài Khoản Hoặc Mật Khẩu" });
+			}
+
+			if (info.RoleId != 1) // Chỉ khách hàng được đăng nhập vào
+			{
+				return Ok(new { success = false, message = "Tài Khoản Của Bạn Không Phải Là Khách Hàng" });
 			}
 
 			var token = GenerateJwtToken(info);

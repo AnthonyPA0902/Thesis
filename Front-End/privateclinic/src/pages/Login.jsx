@@ -10,6 +10,7 @@ const Login = () => {
         username: '',
         password: '',
     });
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleInputChange = (e) => {
         setFormData({
@@ -17,6 +18,10 @@ const Login = () => {
             [e.target.name]: e.target.value,
         });
     };
+
+    const handlePasswordToggle = () => {
+        setShowPassword(!showPassword);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,7 +72,9 @@ const Login = () => {
                                     <input type="text" className="form-control" id="username" name="username" value={formData.username} placeholder="Tài Khoản" style={{ fontSize: '16px' }} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group last mb-3" style={{ border: '1px solid gray', padding: '7px' }}>
-                                    <input type="password" className="form-control" id="password" name="password" value={formData.password} placeholder="Mật Khẩu" style={{ fontSize: '16px' }} onChange={handleInputChange} />
+                                    <input type={showPassword ? "text" : "password"} className="form-control" id="password" name="password" value={formData.password} placeholder="Mật Khẩu" style={{ fontSize: '16px' }} onChange={handleInputChange} />
+                                    <span className={`fa fa-fw ${showPassword ? "fa-eye-slash" : "fa-eye"} field-icon toggle-password`}  
+                                        onClick={handlePasswordToggle} style={{cursor: 'pointer'}}></span>                              
                                 </div>
                                 {error && <div className="error-text" style={{fontSize: '16px'}}>{error}</div>}
 

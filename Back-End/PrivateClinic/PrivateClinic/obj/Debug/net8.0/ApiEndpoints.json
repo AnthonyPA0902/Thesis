@@ -1,8 +1,8 @@
 [
   {
     "ContainingType": "PrivateClinic.Controllers.Admin.AuthController",
-    "Method": "Login",
-    "RelativePath": "api/admin/login",
+    "Method": "Auth",
+    "RelativePath": "api/admin/auth",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
