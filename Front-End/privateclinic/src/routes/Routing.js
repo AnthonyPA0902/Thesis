@@ -5,6 +5,7 @@ import Appointment from '../pages/Appointment';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Auth from '../pages/Admin/Auth';
+import Dashboard from '../pages/Admin/Dashboard';
 
 // Routes
 const NormalRoutes = [
@@ -22,4 +23,8 @@ const AdminAuthRoutes = [
     { path: '/admin/auth', component: Auth},
 ]
 
-export {NormalRoutes, AuthRoutes,AdminAuthRoutes};
+const AdminRoutes = [
+    { path: '/admin/dashboard', component: Dashboard },
+]
+
+export {NormalRoutes, AuthRoutes,AdminAuthRoutes, AdminRoutes};

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Image from '../../admin_assets/img/clinic-logo.png';
-import backgroundImage from '../../admin_assets/img/auth-background.jpg';
+import Image from '../../admin_assets/img/clinic-logo.png'
+import backgroundImage from '../../admin_assets/img/auth-background.jpg'
 import Swal from 'sweetalert2';
 
 const Auth = () => {

@@ -5,8 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import AuthenticationLayout from './layouts/AuthenticationLayout';
 import AdminAuthLayout from './layouts/AdminAuthLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
-import { AuthRoutes, NormalRoutes, AdminAuthRoutes } from './routes/Routing';
+import { AuthRoutes, NormalRoutes, AdminAuthRoutes, AdminRoutes } from './routes/Routing';
 
 
 function App() {
@@ -46,21 +47,37 @@ function App() {
             )
           })}
 
-          
-        {AdminAuthRoutes.map((route, index)=>{
-          const Page = route.component;
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                <AdminAuthLayout>
-                  <Page />
-                </AdminAuthLayout>
-              }>
-            </Route>
-          )
-        })}
+
+          {AdminAuthRoutes.map((route, index) => {
+            const Page = route.component;
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <AdminAuthLayout>
+                    <Page />
+                  </AdminAuthLayout>
+                }>
+              </Route>
+            )
+          })}
+
+
+          {AdminRoutes.map((route, index) => {
+            const Page = route.component;
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <DashboardLayout>
+                    <Page />
+                  </DashboardLayout>
+                }>
+              </Route>
+            )
+          })}
 
 
         </Routes>
