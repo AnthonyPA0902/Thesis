@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\AuthController.cs",
               "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\AuthController.cs",
               "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\AuthController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBcAAABlAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAgwBcAAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-16T02:13:29.566Z",
               "EditorCaption": ""
@@ -47,8 +47,7 @@
               "RelativeToolTip": "PrivateClinic\\Controllers\\RegisterController.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAYwAQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-15T02:09:41.946Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-15T02:09:41.946Z"
             },
             {
               "$type": "Document",
@@ -58,7 +57,7 @@
               "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\LoginController.cs",
               "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\LoginController.cs",
               "RelativeToolTip": "PrivateClinic\\Controllers\\LoginController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwBcAAABlAAAAAAAAAA==",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwBcAAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-14T02:14:39.687Z",
               "EditorCaption": ""

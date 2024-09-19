@@ -43,7 +43,7 @@ const Auth = () => {
                         showConfirmButton: false,
                         timer: 3000
                     }).then(() => {
-                        navigate('/');
+                        navigate('/admin/dashboard');
                     });
                 }
                 else {
