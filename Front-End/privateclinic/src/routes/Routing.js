@@ -6,6 +6,8 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Auth from '../pages/Admin/Auth';
 import Dashboard from '../pages/Admin/Dashboard';
+import CheckUp from '../pages/Admin/CheckUp';
+import Schedule from '../pages/Admin/Schedule';
 
 // Routes
 const NormalRoutes = [
@@ -25,6 +27,8 @@ const AdminAuthRoutes = [
 
 const AdminRoutes = [
     { path: '/admin/dashboard', component: Dashboard },
+    { path: '/admin/checkup', component: CheckUp },
+    { path: '/admin/schedule', component: Schedule },
 ]
 
 export {NormalRoutes, AuthRoutes,AdminAuthRoutes, AdminRoutes};

@@ -8,22 +8,22 @@ const Sidebar = () => {
                     <ul>
                         <li className="menu-title">Main</li>
                         <li className="active">
-                            <a href="/"><i className="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                            <a href="/admin/dashboard"><i className="fa fa-dashboard"></i> <span>Bảng Điều Khiển</span></a>
                         </li>
 						<li>
-                            <a href="/"><i className="fa fa-user-md"></i> <span>Doctors</span></a>
+                            <a href="/admin/dashboard"><i className="fa fa-user-md"></i> <span>Doctors</span></a>
                         </li>
                         <li>
-                            <a href="/"><i className="fa fa-wheelchair"></i> <span>Patients</span></a>
+                            <a href="/admin/dashboard"><i className="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li>
                         <li>
-                            <a href="/"><i className="fa fa-calendar"></i> <span>Appointments</span></a>
+                            <a href="/admin/schedule"><i className="fa fa-calendar"></i> <span>Lịch Hẹn Khám</span></a>
                         </li>
                         <li>
-                            <a href="/"><i className="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
+                            <a href="/admin/checkup"><i className="fa fa-calendar-check-o"></i> <span>Ca Khám</span></a>
                         </li>
                         <li>
-                            <a href="/"><i className="fa fa-hospital-o"></i> <span>Departments</span></a>
+                            <a href="/admin/dashboard"><i className="fa fa-hospital-o"></i> <span>Departments</span></a>
                         </li>
 						<li className="submenu">
 							<a href="/"><i className="fa fa-user"></i> <span> Employees </span> <span className="menu-arrow"></span></a>

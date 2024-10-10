@@ -40,7 +40,6 @@ namespace PrivateClinic.Controllers
 
 				return Ok(new {success = true, message = " Đăng Ký Thành Công"});
 			} 
-				
 		}
 	}
 }

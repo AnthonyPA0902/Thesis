@@ -38,6 +38,4 @@ public partial class User
     public virtual ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
 
     public virtual Role Role { get; set; }
-
-    public virtual ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
 }

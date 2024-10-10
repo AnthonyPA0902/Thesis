@@ -701,8 +701,7 @@ textarea.form-control {
 	5. Header
 -----------------------*/
 
-.header {
-	background-color: #009efb;
+.dashboard-header {
 	left: 0;
 	position: fixed;
 	right: 0;
@@ -711,7 +710,7 @@ textarea.form-control {
 	height: 50px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
-.header .header-left {
+.dashboard-header .header-left {
 	float: left;
 	height: 50px;
 	padding: 0 20px;
@@ -731,18 +730,18 @@ textarea.form-control {
 	font-weight: 500;
 	margin-left: 10px;
 }
-.header .navbar-nav .badge {
+.dashboard-header .navbar-nav .badge {
 	position: absolute;
 	right: 7px;
 	top: 4px;
 }
-.header .dropdown-menu > li > a {
+.dashboard-header .dropdown-menu > li > a {
 	position: relative;
 }
-.header .dropdown-toggle:after {
+.dashboard-header .dropdown-toggle:after {
 	display: none;
 }
-.header .has-arrow .dropdown-toggle:after {
+.dashboard-header .has-arrow .dropdown-toggle:after {
 	display: inline-block;
 }
 .page-title-box {
@@ -776,7 +775,7 @@ textarea.form-control {
 	display: inline-block;
 	position: relative;
 }
-.header .user-img img {
+.dashboard-header .user-img img {
 	width: 24px;
 }
 .user-img .status {
@@ -4395,7 +4394,7 @@ blockquote p {
 	.mini-sidebar .header-left .logo span {
 		display: none;
 	}
-	.mini-sidebar .header .header-left {
+	.mini-sidebar .dashboard-header .header-left {
 		padding: 0 5px;
 		width: 60px;
 	}
@@ -4551,7 +4550,7 @@ blockquote p {
 	.chat-main-row {
 		left: 0;
 	}
-	.header .header-left {
+	.dashboard-header .header-left {
 		position: absolute;
 		width: 100%;
 	}
@@ -4767,10 +4766,10 @@ blockquote p {
 		overflow-x: auto;
 		-ms-overflow-style: -ms-autohiding-scrollbar;
 	}
-	.header .has-arrow .dropdown-toggle > span:nth-child(2) {
+	.dashboard-header .has-arrow .dropdown-toggle > span:nth-child(2) {
 		display: none;
 	}
-	.header .has-arrow .dropdown-toggle:after {
+	.dashboard-header .has-arrow .dropdown-toggle:after {
 		display: none;
 	}
 	.btn-white {

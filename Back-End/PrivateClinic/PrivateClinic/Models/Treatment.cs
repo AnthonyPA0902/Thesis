@@ -15,9 +15,7 @@ public partial class Treatment
 
     public int? PriceId { get; set; }
 
-    public int DoctorId { get; set; }
-
-    public virtual User Doctor { get; set; }
+    public virtual ICollection<Checkup> Checkups { get; set; } = new List<Checkup>();
 
     public virtual ICollection<ExaminitionAppointment> ExaminitionAppointments { get; set; } = new List<ExaminitionAppointment>();
 

@@ -13,7 +13,7 @@ public partial class PriceList
 
     public long? Price { get; set; }
 
-    public string UpdateDate { get; set; }
+    public DateOnly? UpdateDate { get; set; }
 
     public virtual ICollection<MedicineStorage> MedicineStorages { get; set; } = new List<MedicineStorage>();
 

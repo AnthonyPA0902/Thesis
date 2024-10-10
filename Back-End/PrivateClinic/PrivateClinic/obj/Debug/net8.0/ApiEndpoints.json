@@ -16,6 +16,141 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
+    "Method": "GetCheckupInfo",
+    "RelativePath": "api/admin/checkup",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
+    "Method": "UpdateCheckUpTable",
+    "RelativePath": "api/admin/checkup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkup",
+        "Type": "PrivateClinic.Models.Checkup",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
+    "Method": "GetSchedulesInfo",
+    "RelativePath": "api/admin/schedule",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
+    "Method": "UpdateScheduleTable",
+    "RelativePath": "api/admin/schedule",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "schedule",
+        "Type": "PrivateClinic.Models.ExaminitionAppointment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
+    "Method": "GetSchedule",
+    "RelativePath": "api/admin/schedule/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.ExaminitionAppointment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
+    "Method": "EditSchedule",
+    "RelativePath": "api/admin/schedule/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "schedule",
+        "Type": "PrivateClinic.Models.ExaminitionAppointment",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.ExaminitionAppointment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
+    "Method": "DeleteSchedule",
+    "RelativePath": "api/admin/schedule/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.ExaminitionAppointment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/login",

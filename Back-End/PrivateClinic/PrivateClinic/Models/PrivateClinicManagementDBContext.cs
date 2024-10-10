@@ -48,24 +48,34 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("CHECKUP");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Date)
-                .HasColumnType("datetime")
-                .HasColumnName("date");
-            entity.Property(e => e.Description)
-                .HasMaxLength(500)
-                .HasColumnName("description");
+            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.DoctorId).HasColumnName("doctorId");
+            entity.Property(e => e.EndTime)
+                .HasPrecision(0)
+                .HasColumnName("endTime");
+            entity.Property(e => e.Name)
+                .HasMaxLength(40)
+                .HasColumnName("name");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(10)
+                .HasColumnName("phone");
             entity.Property(e => e.Room)
                 .HasMaxLength(10)
                 .HasColumnName("room");
-            entity.Property(e => e.Service)
-                .HasMaxLength(30)
-                .HasColumnName("service");
+            entity.Property(e => e.StartTime)
+                .HasPrecision(0)
+                .HasColumnName("startTime");
+            entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.Checkups)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CHECKUP_USER");
+
+            entity.HasOne(d => d.Treatment).WithMany(p => p.Checkups)
+                .HasForeignKey(d => d.TreatmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CHECKUP_TREATMENT");
         });
 
         modelBuilder.Entity<Equipment>(entity =>
@@ -91,10 +101,17 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("EXAMINITION_APPOINTMENT");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Date)
-                .HasColumnType("datetime")
-                .HasColumnName("date");
+            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.DoctorId).HasColumnName("doctorId");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .HasMaxLength(40)
+                .HasColumnName("name");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(10)
+                .HasColumnName("phone");
             entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.ExaminitionAppointments)
@@ -260,9 +277,7 @@ public partial class PrivateClinicManagementDBContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("name");
             entity.Property(e => e.Price).HasColumnName("price");
-            entity.Property(e => e.UpdateDate)
-                .HasMaxLength(20)
-                .HasColumnName("updateDate");
+            entity.Property(e => e.UpdateDate).HasColumnName("updateDate");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -280,17 +295,11 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("TREATMENT");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DoctorId).HasColumnName("doctorId");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
             entity.Property(e => e.PriceId).HasColumnName("priceId");
             entity.Property(e => e.Session).HasColumnName("session");
-
-            entity.HasOne(d => d.Doctor).WithMany(p => p.Treatments)
-                .HasForeignKey(d => d.DoctorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TREATMENT_USER");
 
             entity.HasOne(d => d.Price).WithMany(p => p.Treatments)
                 .HasForeignKey(d => d.PriceId)

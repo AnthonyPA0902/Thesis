@@ -9,15 +9,23 @@ public partial class Checkup
 {
     public int Id { get; set; }
 
-    public DateTime? Date { get; set; }
+    public string Name { get; set; }
 
-    public string Service { get; set; }
+    public string Phone { get; set; }
+
+    public DateOnly? Date { get; set; }
+
+    public TimeOnly? StartTime { get; set; }
+
+    public TimeOnly? EndTime { get; set; }
 
     public string Room { get; set; }
 
-    public string Description { get; set; }
-
     public int DoctorId { get; set; }
 
+    public int TreatmentId { get; set; }
+
     public virtual User Doctor { get; set; }
+
+    public virtual Treatment Treatment { get; set; }
 }

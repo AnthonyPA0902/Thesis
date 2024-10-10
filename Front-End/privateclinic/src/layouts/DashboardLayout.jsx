@@ -8,11 +8,11 @@ function DashboardLayout({ children }) {
         <div>
             <Header />
             <Sidebar />
-            <div class="page-wrapper">
+            <div className="page-wrapper">
                 { children }
             </div>
             <Footer />
-            <div class="sidebar-overlay" data-reff=""></div>
+            <div className="sidebar-overlay" data-reff=""></div>
         </div>
     );
 };
