@@ -10,79 +10,81 @@ import DashboardLayout from './layouts/DashboardLayout';
 import { AuthRoutes, NormalRoutes, AdminAuthRoutes, AdminRoutes } from './routes/Routing';
 
 
+
+
 function App() {
   return (
-    <Router>
-      <div className='App'>
-        <Routes>
+      <Router>
+        <div className='App'>
+          <Routes>
 
-          {NormalRoutes.map((route, index) => {
-            const Page = route.component;
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <MainLayout>
-                    <Page />
-                  </MainLayout>
-                }>
-              </Route>
-            )
-          })}
-
-
-          {AuthRoutes.map((route, index) => {
-            const Page = route.component;
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <AuthenticationLayout>
-                    <Page />
-                  </AuthenticationLayout>
-                }>
-              </Route>
-            )
-          })}
+            {NormalRoutes.map((route, index) => {
+              const Page = route.component;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <MainLayout>
+                      <Page />
+                    </MainLayout>
+                  }>
+                </Route>
+              )
+            })}
 
 
-          {AdminAuthRoutes.map((route, index) => {
-            const Page = route.component;
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <AdminAuthLayout>
-                    <Page />
-                  </AdminAuthLayout>
-                }>
-              </Route>
-            )
-          })}
+            {AuthRoutes.map((route, index) => {
+              const Page = route.component;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <AuthenticationLayout>
+                      <Page />
+                    </AuthenticationLayout>
+                  }>
+                </Route>
+              )
+            })}
 
 
-          {AdminRoutes.map((route, index) => {
-            const Page = route.component;
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <DashboardLayout>
-                    <Page />
-                  </DashboardLayout>
-                }>
-              </Route>
-            )
-          })}
+            {AdminAuthRoutes.map((route, index) => {
+              const Page = route.component;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <AdminAuthLayout>
+                      <Page />
+                    </AdminAuthLayout>
+                  }>
+                </Route>
+              )
+            })}
 
 
-        </Routes>
-      </div>
-    </Router>
+            {AdminRoutes.map((route, index) => {
+              const Page = route.component;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <DashboardLayout>
+                      <Page />
+                    </DashboardLayout>
+                  }>
+                </Route>
+              )
+            })}
+
+
+          </Routes>
+        </div>
+      </Router>
   );
 };
 

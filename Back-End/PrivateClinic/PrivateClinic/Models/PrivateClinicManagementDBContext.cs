@@ -83,15 +83,16 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("EQUIPMENT");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CleaningCycle)
-                .HasMaxLength(20)
-                .HasColumnName("cleaningCycle");
+            entity.Property(e => e.CleaningTime).HasColumnName("cleaningTime");
             entity.Property(e => e.Maintenance)
-                .HasMaxLength(20)
-                .HasColumnName("maintenance");
-            entity.Property(e => e.TypeOfEquipment)
                 .HasMaxLength(40)
-                .HasColumnName("typeOfEquipment");
+                .HasColumnName("maintenance");
+            entity.Property(e => e.Name)
+                .HasMaxLength(40)
+                .HasColumnName("name");
+            entity.Property(e => e.Status)
+                .HasMaxLength(40)
+                .HasColumnName("status");
         });
 
         modelBuilder.Entity<ExaminitionAppointment>(entity =>
@@ -112,6 +113,9 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .HasColumnName("phone");
+            entity.Property(e => e.Status)
+                .HasMaxLength(30)
+                .HasColumnName("status");
             entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.ExaminitionAppointments)
@@ -205,31 +209,20 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("ORDER");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Context)
-                .HasMaxLength(100)
-                .HasColumnName("context");
-            entity.Property(e => e.CustomerId).HasColumnName("customerId");
-            entity.Property(e => e.Date)
-                .HasColumnType("datetime")
-                .HasColumnName("date");
+            entity.Property(e => e.CustomerName)
+                .HasMaxLength(40)
+                .HasColumnName("customerName");
+            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Method)
                 .HasMaxLength(30)
                 .HasColumnName("method");
-            entity.Property(e => e.OrderDetailsId).HasColumnName("orderDetailsId");
-            entity.Property(e => e.Status)
-                .HasMaxLength(30)
-                .HasColumnName("status");
             entity.Property(e => e.Total).HasColumnName("total");
+            entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.CustomerId)
+            entity.HasOne(d => d.Treatment).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.TreatmentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ORDER_USER");
-
-            entity.HasOne(d => d.OrderDetails).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.OrderDetailsId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ORDER_ORDER_DETAILS");
+                .HasConstraintName("FK_ORDER_TREATMENT");
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>

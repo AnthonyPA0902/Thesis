@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.SqlServer.Server;
 using PrivateClinic.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace PrivateClinic.Controllers
 {
@@ -66,6 +69,26 @@ namespace PrivateClinic.Controllers
 
 			var token = tokenHandler.CreateToken(tokenDescriptor);
 			return tokenHandler.WriteToken(token);
-		} 
+		}
+
+		[HttpPost("google-login")]
+		public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequest request)
+		{
+			var payload = await GoogleJsonWebSignature.ValidateAsync(request.TokenId);
+			var user = _dbContext.Users.SingleOrDefault(u => u.Email == payload.Email);
+
+			if (user == null)
+			{
+				return Ok(new { success = false, message = "Người Dùng Không Tồn Tại" });
+			}
+
+			var token = GenerateJwtToken(user);
+			return Ok(new { success = true, token });
+		}
+
+		public class GoogleLoginRequest
+		{
+			public string TokenId { get; set; }
+		}
 	}
 }

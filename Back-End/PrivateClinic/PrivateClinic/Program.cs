@@ -1,4 +1,6 @@
+using PrivateClinic.Helpers;
 using PrivateClinic.Models;
+using PrivateClinic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,9 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 // Add SQL Server Connection
 builder.Services.AddSqlServer<PrivateClinicManagementDBContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
@@ -19,8 +23,11 @@ builder.Services.AddCors(options =>
 		builder => builder
 			.WithOrigins("http://localhost:3000")
 			.AllowAnyHeader()
-			.AllowAnyMethod());
+		.AllowAnyMethod());
 });
+
+// Add VnPay Service
+builder.Services.AddScoped<IVnPayService, VnPayService>();
 
 var app = builder.Build();
 
@@ -37,6 +44,13 @@ app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(options =>
+{
+	options.AllowAnyOrigin();
+	options.AllowAnyMethod();
+	options.AllowAnyHeader();
+});
 
 app.MapControllers();
 

@@ -71,3 +71,17 @@ C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateCli
 C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\obj\Debug\net8.0\PrivateClinic.sourcelink.json
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Google.Apis.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Google.Apis.Auth.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Google.Apis.Core.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\System.CodeDom.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\System.Management.dll
+C:\Users\ADMIN\OneDrive\Desktop\Thesis\Project\Back-End\PrivateClinic\PrivateClinic\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll

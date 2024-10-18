@@ -11,7 +11,7 @@ public partial class PriceList
 
     public string Name { get; set; }
 
-    public long? Price { get; set; }
+    public double Price { get; set; }
 
     public DateOnly? UpdateDate { get; set; }
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import ScheduleModal from '../../components/ScheduleModal';
+import Swal from 'sweetalert2';
 
 
 const Schedule = () => {
     const [schedule, setSchedule] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingSchedule, setEditingSchedule] = useState(null);
 
     useEffect(() => {
         fetch("https://localhost:7157/api/admin/schedule")
@@ -18,11 +20,11 @@ const Schedule = () => {
                     setSchedule([]);
                 }
             })
-            .catch((error) => console.error("Error fetching checkups:", error));
+            .catch((error) => console.error("Error fetching schedulé:", error));
     }, []);
 
-    const handleAddCheckup = (scheduleData) => {
-        console.log("Submitting checkup data:", scheduleData);
+    const handleAddSchedule = (scheduleData) => {
+        console.log("Submitting schedule data:", scheduleData);
 
         const payload = {
             name: scheduleData.name,
@@ -33,39 +35,106 @@ const Schedule = () => {
             treatmentId: parseInt(scheduleData.treatmentId)
         };
 
+        if (editingSchedule) {
+            fetch(`https://localhost:7157/api/admin/schedule/${editingSchedule.id}`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify(payload),
+            })
+                .then((response) => response.json())
+                .then(() => refetchScheduleData())
+                .catch((error) => console.error("Error editing schedule:", error));
+        } else {
+            fetch("https://localhost:7157/api/admin/schedule", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            })
+                .then((response) => response.json())
+                .then(() => refetchScheduleData()) 
+                .catch((error) => console.error("Error updating schedule:", error));
+        }
+        setIsModalOpen(false);
+    };
 
-        fetch("https://localhost:7157/api/admin/schedule", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
+    const refetchScheduleData = () => {
+        fetch("https://localhost:7157/api/admin/schedule")
+        .then((response) => response.json())
+        .then((updatedData) => {
+            if (Array.isArray(updatedData.schedules)) {
+                setSchedule(updatedData.schedules);
+            }
         })
+        .catch((error) => console.error("Error fetching updated schedule:", error));
+    };
+
+    const handleCreateClick = () => {
+        setEditingSchedule(null);
+        setIsModalOpen(true); 
+    };
+
+    const handleEditClick = (id) => {
+        fetch(`https://localhost:7157/api/admin/schedule/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                if (data.success) {
-                    // Refetch schedule list
-                    fetch("https://localhost:7157/api/admin/schedule")
-                        .then((response) => response.json())
-                        .then((updatedData) => {
-                            if (Array.isArray(updatedData.schedules)) {
-                                setSchedule(updatedData.schedules);
-                            }
-                        })
-                        .catch((error) => console.error("Error fetching updated schedule:", error));
-                    setIsModalOpen(false);
-                } else {
-                    console.error("Failed to add checkup:", data.message);
-                }
+                setEditingSchedule(data.schedule); 
+                setIsModalOpen(true); 
             })
-            .catch((error) => console.error("Error adding checkup:", error));
+            .catch((error) => console.error("Error fetching schedule:", error));
     };
+
+    const handleDeleteClick = (scheduleId) => {
+        // Show SweetAlert2 confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this schedule?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Schedule has been deleted.',
+                            'success'
+                        );
+                        refetchScheduleData();
+                    } 
+                })
+                .catch((error) => {
+                    Swal.fire(
+                        'Error!',
+                        'There was a problem deleting the schedule.',
+                        'error'
+                    );
+                    console.error('Error deleting schedule:', error);
+                });
+            }
+        });
+    };
+
 
     return (
         <div className="content">
             <div className="schedule-container">
                 <h1>Danh sách lịch hẹn khám</h1>
-                <button className="register-button" onClick={() => setIsModalOpen(true)}>
+                <button className="register-button" onClick={() => handleCreateClick()}>
                     Tạo lịch hẹn khám mới
                 </button>
                 <br />
@@ -94,7 +163,7 @@ const Schedule = () => {
                                 <td>{schedule.date}</td>
                                 <td>{schedule.doctorName}</td>
                                 <td>{schedule.treatmentName}</td>
-                                <td style={{ textAlign: 'center' }}><a href='/admin/schedule'><img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" /></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href='/admin/schedule'><img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" /></a></td>
+                                <td style={{ textAlign: 'center' }}><button onClick={() => handleEditClick(schedule.id)}><img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" /></button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<button onClick={() => handleDeleteClick(schedule.id)}><img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" /></button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -102,7 +171,8 @@ const Schedule = () => {
                 <ScheduleModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    onSubmit={handleAddCheckup}
+                    onSubmit={handleAddSchedule}
+                    editingSchedule={editingSchedule}
                 />
             </div>
         </div>

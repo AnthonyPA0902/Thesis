@@ -9,9 +9,11 @@ public partial class Equipment
 {
     public int Id { get; set; }
 
-    public string TypeOfEquipment { get; set; }
+    public string Name { get; set; }
 
-    public string CleaningCycle { get; set; }
+    public string Status { get; set; }
+
+    public DateOnly? CleaningTime { get; set; }
 
     public string Maintenance { get; set; }
 }

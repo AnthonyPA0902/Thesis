@@ -11,7 +11,7 @@ const Sidebar = () => {
                             <a href="/admin/dashboard"><i className="fa fa-dashboard"></i> <span>Bảng Điều Khiển</span></a>
                         </li>
 						<li>
-                            <a href="/admin/dashboard"><i className="fa fa-user-md"></i> <span>Doctors</span></a>
+                            <a href="/admin/doctor"><i className="fa fa-user-md"></i> <span>Bác sĩ</span></a>
                         </li>
                         <li>
                             <a href="/admin/dashboard"><i className="fa fa-wheelchair"></i> <span>Patients</span></a>
@@ -23,7 +23,7 @@ const Sidebar = () => {
                             <a href="/admin/checkup"><i className="fa fa-calendar-check-o"></i> <span>Ca Khám</span></a>
                         </li>
                         <li>
-                            <a href="/admin/dashboard"><i className="fa fa-hospital-o"></i> <span>Departments</span></a>
+                            <a href="/admin/equipment"><i className="fa fa-video-camera"></i> <span>Thiết Bị</span></a>
                         </li>
 						<li className="submenu">
 							<a href="/"><i className="fa fa-user"></i> <span> Employees </span> <span className="menu-arrow"></span></a>

@@ -9,21 +9,15 @@ public partial class Order
 {
     public int Id { get; set; }
 
-    public string Context { get; set; }
+    public string CustomerName { get; set; }
 
     public long? Total { get; set; }
 
-    public DateTime? Date { get; set; }
+    public DateOnly? Date { get; set; }
 
     public string Method { get; set; }
 
-    public string Status { get; set; }
+    public int TreatmentId { get; set; }
 
-    public int OrderDetailsId { get; set; }
-
-    public int CustomerId { get; set; }
-
-    public virtual User Customer { get; set; }
-
-    public virtual OrderDetail OrderDetails { get; set; }
+    public virtual Treatment Treatment { get; set; }
 }

@@ -18,7 +18,6 @@ const Footer = () => {
     const scriptPaths = [
       '/assets/js/main.js',
       '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js',
-      '/assets/vendor/php-email-form/validate.js',
       '/assets/vendor/aos/aos.js',
       '/assets/vendor/glightbox/js/glightbox.min.js',
       '/assets/vendor/purecounter/purecounter_vanilla.js',

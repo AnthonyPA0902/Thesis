@@ -101,28 +101,31 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit}) => {
                             required 
                         />
                     </div>
-                    <select 
-                        name="doctorId" 
-                        value={formData.doctorId} 
-                        onChange={handleDoctorChange} 
-                        required
-                    >
-                        <option value="">Chọn bác sĩ</option>
-                        {doctors.map((doctor) => (
-                            <option key={doctor.id} value={doctor.id}>{doctor.name}</option>
-                        ))}
-                    </select>
-                    <select 
-                        name="treatmentId"
-                        value={formData.treatmentId} 
-                        onChange={handleTreatmentChange} 
-                        required
-                    >
-                        <option value="">Chọn dịch vụ</option>
-                        {treatments.map((treatment) => (
-                            <option key={treatment.id} value={treatment.id}>{treatment.treatmentName}</option>
-                        ))}
-                    </select>
+                    <div className="select-container">
+                        <select
+                            name="doctorId"
+                            value={formData.doctorId}
+                            onChange={handleDoctorChange}
+                            required
+                        >
+                            <option value="">Chọn bác sĩ</option>
+                            {doctors.map((doctor) => (
+                                <option key={doctor.id} value={doctor.id}>{doctor.name}</option>
+                            ))}
+                        </select>
+
+                        <select
+                            name="treatmentId"
+                            value={formData.treatmentId}
+                            onChange={handleTreatmentChange}
+                            required
+                        >
+                            <option value="">Chọn dịch vụ</option>
+                            {treatments.map((treatment) => (
+                                <option key={treatment.id} value={treatment.id}>{treatment.treatmentName}</option>
+                            ))}
+                        </select>
+                    </div>
                     <input 
                         type="text" 
                         name="room" 

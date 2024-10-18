@@ -8,6 +8,8 @@ import Auth from '../pages/Admin/Auth';
 import Dashboard from '../pages/Admin/Dashboard';
 import CheckUp from '../pages/Admin/CheckUp';
 import Schedule from '../pages/Admin/Schedule';
+import Doctor from '../pages/Admin/Doctor';
+import Equipment from '../pages/Admin/Equipment';
 
 // Routes
 const NormalRoutes = [
@@ -29,6 +31,8 @@ const AdminRoutes = [
     { path: '/admin/dashboard', component: Dashboard },
     { path: '/admin/checkup', component: CheckUp },
     { path: '/admin/schedule', component: Schedule },
+    { path: '/admin/doctor', component: Doctor },
+    { path: '/admin/equipment', component: Equipment },
 ]
 
 export {NormalRoutes, AuthRoutes,AdminAuthRoutes, AdminRoutes};

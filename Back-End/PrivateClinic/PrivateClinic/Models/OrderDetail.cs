@@ -15,7 +15,5 @@ public partial class OrderDetail
 
     public virtual ICollection<MedicineOrder> MedicineOrders { get; set; } = new List<MedicineOrder>();
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
     public virtual ICollection<TreatmentOrder> TreatmentOrders { get; set; } = new List<TreatmentOrder>();
 }

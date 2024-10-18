@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\admin\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\schedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\admin\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\models\\examinitionappointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\models\\examinitionappointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\dtos\\scheduledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\dtos\\scheduledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ExaminitionAppointment.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Models\\ExaminitionAppointment.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Models\\ExaminitionAppointment.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Models\\ExaminitionAppointment.cs",
-              "RelativeToolTip": "PrivateClinic\\Models\\ExaminitionAppointment.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T07:42:32.372Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ScheduleDto.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\ScheduleDto.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Dtos\\ScheduleDto.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\ScheduleDto.cs",
-              "RelativeToolTip": "PrivateClinic\\Dtos\\ScheduleDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T07:40:37.28Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ScheduleController.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\ScheduleController.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\ScheduleController.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\ScheduleController.cs",
-              "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\ScheduleController.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAkwGwAAAA8AAAAAAAAAA==",
+              "Title": "AppointmentController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\AppointmentController.cs",
+              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\AppointmentController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\AppointmentController.cs",
+              "RelativeToolTip": "PrivateClinic\\Controllers\\AppointmentController.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAgwD8AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T07:30:29.214Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CheckUpController.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAYwFgAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-07T01:45:42.736Z",
+              "WhenOpened": "2024-10-18T06:17:47.139Z",
               "EditorCaption": ""
             }
           ]

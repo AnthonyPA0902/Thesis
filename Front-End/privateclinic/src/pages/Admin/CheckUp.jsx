@@ -46,23 +46,19 @@ const CheckUp = () => {
             body: JSON.stringify(payload),
         })
             .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                      // Refetch schedule list
-                      fetch("https://localhost:7157/api/admin/checkup")
-                      .then((response) => response.json())
-                      .then((updatedData) => {
-                          if (Array.isArray(updatedData.checkups)) {
-                              setCheckups(updatedData.checkups);
-                          }
-                      })
-                      .catch((error) => console.error("Error fetching updated checkups:", error));
-                    setIsModalOpen(false); // Close the modal
-                } else {
-                    console.error("Failed to add checkup:", data.message);
-                }
-            })
+            .then(() => refetchCheckUpData())
             .catch((error) => console.error("Error adding checkup:", error));
+    };
+
+    const refetchCheckUpData = () => {
+        fetch("https://localhost:7157/api/admin/checkup")
+        .then((response) => response.json())
+        .then((updatedData) => {
+            if (Array.isArray(updatedData.checkups)) {
+                setCheckups(updatedData.checkups);
+            }
+        })
+        .catch((error) => console.error("Error fetching updated schedule:", error));
     };
 
     return (
