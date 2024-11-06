@@ -15,7 +15,5 @@ public partial class PriceList
 
     public DateOnly? UpdateDate { get; set; }
 
-    public virtual ICollection<MedicineStorage> MedicineStorages { get; set; } = new List<MedicineStorage>();
-
     public virtual ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
 }

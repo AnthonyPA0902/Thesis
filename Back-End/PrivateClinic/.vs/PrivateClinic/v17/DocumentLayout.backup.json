@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\admin\\treatmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\treatmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\models\\pricelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\models\\pricelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\dtos\\thetreatmentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\dtos\\thetreatmentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,40 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PriceList.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Models\\PriceList.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Models\\PriceList.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Models\\PriceList.cs",
-              "RelativeToolTip": "PrivateClinic\\Models\\PriceList.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAARAAAAAAAAAA==",
+              "Title": "TheTreatmentDto.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\TheTreatmentDto.cs",
+              "RelativeDocumentMoniker": "PrivateClinic\\Dtos\\TheTreatmentDto.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\TheTreatmentDto.cs",
+              "RelativeToolTip": "PrivateClinic\\Dtos\\TheTreatmentDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-18T08:33:48.979Z",
+              "WhenOpened": "2024-11-06T14:36:10.108Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AppointmentController.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\AppointmentController.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\AppointmentController.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\AppointmentController.cs",
-              "RelativeToolTip": "PrivateClinic\\Controllers\\AppointmentController.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAowCMAAAAAAAAAAAAAAA==",
+              "Title": "TreatmentController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\TreatmentController.cs",
+              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\TreatmentController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\TreatmentController.cs",
+              "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\TreatmentController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-18T06:17:47.139Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\appsettings.json",
-              "RelativeDocumentMoniker": "PrivateClinic\\appsettings.json",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\appsettings.json",
-              "RelativeToolTip": "PrivateClinic\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-18T06:09:26.021Z",
+              "WhenOpened": "2024-11-06T14:17:11.404Z",
               "EditorCaption": ""
             }
           ]

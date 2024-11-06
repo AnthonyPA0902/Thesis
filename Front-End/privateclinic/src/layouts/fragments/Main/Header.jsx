@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import decodeToken from '../../../components/DecodeToken';
 
 const Header = () => {
     const [customerName, setCustomerName] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (token) {
             const decodedToken = decodeToken(token);
             if (decodedToken) {
@@ -14,28 +15,16 @@ const Header = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         window.location.href = "/";
     };
 
     const tokenExist = () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         return token ? 1 : 0;
     };
 
-    const decodeToken = (token) => {
-        try {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        } catch (error) {
-            console.error("Error decoding token:", error);
-            return null;
-        }
-    };
+    <decodeToken />
 
     if (tokenExist() === 1) {
         return (
@@ -65,6 +54,7 @@ const Header = () => {
                             <ul>
                                 <li><a href="/">Trang Chủ</a></li>
                                 <li><a href="/service">Dịch Vụ</a></li>
+                                <li><a href="/profile">Hồ Sơ Khách Hàng</a></li>
                             </ul>
                             <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
                         </nav>

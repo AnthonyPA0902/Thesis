@@ -1,0 +1,91 @@
+/* profile.module.css */
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: black;
+}
+
+.profileTable {
+    width: 90%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.profileTable thead {
+    background-color: #a9efac; /* Green header */
+    color: black;
+    font-size: 1.1em;
+}
+
+.profileTable th,
+.profileTable td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.profileTable th {
+    border-bottom: 2px solid #ddd;
+}
+
+.profileTable td {
+    border-bottom: 1px solid #ddd;
+}
+
+.profileTable tbody tr:nth-child(even) {
+    background-color: #34abfb; /* Light gray background for even rows */
+}
+
+.profileTable tbody tr:nth-child(odd) {
+    background-color: #54ffd7; /* White background for odd rows */
+}
+
+.profileTable tbody tr:hover {
+    background-color: #ddd; /* Light gray background on hover */
+    cursor: pointer;
+}
+
+.profileTable td {
+    font-size: 0.9em;
+}
+
+.profileTable td a {
+    color: #007BFF; /* Blue links */
+    text-decoration: none;
+}
+
+.profileTable td a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    .profileTable {
+        width: 100%;
+        font-size: 0.9em;
+    }
+
+    .profileTable th,
+    .profileTable td {
+        padding: 8px 10px;
+    }
+}
+
+.paymentButton {
+    padding: 8px 16px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.paymentButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

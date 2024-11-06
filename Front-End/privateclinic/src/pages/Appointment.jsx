@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from '../assets/css/appointment.module.css';
 import Heading from '../components/Heading';
 import backgroundImage from '../assets/img/appointment-background.jpg';
+import decodeToken from '../components/DecodeToken';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const Appointment = () => {
+    const [customerId, setCustomerId] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [treatments, setTreatments] = useState([]);
     const [formData, setFormData] = useState({
@@ -20,6 +22,15 @@ const Appointment = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            const decodedToken = decodeToken(token);
+            if (decodedToken) {
+                setCustomerId(decodedToken.user_id);
+                console.log(customerId);
+            }
+        };
+
         fetch("https://localhost:7157/api/admin/schedule")
             .then((response) => response.json())
             .then((data) => {
@@ -27,7 +38,8 @@ const Appointment = () => {
                 setTreatments(data.treatments);
             })
             .catch((error) => console.error("Error fetching doctors/treatments:", error));
-    }, []);
+    }, [customerId]);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -40,7 +52,7 @@ const Appointment = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
     
         if (!token) {
             Swal.fire({
@@ -57,6 +69,15 @@ const Appointment = () => {
             });
             return;
         }
+
+        const initialFormData = {
+            name: '',
+            phone: '',
+            email: '',
+            date: '',
+            doctorId: '',
+            treatmentId: ''
+        };
     
         const payload = {
             name: formData.name,
@@ -64,127 +85,73 @@ const Appointment = () => {
             email: formData.email,
             date: formData.date,
             doctorId: parseInt(formData.doctorId),
+            customerId: customerId,
             treatmentId: parseInt(formData.treatmentId)
         };
     
-        fetch("https://localhost:7157/api/admin/schedule", {
-            method: "POST",
+        // Fetch treatment data first to get the price before confirmation
+        fetch(`https://localhost:7157/api/appointment/${formData.treatmentId}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(payload),
         })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Appointment created:", data);
+            .then((response) => response.json())
+            .then((data) => {
+                const fetchedPrice = data.result;
+                const selectedDoctor = doctors.find(doctor => doctor.id === parseInt(formData.doctorId));
+                const selectedTreatment = treatments.find(treatment => treatment.id === parseInt(formData.treatmentId));
     
-            // Fetch price based on treatmentId
-            return fetch(`https://localhost:7157/api/appointment/${formData.treatmentId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            const fetchedPrice = data.result; 
-            const selectedDoctor = doctors.find(doctor => doctor.id === parseInt(formData.doctorId));
-            const selectedTreatment = treatments.find(treatment => treatment.id === parseInt(formData.treatmentId));
-    
-            Swal.fire({
-                title: 'Xác Nhận Thông Tin Lịch Hẹn',
-                html: `
-                    <strong>Name:</strong> ${formData.name}<br>
-                    <strong>Email:</strong> ${formData.email}<br>
-                    <strong>Phone:</strong> ${formData.phone}<br>
-                    <strong>Date:</strong> ${formData.date}<br>
-                    <strong>Doctor:</strong> ${selectedDoctor ? selectedDoctor.name : 'N/A'}<br>
-                    <strong>Treatment:</strong> ${selectedTreatment ? selectedTreatment.treatmentName : 'N/A'}<br>
-                    <strong>Price:</strong> ${fetchedPrice} VND
-                `,
-                showCancelButton: true,
-                confirmButtonText: 'THANH TOÁN',
-                cancelButtonText: 'HỦY',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`https://localhost:7157/api/appointment/vnpay/${formData.treatmentId}`)
-                        .then((response) => response.text())
-                        .then((paymentUrl) => {
-                            window.location.href = paymentUrl;
+                // Confirmation dialog with fetched data
+                Swal.fire({
+                    title: 'Xác Nhận Thông Tin Lịch Hẹn',
+                    html: `
+                        <strong>Name:</strong> ${formData.name}<br>
+                        <strong>Email:</strong> ${formData.email}<br>
+                        <strong>Phone:</strong> ${formData.phone}<br>
+                        <strong>Date:</strong> ${formData.date}<br>
+                        <strong>Doctor:</strong> ${selectedDoctor ? selectedDoctor.name : 'N/A'}<br>
+                        <strong>Treatment:</strong> ${selectedTreatment ? selectedTreatment.treatmentName : 'N/A'}<br>
+                        <strong>Price:</strong> ${fetchedPrice} VND
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: 'XÁC NHẬN',
+                    cancelButtonText: 'HỦY',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Now perform the POST request to create the appointment
+                        fetch("https://localhost:7157/api/appointment/schedule", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(payload),
                         })
-                        .catch((error) => {
-                            console.error("Error redirecting to VnPay:", error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Payment failed',
-                                text: 'Could not proceed to payment. Please try again later.'
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log(data);
+                                if (data.success === true) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Đặt Lịch Hẹn Thành Công',
+                                        confirmButtonText: 'OK'
+                                    })
+                                    .then(() => {
+                                        // Reset the form data to clear the input fields
+                                        setFormData(initialFormData);
+                                    });
+                                }
+                            })
+                            .catch((error) => {
+                                console.error("Error creating appointment:", error);
                             });
-                        });
-                }
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching price:", error);
             });
-        })
-        .catch((error) => {
-            console.error("Error creating appointment or fetching price:", error);
-        });
     };
-
-    function getQueryParams() {
-        const params = {};
-        const queryString = window.location.search.substring(1);
-        const regex = /([^&=]+)=([^&]*)/g;
-        let m;
-    
-        while ((m = regex.exec(queryString))) {
-            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-        }
-        return params;
-    }
-
-    window.onload = function () {
-        const params = getQueryParams();
-    
-        if (params.payment === 'true') {
-            const customerName = localStorage.getItem('customerName');
-            const treatmentId = localStorage.getItem('treatmentId');
-    
-            const orderData = {
-                customerName: customerName,
-                treatmentId: treatmentId,
-                total: someTotalAmount, 
-                date: new Date().toISOString(), 
-                method: 'VnPay' 
-            };
-    
-            fetch('https://localhost:7157/api/appointment/processCheckout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(orderData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Payment Successful',
-                        text: data.message
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Payment Failed',
-                        text: data.message
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error processing order:', error);
-            });
-        }
-    }
-
 
     return (
         <main className={styles.main} style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}>

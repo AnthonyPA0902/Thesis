@@ -17,21 +17,43 @@ namespace PrivateClinic.Controllers.Admin
 		}
 
 		[HttpGet("equipment")]
-		public async Task<ActionResult> GetEquipments()
+		public async Task<ActionResult> GetEquipments([FromQuery] string status, [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
 		{
-			var equipments = await _dbContext.Equipment
-					.Select(equipment => new EquipmentDto
-					{
-						Id = equipment.Id,
-						Name = equipment.Name,
-						Status = equipment.Status,
-						CleaningTime = equipment.CleaningTime,
-						Maintenance = equipment.Maintenance,
-					})
-					.ToListAsync();
+			// Start with the base query
+			IQueryable<Equipment> equipmentQuery = _dbContext.Equipment;
 
-			return Ok(new { success = true, Equipments = equipments });
+			// Apply status filter if provided
+			if (!string.IsNullOrEmpty(status))
+			{
+				equipmentQuery = equipmentQuery.Where(e => e.Status == status);
+			}
+
+			// Calculate total count (for pagination)
+			var totalCount = await equipmentQuery.CountAsync();
+
+			// Get the data for the current page
+			var equipments = await equipmentQuery
+				.Skip((page - 1) * pageSize)  // Skip the records for previous pages
+				.Take(pageSize)  // Limit the number of records per page
+				.Select(equipment => new EquipmentDto
+				{
+					Id = equipment.Id,
+					Name = equipment.Name,
+					Status = equipment.Status,
+					CleaningTime = equipment.CleaningTime,
+					Maintenance = equipment.Maintenance,
+				})
+				.ToListAsync();
+
+			// Return the paginated data along with total count for frontend pagination controls
+			return Ok(new
+			{
+				success = true,
+				Equipments = equipments,
+				TotalCount = totalCount
+			});
 		}
+
 
 
 		[HttpPost("equipment")]

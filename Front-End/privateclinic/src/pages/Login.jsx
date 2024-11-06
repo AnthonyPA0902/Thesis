@@ -36,7 +36,7 @@ const Login = () => {
                 body: JSON.stringify(formData),
             }).then(response => response.json()).then(data => {
                 if (data.success) {
-                    localStorage.setItem("token", data.token)
+                    sessionStorage.setItem("token", data.token)
                     Swal.fire({
                         icon: 'success',
                         title: 'Đăng Nhập Thành Công',
@@ -69,7 +69,7 @@ const Login = () => {
                 body: JSON.stringify({ tokenId: response.credential }),
             }).then(response => response.json()).then(data => {
                 if (data.success) {
-                    localStorage.setItem("token", data.token);
+                    sessionStorage.setItem("token", data.token);
                     console.log(data.token)
                     Swal.fire({
                         icon: 'success',

@@ -8,6 +8,7 @@ const Schedule = () => {
     const [schedule, setSchedule] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingSchedule, setEditingSchedule] = useState(null);
+    const [searchTerm, setSearchTerm] = useState(""); // State for the search input
 
     useEffect(() => {
         fetch("https://localhost:7157/api/admin/schedule")
@@ -61,16 +62,21 @@ const Schedule = () => {
         setIsModalOpen(false);
     };
 
-    const refetchScheduleData = () => {
-        fetch("https://localhost:7157/api/admin/schedule")
-        .then((response) => response.json())
-        .then((updatedData) => {
-            if (Array.isArray(updatedData.schedules)) {
-                setSchedule(updatedData.schedules);
-            }
-        })
-        .catch((error) => console.error("Error fetching updated schedule:", error));
+    const refetchScheduleData = (search = "") => {
+        fetch(`https://localhost:7157/api/admin/schedule?search=${encodeURIComponent(search)}`)
+            .then((response) => response.json())
+            .then((updatedData) => {
+                if (Array.isArray(updatedData.schedules)) {
+                    setSchedule(updatedData.schedules);
+                }
+            })
+            .catch((error) => console.error("Error fetching updated schedule:", error));
     };
+
+    const handleSearch = () => {
+        refetchScheduleData(searchTerm); // Fetch data based on search term
+    };
+
 
     const handleCreateClick = () => {
         setEditingSchedule(null);
@@ -139,7 +145,16 @@ const Schedule = () => {
                 </button>
                 <br />
                 <br />
-                <input type="text" placeholder="Tìm kiếm theo tên bác sĩ" className="search-bar" />
+                <input
+                    type="text"
+                    placeholder="Tìm kiếm theo tên bác sĩ"
+                    className="search-bar"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                    <button onClick={handleSearch} className="search-button">
+                        <img src="/admin_assets/img/search-icon.png" alt="Search" className="search-icon" />
+                    </button>
                 <table className="schedule-table">
                     <thead>
                         <tr>

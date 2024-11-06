@@ -11,11 +11,15 @@ public partial class Order
 
     public string CustomerName { get; set; }
 
-    public long? Total { get; set; }
+    public string CustomerEmail { get; set; }
+
+    public double? Total { get; set; }
 
     public DateOnly? Date { get; set; }
 
     public string Method { get; set; }
+
+    public string Status { get; set; }
 
     public int TreatmentId { get; set; }
 

@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../../admin_assets/css/checkup.css';
 import CheckUpModal from '../../components/CheckUpModal';
 
+const localizer = momentLocalizer(moment);
+
 const CheckUp = () => {
-    const [checkups, setCheckups] = useState([]);  // Initialize checkups as an empty array
+    const [checkups, setCheckups] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null); // State to hold the selected event
 
     useEffect(() => {
-        // Fetch the initial checkup data
         fetch("https://localhost:7157/api/admin/checkup")
             .then((response) => response.json())
             .then((data) => {
-                // Ensure that the data fetched is an array
-                console.log(data)
                 if (Array.isArray(data.checkups)) {
                     setCheckups(data.checkups);
                 } else {
-                    setCheckups([]);  // Set as an empty array if data is not an array
+                    setCheckups([]);
                 }
             })
             .catch((error) => console.error("Error fetching checkups:", error));
     }, []);
 
     const handleAddCheckup = (checkupData) => {
-        console.log("Submitting checkup data:", checkupData);
-
         const formattedStartTime = `${checkupData.startTime}:00`;
         const formattedEndTime = `${checkupData.endTime}:00`;
 
@@ -32,22 +33,21 @@ const CheckUp = () => {
             name: checkupData.name,
             phone: checkupData.phone,
             date: checkupData.date,
-            startTime: formattedStartTime,  
+            startTime: formattedStartTime,
             endTime: formattedEndTime,
             room: checkupData.room,
             doctorId: parseInt(checkupData.doctorId),
             treatmentId: parseInt(checkupData.treatmentId)
         };
+        
         fetch("https://localhost:7157/api/admin/checkup", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         })
-            .then((response) => response.json())
-            .then(() => refetchCheckUpData())
-            .catch((error) => console.error("Error adding checkup:", error));
+        .then((response) => response.json())
+        .then(() => refetchCheckUpData())
+        .catch((error) => console.error("Error adding checkup:", error));
     };
 
     const refetchCheckUpData = () => {
@@ -61,50 +61,70 @@ const CheckUp = () => {
         .catch((error) => console.error("Error fetching updated schedule:", error));
     };
 
+    // Map checkups to events for the calendar
+    const events = checkups.map((checkup, index) => ({
+        id: index,
+        title: `${checkup.doctorName}`,
+        name: `${checkup.name}`,
+        start: new Date(`${checkup.appointmentDate}T${checkup.startTime}`),
+        end: new Date(`${checkup.appointmentDate}T${checkup.endTime}`),
+        room: checkup.room,
+        treatment: checkup.treatmentName,
+        phone: checkup.phone
+    }));
+
+    // Handler to open the event details popup
+    const handleSelectEvent = (event) => {
+        setSelectedEvent(event);
+    };
+
+    // Handler to close the event details popup
+    const handleCloseEventDetails = () => {
+        setSelectedEvent(null);
+    };
+
     return (
         <div className="content">
             <div className="container">
-                <h1>Danh sách ca khám</h1>
+                <h1>Ca Khám</h1>
                 <button className="register-button" onClick={() => setIsModalOpen(true)}>
-                    Đăng ký ca khám mới
+                    Tạo Ca Khám Mới
                 </button>
                 <br />
                 <br />
-                <input type="text" placeholder="Tìm kiếm theo SDT" className="search-bar" />
-                <table>
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Tên bệnh nhân</th>
-                            <th>Số điện thoại</th>
-                            <th>Ngày khám</th>
-                            <th>Thời gian khám</th>
-                            <th>Bác sĩ khám</th>
-                            <th>Dịch vụ khám</th>
-                            <th>Phòng khám</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Check if checkups is an array before using map */}
-                        {Array.isArray(checkups) && checkups.map((checkup, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{checkup.name}</td>
-                                <td>{checkup.phone}</td>
-                                <td>{checkup.appointmentDate}</td>
-                                <td>{`${checkup.startTime} - ${checkup.endTime}`}</td>
-                                <td>{checkup.doctorName}</td>
-                                <td>{checkup.treatmentName}</td>
-                                <td>{checkup.room}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <input type="text" placeholder="Search by Phone Number" className="search-bar" />
+
+                <Calendar
+                    localizer={localizer}
+                    events={events}
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{ height: 500 }}
+                    defaultView="week"
+                    views={['week', 'day']}
+                    onSelectEvent={handleSelectEvent}
+                />
+
                 <CheckUpModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={handleAddCheckup}
                 />
+
+                {selectedEvent && (
+                    <div className="popup-overlay" onClick={handleCloseEventDetails}>
+                        <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                            <h3>Thông Tin Ca Khám</h3>
+                            <p><strong>Tên Bệnh Nhân:</strong> {selectedEvent.name}</p>
+                            <p><strong>Số Điện Thoại:</strong> {selectedEvent.phone}</p>
+                            <p><strong>Ngày Khám:</strong> {selectedEvent.start.toLocaleDateString()}</p>
+                            <p><strong>Tên Bác Sĩ:</strong> {selectedEvent.title}</p>
+                            <p><strong>Thời Gian Khám:</strong> {`${selectedEvent.start.toLocaleTimeString()} - ${selectedEvent.end.toLocaleTimeString()}`}</p>
+                            <p><strong>Phòng Khám:</strong> {selectedEvent.room}</p>
+                            <p><strong>Liệu Trình:</strong> {selectedEvent.treatment}</p>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -1,0 +1,34 @@
+.select-dropdown {
+    width: 100%;
+    height: 40px; /* You can adjust the height as needed */
+    padding: 5px 10px; /* Add padding to increase the size of the options */
+    font-size: 16px; /* Adjust font size for better readability */
+    border-radius: 5px; /* Optional: adds rounded corners */
+    border: 1px solid #ccc; /* Optional: border color */
+    background-color: #fff; /* Optional: background color */
+    box-sizing: border-box; /* Ensures padding doesn't affect the width */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+}

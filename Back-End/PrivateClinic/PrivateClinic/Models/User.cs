@@ -27,13 +27,13 @@ public partial class User
 
     public virtual ICollection<Checkup> Checkups { get; set; } = new List<Checkup>();
 
-    public virtual ICollection<ExaminitionAppointment> ExaminitionAppointments { get; set; } = new List<ExaminitionAppointment>();
+    public virtual ICollection<ExaminitionAppointment> ExaminitionAppointmentCustomers { get; set; } = new List<ExaminitionAppointment>();
+
+    public virtual ICollection<ExaminitionAppointment> ExaminitionAppointmentDoctors { get; set; } = new List<ExaminitionAppointment>();
 
     public virtual ICollection<MedicalRecord> MedicalRecordCustomers { get; set; } = new List<MedicalRecord>();
 
     public virtual ICollection<MedicalRecord> MedicalRecordDoctors { get; set; } = new List<MedicalRecord>();
-
-    public virtual ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
 
     public virtual Role Role { get; set; }
 }

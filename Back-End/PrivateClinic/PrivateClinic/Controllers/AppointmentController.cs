@@ -6,6 +6,9 @@ using PrivateClinic.Services;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Numerics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PrivateClinic.Controllers
 {
@@ -37,83 +40,30 @@ namespace PrivateClinic.Controllers
 			return Ok(new { success = true, result = treatment.Price.Price });
 		}
 
-		[HttpPost]
-		public async Task<ActionResult<string>> Checkout([FromBody] Order order)
+		[HttpPost("schedule")]
+		public async Task<IActionResult> SetSchedule([FromBody] ExaminitionAppointment schedule)
 		{
-			if (order == null)
+			if (schedule == null)
 			{
-				return BadRequest(new { success = false, message = "Order data is null." });
+				return BadRequest(new { success = false, message = "Schedule data is null." });
 			}
-			var newOrder = new Order
+
+			var info = new ExaminitionAppointment
 			{
-				CustomerName = order.CustomerName,
-				Total = order.Total,
-				Date = order.Date,
-				Method = order.Method,
-				TreatmentId = order.TreatmentId,
+				Name = schedule.Name,
+				Phone = schedule.Phone,
+				Email = schedule.Email,
+				Date = schedule.Date,
+				Status = "Chưa Thanh Toán",
+				DoctorId = schedule.DoctorId,
+				CustomerId = schedule.CustomerId,
+				TreatmentId = schedule.TreatmentId
 			};
 
-			_dbContext.Orders.Add(order);
+			await _dbContext.ExaminitionAppointments.AddAsync(info);
 			await _dbContext.SaveChangesAsync();
 
-			// Send email
-			try
-			{
-				var message = new MailMessage();
-				message.From = new MailAddress("anb2014637@student.ctu.edu.vn");
-				message.To.Add(order.CustomerName);
-				message.Subject = "Xác Nhận Lịch Hẹn Khám";
-				message.Body = $"Đơn thanh toán lịch hẹn khám của khách hàng {order.CustomerName} người vào ngày {order.Date} " +
-					$"đã được xác nhận thành công.\n" +
-				   $"Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !!!";
-
-				using (var client = new SmtpClient("smtp.gmail.com"))
-				{
-					client.Port = 587;
-					client.Credentials = new NetworkCredential("anb2014637@student.ctu.edu.vn", "NYS3Lv@C");
-					client.EnableSsl = true;
-					await client.SendMailAsync(message);
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-				return StatusCode(500, "Failed to send email");
-			}
-
-			return Ok(new { success = true, message = "Order placed successfully" });
-		}
-
-		[HttpGet("vnpay/{treatmentId}")]
-		public async Task<ActionResult<string>> ProcessCheckoutVNPay(int treatmentId)
-		{
-			var treatment = await _dbContext.Treatments
-				.Include(t => t.Price)
-				.FirstOrDefaultAsync(t => t.Id == treatmentId);
-
-			var vnPayModel = new VnPaymentRequestModel
-			{
-				Amount = treatment.Price.Price,
-				CreatedDate = DateTime.Now,
-				OrderId = 1,
-			};
-
-			return _vnPayService.CreatePaymentUrl(HttpContext, vnPayModel);
-		}
-
-		[HttpGet]
-		public async Task<ActionResult<string>> PaymentCallBack()
-		{
-			var collections = HttpContext.Request.Query;
-
-			var response = _vnPayService.PaymentExecute(collections);
-
-			if (response == null || response.VnPayResponseCode != "00")
-			{
-				return Redirect("http://localhost:3000/appointment?payment=false");
-			}
-
-			return Redirect("http://localhost:3000?payment=true");
+			return Ok(new { success = true, message = "Schedule set successfully." });
 		}
 	}
 }

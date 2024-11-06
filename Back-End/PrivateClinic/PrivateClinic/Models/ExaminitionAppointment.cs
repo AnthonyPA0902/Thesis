@@ -21,7 +21,11 @@ public partial class ExaminitionAppointment
 
     public int DoctorId { get; set; }
 
+    public int CustomerId { get; set; }
+
     public int TreatmentId { get; set; }
+
+    public virtual User Customer { get; set; }
 
     public virtual User Doctor { get; set; }
 

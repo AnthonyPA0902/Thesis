@@ -16,44 +16,32 @@ namespace PrivateClinic.Controllers.Admin
 		{
 			_dbContext = dbContext;
 		}
-
 		[HttpGet("schedule")]
-		public async Task<ActionResult> GetSchedulesInfo()
+		public async Task<ActionResult> GetSchedulesInfo([FromQuery] string search = "")
 		{
-			var doctors = await _dbContext.Users
-				.Where(user => user.RoleId == 2) // Filter by RoleId
-				.Select(user => new UserDto
-				{
-					Id = user.Id,
-					Name = user.Name,
-					Phone = user.Phone
-				})
-				.ToListAsync();
+			var schedulesQuery = _dbContext.ExaminitionAppointments
+				.Include(s => s.Doctor)
+				.Include(s => s.Treatment)
+				.Where(sche => sche.Status == "Đã Thanh Toán");
 
-			var treatments = await _dbContext.Treatments
-				.Select(treatment => new TreatmentDto
-				{
-					Id = treatment.Id,
-					TreatmentName = treatment.Name
-				})
-				.ToListAsync();
+			if (!string.IsNullOrEmpty(search))
+			{
+				schedulesQuery = schedulesQuery.Where(schedule =>
+					EF.Functions.Like(schedule.Doctor.Name, $"%{search}%"));
+			}
 
-			var schedules = await _dbContext.ExaminitionAppointments
-					.Include(s => s.Doctor)
-					.Include(s => s.Treatment)
-					.Select(schedule => new ScheduleDto
-					{
-						Id = schedule.Id,
-						Name = schedule.Name,
-						Phone = schedule.Phone,
-						Email = schedule.Email,
-						Date = schedule.Date,
-						DoctorName = schedule.Doctor.Name,
-						TreatmentName = schedule.Treatment.Name
-					})
-					.ToListAsync();
+			var schedules = await schedulesQuery.Select(schedule => new ScheduleDto
+			{
+				Id = schedule.Id,
+				Name = schedule.Name,
+				Phone = schedule.Phone,
+				Email = schedule.Email,
+				Date = schedule.Date,
+				DoctorName = schedule.Doctor.Name,
+				TreatmentName = schedule.Treatment.Name,
+			}).ToListAsync();
 
-			return Ok(new { success = true, Doctors = doctors, Treatments = treatments, Schedules = schedules });
+			return Ok(new { success = true, Schedules = schedules });
 		}
 
 		[HttpPost("schedule")]

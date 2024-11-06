@@ -21,15 +21,9 @@ public partial class PrivateClinicManagementDBContext : DbContext
 
     public virtual DbSet<MedicalRecord> MedicalRecords { get; set; }
 
-    public virtual DbSet<MedicineOrder> MedicineOrders { get; set; }
-
-    public virtual DbSet<MedicineStorage> MedicineStorages { get; set; }
-
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-
-    public virtual DbSet<Prescription> Prescriptions { get; set; }
 
     public virtual DbSet<PriceList> PriceLists { get; set; }
 
@@ -102,6 +96,7 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("EXAMINITION_APPOINTMENT");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CustomerId).HasColumnName("customerId");
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.DoctorId).HasColumnName("doctorId");
             entity.Property(e => e.Email)
@@ -114,11 +109,16 @@ public partial class PrivateClinicManagementDBContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("phone");
             entity.Property(e => e.Status)
-                .HasMaxLength(30)
+                .HasMaxLength(40)
                 .HasColumnName("status");
             entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
-            entity.HasOne(d => d.Doctor).WithMany(p => p.ExaminitionAppointments)
+            entity.HasOne(d => d.Customer).WithMany(p => p.ExaminitionAppointmentCustomers)
+                .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EXAMINITION_APPOINTMENT_USER1");
+
+            entity.HasOne(d => d.Doctor).WithMany(p => p.ExaminitionAppointmentDoctors)
                 .HasForeignKey(d => d.DoctorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_EXAMINITION_APPOINTMENT_USER");
@@ -153,62 +153,14 @@ public partial class PrivateClinicManagementDBContext : DbContext
                 .HasConstraintName("FK_MEDICAL_RECORD_USER1");
         });
 
-        modelBuilder.Entity<MedicineOrder>(entity =>
-        {
-            entity.ToTable("MEDICINE_ORDER");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.MedicineId).HasColumnName("medicineId");
-            entity.Property(e => e.OrderDetailsId).HasColumnName("orderDetailsId");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-
-            entity.HasOne(d => d.Medicine).WithMany(p => p.MedicineOrders)
-                .HasForeignKey(d => d.MedicineId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MEDICINE_ORDER_MEDICINE_STORAGE");
-
-            entity.HasOne(d => d.OrderDetails).WithMany(p => p.MedicineOrders)
-                .HasForeignKey(d => d.OrderDetailsId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MEDICINE_ORDER_ORDER_DETAILS");
-        });
-
-        modelBuilder.Entity<MedicineStorage>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_MEDICINE STORAGE");
-
-            entity.ToTable("MEDICINE_STORAGE");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ExpiredDate)
-                .HasColumnType("datetime")
-                .HasColumnName("expiredDate");
-            entity.Property(e => e.ImportDate)
-                .HasColumnType("datetime")
-                .HasColumnName("importDate");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name");
-            entity.Property(e => e.PriceId).HasColumnName("priceId");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasColumnName("status");
-            entity.Property(e => e.TypeOfMedicine)
-                .HasMaxLength(50)
-                .HasColumnName("typeOfMedicine");
-
-            entity.HasOne(d => d.Price).WithMany(p => p.MedicineStorages)
-                .HasForeignKey(d => d.PriceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MEDICINE_STORAGE_PRICE_LIST");
-        });
-
         modelBuilder.Entity<Order>(entity =>
         {
             entity.ToTable("ORDER");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.CustomerEmail)
+                .HasMaxLength(50)
+                .HasColumnName("customerEmail");
             entity.Property(e => e.CustomerName)
                 .HasMaxLength(40)
                 .HasColumnName("customerName");
@@ -216,6 +168,9 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.Property(e => e.Method)
                 .HasMaxLength(30)
                 .HasColumnName("method");
+            entity.Property(e => e.Status)
+                .HasMaxLength(30)
+                .HasColumnName("status");
             entity.Property(e => e.Total).HasColumnName("total");
             entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
@@ -236,29 +191,6 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.Property(e => e.TypeOfOrder)
                 .HasMaxLength(30)
                 .HasColumnName("typeOfOrder");
-        });
-
-        modelBuilder.Entity<Prescription>(entity =>
-        {
-            entity.ToTable("PRESCRIPTION");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CustomerId).HasColumnName("customerId");
-            entity.Property(e => e.DoctorId).HasColumnName("doctorId");
-            entity.Property(e => e.MedicineId).HasColumnName("medicineId");
-            entity.Property(e => e.TypeOfPrescription)
-                .HasMaxLength(100)
-                .HasColumnName("typeOfPrescription");
-
-            entity.HasOne(d => d.Doctor).WithMany(p => p.Prescriptions)
-                .HasForeignKey(d => d.DoctorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PRESCRIPTION_USER");
-
-            entity.HasOne(d => d.Medicine).WithMany(p => p.Prescriptions)
-                .HasForeignKey(d => d.MedicineId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PRESCRIPTION_MEDICINE_STORAGE");
         });
 
         modelBuilder.Entity<PriceList>(entity =>
@@ -288,6 +220,7 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("TREATMENT");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");

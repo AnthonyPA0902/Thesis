@@ -13,6 +13,8 @@ public partial class Treatment
 
     public int? Session { get; set; }
 
+    public byte[] Image { get; set; }
+
     public int? PriceId { get; set; }
 
     public virtual ICollection<Checkup> Checkups { get; set; } = new List<Checkup>();

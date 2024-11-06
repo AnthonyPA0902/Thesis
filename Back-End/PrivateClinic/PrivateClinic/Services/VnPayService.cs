@@ -24,7 +24,7 @@ namespace PrivateClinic.Services
 			vnpay.AddRequestData("vnp_CurrCode", _config["VnPay:CurrCode"]);
 			vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));
 			vnpay.AddRequestData("vnp_Locale", _config["VnPay:Locale"]);
-			vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng:" + model.OrderId);
+			vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + model.OrderId);
 			vnpay.AddRequestData("vnp_OrderType", "other");
 			vnpay.AddRequestData("vnp_ReturnUrl", _config["VnPay:PaymentBackReturnUrl"]);
 			vnpay.AddRequestData("vnp_TxnRef", tick);
@@ -67,7 +67,7 @@ namespace PrivateClinic.Services
 				OrderId = vnp_orderId.ToString(),
 				TransactionId = vnp_TransactionId.ToString(),
 				Token = vnp_SecureHash,
-				VnPayResponseCode = vnp_ResponseCode
+				VnPayResponseCode = vnp_ResponseCode,
 			};
 		}
 	}

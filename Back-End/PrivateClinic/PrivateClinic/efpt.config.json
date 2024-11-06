@@ -32,23 +32,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[MEDICINE_ORDER]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[MEDICINE_STORAGE]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[ORDER]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[ORDER_DETAILS]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PRESCRIPTION]",
          "ObjectType": 0
       },
       {
