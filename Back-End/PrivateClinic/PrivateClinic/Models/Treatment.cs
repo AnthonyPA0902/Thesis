@@ -13,17 +13,13 @@ public partial class Treatment
 
     public int? Session { get; set; }
 
-    public byte[] Image { get; set; }
+    public double Price { get; set; }
 
-    public int? PriceId { get; set; }
+    public byte[] Image { get; set; }
 
     public virtual ICollection<Checkup> Checkups { get; set; } = new List<Checkup>();
 
     public virtual ICollection<ExaminitionAppointment> ExaminitionAppointments { get; set; } = new List<ExaminitionAppointment>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public virtual PriceList Price { get; set; }
-
-    public virtual ICollection<TreatmentOrder> TreatmentOrders { get; set; } = new List<TreatmentOrder>();
 }

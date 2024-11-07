@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import '../admin_assets/css/modal.css';
 
-const DoctorModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
+const TreatmentModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
+    const [image, setImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(editingTreatment?.image ? `data:image/jpeg;base64,${editingTreatment.image}` : null);
     const [formData, setFormData] = useState({
         name: '',
         session: '',
-        image: '',
-        priceId: '',
+        price: '',
+        image: null,
     });
 
     useEffect(() => {
@@ -14,30 +16,41 @@ const DoctorModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
             setFormData({
                 name: editingTreatment.name || '',
                 session: editingTreatment.session || '',
-                image: editingTreatment.image || '',
-                priceId: editingTreatment.priceId || ''
+                price: editingTreatment.price || '',
+                image: null, // Keep this null to avoid overwriting if no new image is selected
             });
+            setPreviewImage(editingTreatment.image ? `data:image/jpeg;base64,${editingTreatment.image}` : null);
         } else {
             setFormData({
                 name: '',
                 session: '',
-                image: '',
-                priceId: '',
+                price: '',
+                image: null,
             });
+            setPreviewImage(null);
         }
     }, [editingTreatment]);
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            setPreviewImage(URL.createObjectURL(file));  // Preview the newly selected image
+        }
+    };
 
     const handleInputChange = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [name]: value,
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        onSubmit({ ...formData, image }); // Pass the form data with the updated or existing image
+        setPreviewImage(null);
         onClose();
     };
 
@@ -46,7 +59,7 @@ const DoctorModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
     return (
         <div className="modal-overlay">
             <div className="popup-modal">
-                <h2>{editingDoctor ? 'Chỉnh sửa thông tin liệu trình' : 'Tạo liệu trình'}</h2>
+                <h2>{editingTreatment ? 'Chỉnh sửa thông tin liệu trình' : 'Tạo liệu trình'}</h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -57,7 +70,7 @@ const DoctorModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
                         required
                     />
                     <input
-                        type="text"
+                        type="number"
                         name="session"
                         value={formData.session}
                         onChange={handleInputChange}
@@ -65,26 +78,27 @@ const DoctorModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
                         required
                     />
                     <input
-                        type="image"
-                        name="image"
-                        value={formData.image}
+                        type="number"
+                        name="price"
+                        value={formData.price}
                         onChange={handleInputChange}
-                        placeholder="Hình Ảnh"
+                        placeholder="Giá tiền"
                         required
                     />
-                    <select
-                        name="priceId"
-                        value={formData.priceId}
-                        onChange={handlePriceChange}
-                        required
-                    >
-                        <option value="">Chọn giá cả</option>
-                        {treatments.map((treatment) => (
-                            <option key={treatment.id} value={treatment.id}>{treatment.treatmentName}</option>
-                        ))}
-                    </select>
+                    <input
+                        type="file"
+                        name="image"
+                        onChange={handleImageChange}
+                    />
+                    {previewImage && (
+                        <div className="image-preview-container">
+                            <p>Hình ảnh hiện tại:</p>
+                            <img src={previewImage} alt="Treatment Preview" className="image-preview" />
+                        </div>
+                    )}
+
                     <div className="button-container">
-                        <button type="submit" className="submit-button">{editingDoctor ? 'Lưu' : 'Thêm'}</button>
+                        <button type="submit" className="submit-button">{editingTreatment ? 'Lưu' : 'Thêm'}</button>
                         <button type="button" onClick={onClose} className="close-button">Đóng</button>
                     </div>
                 </form>
@@ -93,4 +107,4 @@ const DoctorModal = ({ isOpen, onClose, onSubmit, editingTreatment }) => {
     );
 };
 
-export default DoctorModal;
+export default TreatmentModal;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../../admin_assets/css/checkup.css';
 import CheckUpModal from '../../components/CheckUpModal';
@@ -11,9 +12,20 @@ const CheckUp = () => {
     const [checkups, setCheckups] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null); // State to hold the selected event
+    const location = useLocation();
+    const [passedScheduleData, setPassedScheduleData] = useState(null); // State for passed schedule data
+    const [flag, setFlag] = useState(true);
 
     useEffect(() => {
-        fetch("https://localhost:7157/api/admin/checkup")
+        // Get the passed schedule data from the location state
+        setPassedScheduleData(location.state?.scheduleData || null);
+        if (location.state) {
+            window.history.replaceState(null, document.title, window.location.pathname);
+        }
+    }, [location]);
+
+    useEffect(() => {
+                fetch("https://localhost:7157/api/admin/checkup")
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.checkups)) {
@@ -24,6 +36,13 @@ const CheckUp = () => {
             })
             .catch((error) => console.error("Error fetching checkups:", error));
     }, []);
+
+    useEffect(() => {
+        if (passedScheduleData && flag) {
+            console.log(passedScheduleData.id);
+            setIsModalOpen(true); // Open the modal automatically if data is passed
+        }
+    }, [flag, passedScheduleData]);
 
     const handleAddCheckup = (checkupData) => {
         const formattedStartTime = `${checkupData.startTime}:00`;
@@ -46,7 +65,21 @@ const CheckUp = () => {
             body: JSON.stringify(payload),
         })
         .then((response) => response.json())
-        .then(() => refetchCheckUpData())
+        .then((data) => {
+            if (data.success === true) {
+                if (passedScheduleData) {
+                    fetch(`https://localhost:7157/api/admin/schedule/condition/${passedScheduleData.id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload),
+                    })
+                }
+                setPassedScheduleData(null);
+                setIsModalOpen(false);
+                refetchCheckUpData();
+                setFlag(false);
+            }
+        })
         .catch((error) => console.error("Error adding checkup:", error));
     };
 
@@ -109,6 +142,7 @@ const CheckUp = () => {
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={handleAddCheckup}
+                    initialData={passedScheduleData}
                 />
 
                 {selectedEvent && (

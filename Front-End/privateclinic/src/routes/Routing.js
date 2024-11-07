@@ -12,6 +12,10 @@ import Doctor from '../pages/Admin/Doctor';
 import Equipment from '../pages/Admin/Equipment';
 import Profile from '../pages/Profile';
 import Treatment from '../pages/Admin/Treatment';
+import Info from '../pages/Admin/Info';
+import Medicine from '../pages/Admin/Medicine';
+import MedicalRecord from '../pages/Admin/MedicalRecord';
+import Patient from '../pages/Admin/Patient';
 
 // Routes
 const NormalRoutes = [
@@ -37,6 +41,10 @@ const AdminRoutes = [
     { path: '/admin/doctor', component: Doctor },
     { path: '/admin/equipment', component: Equipment },
     { path: '/admin/treatment', component: Treatment },
+    { path: '/admin/info', component: Info },
+    { path: '/admin/medicine', component: Medicine },
+    { path: '/admin/record', component: MedicalRecord },
+    { path: '/admin/patient', component: Patient },
 ]
 
 export {NormalRoutes, AuthRoutes,AdminAuthRoutes, AdminRoutes};

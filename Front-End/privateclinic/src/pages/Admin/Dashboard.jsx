@@ -4,6 +4,8 @@ const Dashboard = () => {
 	const pieChartRef = useRef(null); // Ref for pie chart
 	const lineChartRef = useRef(null); // Ref for line chart
 	const barChartRef = useRef(null); // Ref for bar chart
+	const doughnutChartRef = useRef(null); // Ref for doughnut chart
+
 
 	useEffect(() => {
 		const loadChartJs = (callback) => {
@@ -170,6 +172,50 @@ const Dashboard = () => {
 					});
 				})
 				.catch(error => console.error("Error fetching orders by date:", error));
+
+			// Fetch and render doughnut chart data for medicine usage
+			fetch('https://localhost:7157/api/admin/medicine-usage')
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					const labels = data.map(item => item.medicineName);
+					const percentages = data.map(item => item.percentageUsed);
+
+					const ctx = document.getElementById("doughnutChart").getContext("2d");
+
+					// Destroy previous doughnut chart instance if it exists
+					if (doughnutChartRef.current) {
+						doughnutChartRef.current.destroy();
+					}
+
+					// Create and save the doughnut chart instance
+					doughnutChartRef.current = new window.Chart(ctx, {
+						type: 'doughnut',
+						data: {
+							labels: labels,
+							datasets: [{
+								data: percentages,
+								backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FFFF33'],  // Color array for each slice
+							}]
+						},
+						options: {
+							responsive: true,
+							plugins: {
+								legend: {
+									position: 'top',
+								},
+								tooltip: {
+									callbacks: {
+										label: function (tooltipItem) {
+											return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+										}
+									}
+								}
+							}
+						}
+					});
+				})
+				.catch(error => console.error("Error fetching medicine usage data:", error));
 		});
 
 		// Cleanup function to destroy all charts on component unmount
@@ -182,6 +228,9 @@ const Dashboard = () => {
 			}
 			if (barChartRef.current) {
 				barChartRef.current.destroy();
+			}
+			if (doughnutChartRef.current) {
+				doughnutChartRef.current.destroy();
 			}
 		};
 	}, []);
@@ -229,23 +278,39 @@ const Dashboard = () => {
 				</div>
 
 			</div>
-			<div style={{ display: "flex" }}>
-				<div style={{ flex: "1", paddingRight: "20px" }}>
-					<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Biểu Đồ Theo Tuổi</h3>
-					<div style={{ margin: '0 auto' }}>
-						<canvas id="pieChart" style={{ width: '300px', height: '400px' }}></canvas>
+			<div className="row" style={{ marginBottom: '50px' }}>
+				<div className="col-md-6">
+					<div style={{ padding: "0 20px" }}>
+						<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Biểu Đồ Theo Tuổi</h3>
+						<div style={{ margin: '0 auto' }}>
+							<canvas id="pieChart" style={{ width: '300px', height: '400px' }}></canvas>
+						</div>
 					</div>
 				</div>
-				<div style={{ flex: "1", paddingLeft: "20px" }}>
-					<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Doanh Thu Theo Ngày</h3>
-					<div style={{ margin: '0 auto' }}>
-						<canvas id="lineChart" style={{ width: '300px', height: '400px' }}></canvas>
+				<div className="col-md-6">
+					<div style={{ padding: "0 20px" }}>
+						<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Doanh Thu Theo Ngày</h3>
+						<div style={{ margin: '0 auto' }}>
+							<canvas id="lineChart" style={{ width: '300px', height: '400px' }}></canvas>
+						</div>
 					</div>
 				</div>
-				<div style={{ flex: "1", paddingLeft: "20px" }}>
-					<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Số Đơn Theo Ngày</h3>
-					<div style={{ margin: '0 auto' }}>
-						<canvas id="barChart" style={{ width: '300px', height: '400px' }}></canvas>
+			</div>
+			<div className="row">
+				<div className="col-md-6">
+					<div style={{ padding: "0 20px" }}>
+						<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Số Đơn Theo Ngày</h3>
+						<div style={{ margin: '0 auto' }}>
+							<canvas id="barChart" style={{ width: '300px', height: '400px' }}></canvas>
+						</div>
+					</div>
+				</div>
+				<div className="col-md-6">
+					<div style={{ padding: "0 20px" }}>
+						<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Tỷ Lệ Sử Dụng Thuốc</h3>
+						<div style={{ margin: '0 auto' }}>
+							<canvas id="doughnutChart" style={{ width: '300px', height: '400px' }}></canvas>
+						</div>
 					</div>
 				</div>
 			</div>

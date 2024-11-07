@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
+import TreatmentModal from '../../components/TreatmentModal';
+import Swal from 'sweetalert2';
 
 // Treatment Component
 const Treatment = () => {
@@ -24,61 +26,54 @@ const Treatment = () => {
     const handleAddTreatment = (treatmentData) => {
         console.log("Submitting treatment data:", treatmentData);
 
-        const payload = {
-            name: treatmentData.name,
-            session: treatmentData.session,
-            image: treatmentData.image,
-            priceId: doctorData.priceId,
-        };
-
-        if (editingTreatment) {
-            fetch(`https://localhost:7157/api/admin/treatment/${editingTreatment.id}`, {
-                method: "PUT",
-                headers: { 
-                    "Content-Type": "application/json" 
-                },
-                body: JSON.stringify(payload),
-            })
-                .then((response) => response.json())
-                .then(() => refetchTreatmentData())
-                .catch((error) => console.error("Error editing treatment:", error));
-        } else {
-            fetch("https://localhost:7157/api/admin/treatment", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            })
-                .then((response) => response.json())
-                .then(() => refetchTreatmentData()) 
-                .catch((error) => console.error("Error updating treatment:", error));
+        const formData = new FormData();
+        formData.append("name", treatmentData.name);
+        formData.append("session", treatmentData.session);
+        formData.append("price", treatmentData.price);
+        if (treatmentData.image) {
+            formData.append("image", treatmentData.image); // Add the image file to FormData
         }
+
+        const url = editingTreatment
+            ? `https://localhost:7157/api/admin/treatment/${editingTreatment.id}`
+            : "https://localhost:7157/api/admin/treatment";
+
+        const method = editingTreatment ? "PUT" : "POST";
+
+        fetch(url, {
+            method: method,
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then(() => refetchTreatmentData())
+            .catch((error) => console.error("Error updating treatment:", error));
+
         setIsModalOpen(false);
     };
 
+
     const refetchTreatmentData = () => {
         fetch("https://localhost:7157/api/admin/treatment")
-        .then((response) => response.json())
-        .then((updatedData) => {
-            if (Array.isArray(updatedData.treatments)) {
-                setTreatment(updatedData.treatments);
-            }
-        })
-        .catch((error) => console.error("Error fetching updated treatment:", error));
+            .then((response) => response.json())
+            .then((updatedData) => {
+                if (Array.isArray(updatedData.treatments)) {
+                    setTreatment(updatedData.treatments);
+                }
+            })
+            .catch((error) => console.error("Error fetching updated treatment:", error));
     };
 
     const handleCreateClick = () => {
         setEditingTreatment(null);
-        setIsModalOpen(true); 
+        setIsModalOpen(true);
     };
 
     const handleEditClick = (id) => {
         fetch(`https://localhost:7157/api/admin/treatment/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                setEditingTreatment(data.treatment); 
-                setIsModalOpen(true); 
+                setEditingTreatment(data.treatment);
+                setIsModalOpen(true);
             })
             .catch((error) => console.error("Error fetching treatment:", error));
     };
@@ -101,25 +96,25 @@ const Treatment = () => {
                         'Content-Type': 'application/json',
                     }
                 })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Treatment has been deleted.',
+                                'success'
+                            );
+                            refetchTreatmentData();
+                        }
+                    })
+                    .catch((error) => {
                         Swal.fire(
-                            'Deleted!',
-                            'Treatment has been deleted.',
-                            'success'
+                            'Error!',
+                            'There was a problem deleting the treatment.',
+                            'error'
                         );
-                        refetchDoctorData();
-                    }
-                })
-                .catch((error) => {
-                    Swal.fire(
-                        'Error!',
-                        'There was a problem deleting the treatment.',
-                        'error'
-                    );
-                    console.error('Error deleting treatment:', error);
-                });
+                        console.error('Error deleting treatment:', error);
+                    });
             }
         });
     };
@@ -141,8 +136,8 @@ const Treatment = () => {
                             <th>STT</th>
                             <th>Tên Liệu Trình</th>
                             <th>Số Buổi</th>
-                            <th>Hình Ảnh</th>
                             <th>Giá Tiền</th>
+                            <th>Hình Ảnh</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -152,14 +147,22 @@ const Treatment = () => {
                                 <td>{index + 1}</td>
                                 <td>{treatment.name}</td>
                                 <td>{treatment.session}</td>
-                                <td>{treatment.image}</td>
                                 <td>{treatment.price}</td>
+                                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                    {treatment.image && (
+                                        <img
+                                            src={`data:image/jpeg;base64,${treatment.image}`}
+                                            alt="Treatment"
+                                            style={{ width: "50%", height: "100px" }}
+                                        />
+                                    )}
+                                </td>
                                 <td style={{ textAlign: 'center' }}><button onClick={() => handleEditClick(treatment.id)}><img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" /></button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<button onClick={() => handleDeleteClick(treatment.id)}><img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" /></button></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <DoctorModal
+                <TreatmentModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={handleAddTreatment}

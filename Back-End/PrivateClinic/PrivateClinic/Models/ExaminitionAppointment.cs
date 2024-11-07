@@ -19,6 +19,8 @@ public partial class ExaminitionAppointment
 
     public string Status { get; set; }
 
+    public string Condition { get; set; }
+
     public int DoctorId { get; set; }
 
     public int CustomerId { get; set; }

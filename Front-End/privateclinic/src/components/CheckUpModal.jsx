@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../admin_assets/css/modal.css';
 
-const CheckUpModal = ({ isOpen, onClose, onSubmit}) => {
+const CheckUpModal = ({ isOpen, onClose, onSubmit, initialData}) => {
     const [doctors, setDoctors] = useState([]);
     const [treatments, setTreatments] = useState([]);
     const [formData, setFormData] = useState({
@@ -24,6 +24,18 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit}) => {
             })
             .catch((error) => console.error("Error fetching checkup info:", error));
     }, []);
+
+    useEffect(() => {
+        console.log(initialData);
+        if (initialData) {
+            setFormData({
+                ...initialData,
+                startTime: '', // Set to empty to let user choose
+                endTime: '',
+                room: ''
+            });
+        }
+    }, [initialData]);
 
     const handleInputChange = (e) => {
         setFormData({

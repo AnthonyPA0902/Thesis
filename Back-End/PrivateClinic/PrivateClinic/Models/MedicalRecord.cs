@@ -11,11 +11,11 @@ public partial class MedicalRecord
 
     public string Description { get; set; }
 
-    public int CustomerId { get; set; }
+    public DateOnly? RecordDate { get; set; }
 
-    public int DoctorId { get; set; }
+    public int CustomerId { get; set; }
 
     public virtual User Customer { get; set; }
 
-    public virtual User Doctor { get; set; }
+    public virtual ICollection<MedicalRecordMedicine> MedicalRecordMedicines { get; set; } = new List<MedicalRecordMedicine>();
 }

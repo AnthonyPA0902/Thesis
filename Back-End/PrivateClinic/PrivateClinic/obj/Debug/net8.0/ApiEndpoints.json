@@ -306,6 +306,152 @@
     ]
   },
   {
+    "ContainingType": "PrivateClinic.Controllers.Admin.InfoController",
+    "Method": "GetUser",
+    "RelativePath": "api/admin/info/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.User",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.InfoController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/admin/info/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedUser",
+        "Type": "PrivateClinic.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicineController",
+    "Method": "GetAllMedicines",
+    "RelativePath": "api/admin/medicine",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicineController",
+    "Method": "AddMedicine",
+    "RelativePath": "api/admin/medicine",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "medicineDto",
+        "Type": "PrivateClinic.Dtos.MedicineDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.StatisticsController",
+    "Method": "GetMedicineUsagePercentage",
+    "RelativePath": "api/admin/medicine-usage",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicineController",
+    "Method": "GetMedicine",
+    "RelativePath": "api/admin/medicine/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.MedicineStorage",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicineController",
+    "Method": "EditMedicine",
+    "RelativePath": "api/admin/medicine/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "medicineDto",
+        "Type": "PrivateClinic.Dtos.MedicineDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicineController",
+    "Method": "DeleteMedicine",
+    "RelativePath": "api/admin/medicine/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.Admin.StatisticsController",
     "Method": "GetOrdersByDate",
     "RelativePath": "api/admin/orders-by-date",
@@ -313,6 +459,42 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.PatientController",
+    "Method": "GetAllPatients",
+    "RelativePath": "api/admin/patient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicalRecordController",
+    "Method": "GetAllRecords",
+    "RelativePath": "api/admin/record",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicalRecordController",
+    "Method": "CreateMedicalRecord",
+    "RelativePath": "api/admin/record",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "recordDto",
+        "Type": "PrivateClinic.Dtos.MedicalRecordWithMedicineDto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -431,6 +613,22 @@
     ]
   },
   {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
+    "Method": "UpdateScheduleCondition",
+    "RelativePath": "api/admin/schedule/condition/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.Admin.TreatmentController",
     "Method": "GetAllTreatments",
     "RelativePath": "api/admin/treatment",
@@ -459,8 +657,8 @@
         "IsRequired": false
       },
       {
-        "Name": "PriceId",
-        "Type": "System.Int32",
+        "Name": "Price",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {
@@ -478,19 +676,29 @@
   },
   {
     "ContainingType": "PrivateClinic.Controllers.Admin.TreatmentController",
-    "Method": "DeleteTreatment",
-    "RelativePath": "api/admin/treatment",
-    "HttpMethod": "DELETE",
+    "Method": "GetDoctor",
+    "RelativePath": "api/admin/treatment/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.User",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PrivateClinic.Controllers.Admin.TreatmentController",
@@ -516,8 +724,8 @@
         "IsRequired": false
       },
       {
-        "Name": "PriceId",
-        "Type": "System.Int32",
+        "Name": "Price",
+        "Type": "System.Double",
         "IsRequired": false
       },
       {
@@ -529,6 +737,22 @@
         "Name": "image",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.TreatmentController",
+    "Method": "DeleteTreatment",
+    "RelativePath": "api/admin/treatment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -686,6 +910,32 @@
         "Name": "user",
         "Type": "PrivateClinic.Models.User",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.ServiceController",
+    "Method": "GetTreatments",
+    "RelativePath": "api/service",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchTerm",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

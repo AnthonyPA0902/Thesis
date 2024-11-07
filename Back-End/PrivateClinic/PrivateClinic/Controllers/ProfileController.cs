@@ -47,7 +47,6 @@ namespace PrivateClinic.Controllers
 			var schedules = await _dbContext.ExaminitionAppointments
 					.Include(s => s.Doctor)
 					.Include(s => s.Treatment)
-					.ThenInclude(t => t.Price)
 					.Where(s => s.CustomerId == customerId)
 					.Select(schedule => new ScheduleDto
 					{
@@ -57,7 +56,7 @@ namespace PrivateClinic.Controllers
 						Email = schedule.Email,
 						Date = schedule.Date,
 						Status = schedule.Status,
-						Price = schedule.Treatment.Price.Price,
+						Price = schedule.Treatment.Price,
 						DoctorName = schedule.Doctor.Name,
 						TreatmentName = schedule.Treatment.Name,
 						TreatmentId = schedule.TreatmentId,
@@ -97,13 +96,13 @@ namespace PrivateClinic.Controllers
 
             if (sche == null)
             {
-				return Redirect("http://localhost:3000/appointment?payment=false");
+				return Redirect("http://localhost:3000/profile?payment=false");
 
 			}
 
             if (response == null || response.VnPayResponseCode != "00")
 			{
-				return Redirect("http://localhost:3000/appointment?payment=false");
+				return Redirect("http://localhost:3000/profile?payment=false");
 			}
 
 			sche.Status = "Đã Thanh Toán";
@@ -111,14 +110,13 @@ namespace PrivateClinic.Controllers
 			_dbContext.SaveChanges();
 
 			var treatment = await _dbContext.Treatments
-			.Include(t => t.Price)
 			.FirstOrDefaultAsync(t => t.Id == sche.TreatmentId);
 
 			var newOrder = new Order
 			{
 				CustomerName = sche.Name,
 				CustomerEmail = sche.Email,
-				Total = treatment.Price.Price,
+				Total = treatment.Price,
 				Date = sche.Date,
 				Method = "VnPay",
 				Status = "Đã Thanh Toán",
@@ -155,7 +153,7 @@ namespace PrivateClinic.Controllers
 			}
 
 
-			return Redirect("http://localhost:3000/appointment?payment=true");
+			return Redirect("http://localhost:3000/profile?payment=true");
 		}
 	}
 }

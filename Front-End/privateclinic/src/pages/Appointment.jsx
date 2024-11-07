@@ -34,6 +34,7 @@ const Appointment = () => {
         fetch("https://localhost:7157/api/admin/schedule")
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 setDoctors(data.doctors);
                 setTreatments(data.treatments);
             })

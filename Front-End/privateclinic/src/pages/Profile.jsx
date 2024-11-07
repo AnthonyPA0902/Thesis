@@ -29,6 +29,38 @@ const Profile = () => {
                     .catch((error) => console.error("Error fetching schedulé:", error));
             }
         }
+        // Check the 'payment' parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentStatus = urlParams.get('payment'); // Get the 'payment' param
+
+        if (paymentStatus) {
+            // If payment is successful
+            if (paymentStatus === 'true') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Payment Successful',
+                    text: 'Your payment has been successfully processed.',
+                    confirmButtonText: 'OK',
+                    timer: 5000, 
+                }).then(() => {
+                    window.history.pushState({}, '', window.location.pathname);
+                    window.location.reload(); // Refresh the page
+                });
+            }
+            // If payment failed
+            else if (paymentStatus === 'false') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Payment Unsuccessful',
+                    text: 'There was an issue with processing your payment.',
+                    confirmButtonText: 'OK',
+                    timer: 5000, 
+                }).then(() => {
+                    window.history.pushState({}, '', window.location.pathname);
+                    window.location.reload(); // Refresh the page
+                });
+            }
+        }
     }, []);
 
     const handleSubmit = (scheduleId, price) => {

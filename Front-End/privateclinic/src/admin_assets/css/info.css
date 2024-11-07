@@ -1,0 +1,83 @@
+.info-page {
+    margin-top: 50px;
+}
+
+/* Center the container vertically in the screen */
+.info-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Align to the top */
+    height: 100vh;
+}
+
+/* Form container using grid layout */
+.info-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns */
+    gap: 15px;
+    /* Space between grid items */
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    align-items: center;
+    /* Vertically center content within each grid item */
+    justify-items: center;
+    /* Horizontally center content within each grid item */
+}
+
+/* Style for grid labels */
+.info-form label {
+    margin-bottom: 5px;
+    /* Add space between label and input */
+    text-align: left;
+    /* Ensure labels are aligned left */
+    width: 100%;
+    /* Full width of the grid cell */
+}
+
+/* Style for grid inputs */
+.info-input {
+    width: 100%;
+    /* Make inputs take full width within the grid cell */
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    box-sizing: border-box;
+    /* Ensure padding doesn't affect width */
+}
+
+.info-form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    grid-column: span 2; /* Span across both columns */
+  }
+
+/* Button styling */
+.info-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: black;
+    background-color: #45a049;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-items: center;
+  }
+  
+  .info-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .info-button:hover:not(:disabled) {
+    background-color: #45a049;
+}

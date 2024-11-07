@@ -19,6 +19,25 @@ namespace PrivateClinic.Controllers.Admin
 		[HttpGet("schedule")]
 		public async Task<ActionResult> GetSchedulesInfo([FromQuery] string search = "")
 		{
+
+			var doctors = await _dbContext.Users
+				.Where(user => user.RoleId == 2) // Filter by RoleId
+				.Select(user => new UserDto
+				{
+					Id = user.Id,
+					Name = user.Name,
+					Phone = user.Phone
+				})
+				.ToListAsync();
+
+			var treatments = await _dbContext.Treatments
+				.Select(treatment => new TreatmentDto
+				{
+					Id = treatment.Id,
+					TreatmentName = treatment.Name
+				})
+				.ToListAsync();
+
 			var schedulesQuery = _dbContext.ExaminitionAppointments
 				.Include(s => s.Doctor)
 				.Include(s => s.Treatment)
@@ -37,11 +56,14 @@ namespace PrivateClinic.Controllers.Admin
 				Phone = schedule.Phone,
 				Email = schedule.Email,
 				Date = schedule.Date,
+				Condition = schedule.Condition,
+				DoctorId = schedule.DoctorId,  // Send doctorId
 				DoctorName = schedule.Doctor.Name,
+				TreatmentId = schedule.TreatmentId,
 				TreatmentName = schedule.Treatment.Name,
 			}).ToListAsync();
 
-			return Ok(new { success = true, Schedules = schedules });
+			return Ok(new { success = true, Doctors = doctors, Treatments = treatments, Schedules = schedules });
 		}
 
 		[HttpPost("schedule")]
@@ -66,6 +88,23 @@ namespace PrivateClinic.Controllers.Admin
 			await _dbContext.SaveChangesAsync();
 
 			return Ok(new { success = true, message = "Schedule updated successfully." });
+		}
+
+		[HttpPut("schedule/condition/{id}")]
+		public async Task<ActionResult> UpdateScheduleCondition(int id)
+		{
+			var schedule = await _dbContext.ExaminitionAppointments.FindAsync(id);
+			if (schedule == null)
+			{
+				return NotFound(new { success = false, message = "Schedule not found" });
+			}
+
+			schedule.Condition = "Đã Xếp Lịch"; // Update the condition
+
+			_dbContext.ExaminitionAppointments.Update(schedule);
+			await _dbContext.SaveChangesAsync();
+
+			return Ok(new { success = true, message = "Schedule condition updated successfully" });
 		}
 
 		[HttpGet("schedule/{id}")]

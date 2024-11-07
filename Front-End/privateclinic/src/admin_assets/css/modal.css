@@ -100,3 +100,18 @@ select {
     transition: background-color 0.3s ease; /* Smooth hover effect */
 }
 
+/* Style for the image preview */
+.image-preview-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.image-preview {
+    width: 200px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

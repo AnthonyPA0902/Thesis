@@ -87,5 +87,37 @@ namespace PrivateClinic.Controllers.Admin
 
 			return Ok(orderData);
 		}
+
+		[HttpGet("medicine-usage")]
+		public async Task<IActionResult> GetMedicineUsagePercentage()
+		{
+			// Get the total quantity of all medicines used
+			var totalQuantity = await _dbContext.MedicalRecordMedicines
+				.SumAsync(mr => mr.Quantity);
+
+			// Group by medicineId to calculate the total quantity for each medicine
+			var medicineUsage = await _dbContext.MedicalRecordMedicines
+				.GroupBy(mr => mr.MedicineId)
+				.Select(g => new
+				{
+					MedicineId = g.Key,
+					MedicineName = g.FirstOrDefault().Medicine.Name,  // Assuming a Medicine table with a MedicineName
+					TotalQuantity = g.Sum(mr => mr.Quantity),
+					PercentageUsed = (g.Sum(mr => mr.Quantity) * 100.0) / totalQuantity
+				})
+				.ToListAsync();
+
+			// Map the result to a DTO
+			var result = medicineUsage.Select(m => new MedicineUsageDto
+			{
+				MedicineId = m.MedicineId,
+				MedicineName = m.MedicineName,
+				TotalQuantity = m.TotalQuantity,
+				PercentageUsed = m.PercentageUsed
+			}).ToList();
+
+			return Ok(result);
+		}
+
 	}
 }

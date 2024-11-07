@@ -1,0 +1,133 @@
+/* General Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.popup-modal {
+    width: 90%;  /* Increase width of the modal */
+    max-width: 1000px;  /* Set a larger max width */
+    margin: 0 auto;
+    padding: 30px;  /* Increase padding inside the modal */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.flex-form {
+    display: flex;
+    gap: 30px;
+}
+
+/* Layout for Name, Date, and Description on the left */
+.left-side {
+    display: flex;
+    flex-direction: column;
+    flex: 1;  /* Take up the available space */
+}
+
+/* Layout for Medicine Select on the right */
+.right-side {
+    display: flex;
+    flex-direction: column;
+    flex: 1;  /* Take up the available space */
+}
+
+/* Increase input field size */
+input[type="text"], input[type="date"], textarea {
+    padding: 12px;  /* Increase padding for more space */
+    margin-bottom: 20px;  /* Increase space between form elements */
+    margin-right: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Layout for Name and Date on the same line */
+.input-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;  /* Increase spacing between input lines */
+    gap: 20px;
+}
+
+.input-line input {
+    width: 100%;  /* Adjust to 48% for input width */
+}
+
+.name-select {
+    width: 100%;
+    height: 50px;
+}
+
+.record-modal-button {
+    color: white;
+    padding: 15px 20px;  /* Increase button size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.record-modal-button:hover {
+    background-color: #0056b3;
+}
+
+/* Medicine Section Styles */
+.medicine-select-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.medicine-select-container select {
+    width: 200px;  /* Make the select box bigger */
+    margin-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.medicine-select-container input[type="number"] {
+    width: 80px;  /* Increase width for the number input */
+    padding: 12px;
+    margin-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.medicine-select-container button {
+    margin-left: 15px;
+    background-color: #dc3545;
+    padding: 12px 20px;  /* Increase button size */
+}
+
+.medicine-select-container button:hover {
+    background-color: #c82333;
+}
+
+/* Form layout */
+label {
+    font-weight: bold;
+    margin-bottom: 8px;  /* Increase margin for better spacing */
+}
+
+/* Modal footer */
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-top: 30px;  /* Increase space between form and footer */
+}

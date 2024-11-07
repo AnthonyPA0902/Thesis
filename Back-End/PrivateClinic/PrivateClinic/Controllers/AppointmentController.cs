@@ -28,8 +28,7 @@ namespace PrivateClinic.Controllers
 		[HttpGet("{treatmentId}")]
 		public async Task<ActionResult<decimal>> GetTreatmentPrice(int treatmentId)
 		{
-			var treatment = await _dbContext.Treatments
-				.Include(t => t.Price) 
+			var treatment = await _dbContext.Treatments 
 				.FirstOrDefaultAsync(t => t.Id == treatmentId);
 
 			if (treatment == null)
@@ -37,7 +36,7 @@ namespace PrivateClinic.Controllers
 				return BadRequest(new { success = false, message = "Cannot find price data." });
 			}
 
-			return Ok(new { success = true, result = treatment.Price.Price });
+			return Ok(new { success = true, result = treatment.Price });
 		}
 
 		[HttpPost("schedule")]
@@ -55,6 +54,7 @@ namespace PrivateClinic.Controllers
 				Email = schedule.Email,
 				Date = schedule.Date,
 				Status = "Chưa Thanh Toán",
+				Condition = "Chưa Xếp Lịch",
 				DoctorId = schedule.DoctorId,
 				CustomerId = schedule.CustomerId,
 				TreatmentId = schedule.TreatmentId

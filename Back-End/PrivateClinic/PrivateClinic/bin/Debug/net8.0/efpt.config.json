@@ -32,15 +32,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[MEDICAL_RECORD_MEDICINES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICINE_STORAGE]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[ORDER]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[ORDER_DETAILS]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[PRICE_LIST]",
          "ObjectType": 0
       },
       {
@@ -49,10 +49,6 @@
       },
       {
          "Name": "[dbo].[TREATMENT]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[TREATMENT_ORDER]",
          "ObjectType": 0
       },
       {

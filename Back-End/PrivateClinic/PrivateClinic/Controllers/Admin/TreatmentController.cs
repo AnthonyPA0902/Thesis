@@ -24,10 +24,10 @@ namespace PrivateClinic.Controllers.Admin
 
 			if (treatments == null || treatments.Count == 0)
 			{
-				return NotFound("No treatments found.");
+				return BadRequest(new { success = false, message = "No treatment found" });
 			}
 
-			return Ok(treatments);
+			return Ok(new { success = true, Treatments = treatments });
 		}
 
 		[HttpPost("treatment")]
@@ -48,14 +48,22 @@ namespace PrivateClinic.Controllers.Admin
 			{
 				Name = treatmentDto.Name,
 				Session = treatmentDto.Session,
-				PriceId = treatmentDto.PriceId,
+				Price = treatmentDto.Price,
 				Image = treatmentDto.Image
 			};
 
 			_dbContext.Treatments.Add(treatment);
 			await _dbContext.SaveChangesAsync();
 
-			return Ok(treatment);
+			return Ok(new { success = true, message = "Create treatment successfully" });
+		}
+
+
+		[HttpGet("treatment/{id}")]
+		public async Task<ActionResult<User>> GetDoctor(int id)
+		{
+			var treatment = await _dbContext.Treatments.FirstOrDefaultAsync(doc => doc.Id == id); ;
+			return Ok(new { success = true, Treatment = treatment });
 		}
 
 		[HttpPut("treatment/{id}")]
@@ -65,12 +73,12 @@ namespace PrivateClinic.Controllers.Admin
 
 			if (treatment == null)
 			{
-				return NotFound();
+				return BadRequest(new { success = false, message = "Treatment data is null." });
 			}
 
 			treatment.Name = treatmentDto.Name;
 			treatment.Session = treatmentDto.Session;
-			treatment.PriceId = treatmentDto.PriceId;
+			treatment.Price = treatmentDto.Price;
 
 			if (image != null && image.Length > 0)
 			{
@@ -83,23 +91,23 @@ namespace PrivateClinic.Controllers.Admin
 
 			await _dbContext.SaveChangesAsync();
 
-			return Ok(treatment);
+			return Ok(new { success = true, message = "Edit treatment successfully" });
 		}
 
-		[HttpDelete("treatment")]
+		[HttpDelete("treatment/{id}")]
 		public async Task<IActionResult> DeleteTreatment(int id)
 		{
 			var treatment = await _dbContext.Treatments.FindAsync(id);
 
 			if (treatment == null)
 			{
-				return NotFound($"Treatment with id {id} not found.");
+				return BadRequest(new { success = false, message = $"Treatment with id {id} not found." });
 			}
 
 			_dbContext.Treatments.Remove(treatment);
 			await _dbContext.SaveChangesAsync();
 
-			return NoContent(); 
+			return Ok(new { success = true, message = "Delete treatment successfully" });
 		}
 	}
 }

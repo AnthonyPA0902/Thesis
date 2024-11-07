@@ -31,9 +31,7 @@ public partial class User
 
     public virtual ICollection<ExaminitionAppointment> ExaminitionAppointmentDoctors { get; set; } = new List<ExaminitionAppointment>();
 
-    public virtual ICollection<MedicalRecord> MedicalRecordCustomers { get; set; } = new List<MedicalRecord>();
-
-    public virtual ICollection<MedicalRecord> MedicalRecordDoctors { get; set; } = new List<MedicalRecord>();
+    public virtual ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
 
     public virtual Role Role { get; set; }
 }
