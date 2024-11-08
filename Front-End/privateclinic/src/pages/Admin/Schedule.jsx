@@ -11,15 +11,16 @@ const Schedule = () => {
     const [currentPage, setCurrentPage] = useState(1); // For current page
     const [totalRecords, setTotalRecords] = useState(0); // Total records for pagination
     const [pageSize] = useState(5); // Page size for pagination (Fixed size)
+    const [selectedDate, setSelectedDate] = useState(""); // For the date filter
     const navigate = useNavigate(); // For navigation
 
     useEffect(() => {
-        // Fetch schedule data with pagination and search term
-        refetchScheduleData(searchTerm, currentPage, pageSize);
-    }, [currentPage, pageSize, searchTerm]); // Include searchTerm in the dependencies array
+        // Fetch schedule data with pagination, search term, and selected date
+        refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate);
+    }, [currentPage, pageSize, searchTerm, selectedDate]); // Include selectedDate in the dependencies array
 
-    const refetchScheduleData = (search = "", page = 1, pageSize = 5) => {
-        fetch(`https://localhost:7157/api/admin/schedule?search=${encodeURIComponent(search)}&page=${page}&pageSize=${pageSize}`)
+    const refetchScheduleData = (search = "", page = 1, pageSize = 5, date = "") => {
+        fetch(`https://localhost:7157/api/admin/schedule?search=${encodeURIComponent(search)}&page=${page}&pageSize=${pageSize}&date=${encodeURIComponent(date)}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -52,7 +53,7 @@ const Schedule = () => {
                 },
                 body: JSON.stringify(payload),
             })
-                .then(() => refetchScheduleData(searchTerm, currentPage, pageSize))
+                .then(() => refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate))
                 .catch((error) => console.error("Error editing schedule:", error));
         } else {
             fetch("https://localhost:7157/api/admin/schedule", {
@@ -62,16 +63,13 @@ const Schedule = () => {
                 },
                 body: JSON.stringify(payload),
             })
-                .then(() => refetchScheduleData(searchTerm, currentPage, pageSize))
+                .then(() => refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate))
                 .catch((error) => console.error("Error adding schedule:", error));
         }
         setIsModalOpen(false);
     };
 
-    const handleSearch = () => {
-        refetchScheduleData(searchTerm, currentPage, pageSize); // Fetch data based on search term
-    };
-
+    
     const handleCreateClick = () => {
         setEditingSchedule(null);
         setIsModalOpen(true);
@@ -109,9 +107,18 @@ const Schedule = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button onClick={handleSearch} className="search-button">
-                    <img src="/admin_assets/img/search-icon.png" alt="Search" className="search-icon" />
-                </button>
+
+                {/* Date filter input */}
+                <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => {
+                        setSelectedDate(e.target.value);
+                        setCurrentPage(1); // Reset to the first page whenever the date filter changes
+                    }}
+                    className="date-filter"
+                />
+
                 <table className="schedule-table">
                     <thead>
                         <tr>
@@ -122,6 +129,7 @@ const Schedule = () => {
                             <th>Ngày hẹn</th>
                             <th>Bác sĩ khám</th>
                             <th>Dịch vụ khám</th>
+                            <th>Trạng Thái</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -135,8 +143,11 @@ const Schedule = () => {
                                 <td>{schedule.date}</td>
                                 <td>{schedule.doctorName}</td>
                                 <td>{schedule.treatmentName}</td>
+                                <td style={{ fontWeight: '700', color: schedule.condition === "Đã Xếp Lịch" ? 'green' : schedule.condition === "Chưa Xếp Lịch" ? 'red' : 'black' }}>
+                                    {schedule.condition}
+                                </td>
                                 <td style={{ textAlign: 'center' }}>
-                                    <button style={{marginRight: '10px'}} onClick={() => handleEditClick(schedule.id)}>
+                                    <button style={{ marginRight: '10px' }} onClick={() => handleEditClick(schedule.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
                                     </button>
                                     {schedule.condition === "Chưa Xếp Lịch" && (

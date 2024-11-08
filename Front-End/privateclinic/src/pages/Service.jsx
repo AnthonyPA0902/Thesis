@@ -32,6 +32,11 @@ const Service = () => {
         fetchTreatments(); // Fetch treatments when the page is loaded or when currentPage or searchTerm changes
     }, [fetchTreatments]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
+
+
     const handlePagination = (page) => {
         if (page < 1 || page > totalPages) return; // Prevent out-of-bounds pagination
         setCurrentPage(page);

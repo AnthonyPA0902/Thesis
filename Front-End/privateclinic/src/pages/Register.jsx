@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import backgroundImage from '../assets/img/register-background.jpg';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [errors, setErrors] = useState({});
@@ -13,6 +14,8 @@ const Register = () => {
         username: '',
         password: '',
     });
+    const navigate = useNavigate(); // For navigation
+
 
     const handleInputChange = (e) => {
         setFormData({
@@ -85,6 +88,7 @@ const Register = () => {
                                 username: '',
                                 password: '',
                             });
+                            navigate('/login');
                         });
                     }
                     else {

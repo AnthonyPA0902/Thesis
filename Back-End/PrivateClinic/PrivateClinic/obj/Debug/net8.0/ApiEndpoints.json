@@ -63,6 +63,26 @@
   },
   {
     "ContainingType": "PrivateClinic.Controllers.Admin.StatisticsController",
+    "Method": "GetCounts",
+    "RelativePath": "api/admin/counts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Dtos.DashboardCountsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.StatisticsController",
     "Method": "GetDailyRevenue",
     "RelativePath": "api/admin/daily",
     "HttpMethod": "GET",
@@ -654,6 +674,11 @@
       {
         "Name": "pageSize",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "date",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

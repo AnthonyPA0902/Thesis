@@ -18,7 +18,12 @@ namespace PrivateClinic.Controllers.Admin
 		}
 
 		[HttpGet("schedule")]
-		public async Task<ActionResult> GetSchedulesInfo([FromQuery] string search = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
+		public async Task<ActionResult> GetSchedulesInfo(
+	[FromQuery] string search = "",
+	[FromQuery] int page = 1,
+	[FromQuery] int pageSize = 5,
+	[FromQuery] string date = "" // Add date parameter
+)
 		{
 			var doctors = await _dbContext.Users
 				.Where(user => user.RoleId == 2)
@@ -43,10 +48,21 @@ namespace PrivateClinic.Controllers.Admin
 				.Include(s => s.Treatment)
 				.Where(sche => sche.Status == "Đã Thanh Toán");
 
+			// Apply search filter for doctor's name
 			if (!string.IsNullOrEmpty(search))
 			{
 				schedulesQuery = schedulesQuery.Where(schedule =>
 					EF.Functions.Like(schedule.Doctor.Name, $"%{search}%"));
+			}
+
+			// Apply date filter if provided
+			if (!string.IsNullOrEmpty(date))
+			{
+				var parsedDate = DateOnly.TryParse(date, out var filterDate);
+				if (parsedDate)
+				{
+					schedulesQuery = schedulesQuery.Where(schedule => schedule.Date == filterDate); // Compare only the date part
+				}
 			}
 
 			// Pagination logic
@@ -71,6 +87,7 @@ namespace PrivateClinic.Controllers.Admin
 
 			return Ok(new { success = true, Doctors = doctors, Treatments = treatments, Schedules = schedules, TotalRecords = totalRecords });
 		}
+
 
 
 		[HttpPost("schedule")]

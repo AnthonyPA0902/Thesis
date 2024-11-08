@@ -10,6 +10,7 @@ const Medicine = () => {
     const [selectedMedicine, setSelectedMedicine] = useState(null);
     const [page, setPage] = useState(1); // Pagination state
     const [pageSize] = useState(10); // Number of items per page
+    const [totalMedicines, setTotalMedicines] = useState(0);
 
     // Move the function declaration here to avoid the ESLint warning
     const fetchMedicines = useCallback(async () => {
@@ -20,6 +21,8 @@ const Medicine = () => {
                 setMedicines(data.medicines);
                 setUniqueMedicines(getUniqueMedicines(data.medicines)); // Get unique medicine names
                 setFilteredMedicines(data.medicines); // Initialize filtered medicines
+                setTotalMedicines(data.totalMedicines);; // Set total medicines from response
+                console.log(data.totalMedicines);
             } else {
                 alert("No medicines found.");
             }
@@ -114,6 +117,8 @@ const Medicine = () => {
         fetchMedicines();
     }, [fetchMedicines, page]); // Add fetchMedicines to the dependency array
 
+    const totalPage = Math.ceil(totalMedicines / pageSize);
+
     return (
         <div className="medicine-container">
             <h2>Kho Thuốc</h2>
@@ -124,7 +129,7 @@ const Medicine = () => {
             {/* Dropdown for selecting unique medicine names */}
             <div className="medicine-filter">
                 <select onChange={handleFilterChange}>
-                    <option value="">All Medicines</option>
+                    <option value="">Tất Cả Thuốc</option>
                     {uniqueMedicines.map((name, index) => (
                         <option key={index} value={name}>{name}</option>
                     ))}
@@ -146,7 +151,7 @@ const Medicine = () => {
             <div className="medicine-pagination">
                 <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
                 <span>Page {page}</span>
-                <button onClick={() => handlePageChange(page + 1)}>Next</button>
+                <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Next</button>
             </div>
 
             {/* Medicine Modal */}

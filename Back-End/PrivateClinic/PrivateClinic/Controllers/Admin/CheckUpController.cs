@@ -51,7 +51,8 @@ namespace PrivateClinic.Controllers.Admin
 						EndTime = checkup.EndTime,
 						Room = checkup.Room,
 						DoctorName = checkup.Doctor.Name,
-						TreatmentName = checkup.Treatment.Name 
+						TreatmentName = checkup.Treatment.Name,
+						DoctorId = checkup.Doctor.Id,
 					})
 					.ToListAsync();
 

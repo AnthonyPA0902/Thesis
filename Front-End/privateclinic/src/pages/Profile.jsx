@@ -14,7 +14,7 @@ const Profile = () => {
     const [showPopup, setShowPopup] = useState(false);  // State to control popup visibility
     const [selectedRecord, setSelectedRecord] = useState(null); // State to store the selected record
     const rowsPerPage = 5; // Number of rows to display per page
-    const rowsInPage = 1; // Number of rows to display per page
+    const rowsInPage = 4; // Number of rows to display per page
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");

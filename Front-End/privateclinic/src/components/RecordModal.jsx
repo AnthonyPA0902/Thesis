@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../admin_assets/css/recordmodal.module.css';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const RecordModal = ({ isOpen, onClose, onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -87,11 +88,21 @@ const RecordModal = ({ isOpen, onClose, onSubmit }) => {
 
             const result = await response.json();
             if (result.success) {
-                alert('Medical Record Created Successfully');
+                 // Replace alert with SweetAlert2 success message
+                 Swal.fire({
+                    icon: 'success',
+                    title: 'Tạo Hồ Sơ Khám Bệnh Thành Công',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
                 onSubmit(result); // Call the parent handler to update the list or perform other actions
                 onClose(); // Close the modal
             } else {
-                alert(result.message || 'Failed to create the record');
+                Swal.fire({
+                    icon: 'error',
+                    title: result.message || 'Failed to create the record',
+                    showConfirmButton: true,
+                });
             }
         } catch (error) {
             console.error('Error submitting the record:', error);

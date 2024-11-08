@@ -119,5 +119,24 @@ namespace PrivateClinic.Controllers.Admin
 			return Ok(result);
 		}
 
+		[HttpGet("counts")]
+		public async Task<ActionResult<DashboardCountsDto>> GetCounts()
+		{
+			var doctorCount = await _dbContext.Users.CountAsync(u => u.RoleId == 1);
+			var patientCount = await _dbContext.Users.CountAsync(u => u.RoleId == 2);
+			var medicineCount = await _dbContext.MedicineStorages.CountAsync();
+			var equipmentCount = await _dbContext.Equipment.CountAsync();
+
+			var countsDto = new DashboardCountsDto
+			{
+				DoctorCount = doctorCount,
+				PatientCount = patientCount,
+				MedicineCount = medicineCount,
+				EquipmentCount = equipmentCount
+			};
+
+			return Ok(countsDto);
+		}
+
 	}
 }

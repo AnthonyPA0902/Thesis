@@ -1,10 +1,27 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Dashboard = () => {
 	const pieChartRef = useRef(null); // Ref for pie chart
 	const lineChartRef = useRef(null); // Ref for line chart
 	const barChartRef = useRef(null); // Ref for bar chart
 	const doughnutChartRef = useRef(null); // Ref for doughnut chart
+
+	const [counts, setCounts] = useState({ doctorCount: 0, patientCount: 0, medicineCount: 0, equipmentCount: 0 });
+
+	useEffect(() => {
+        // Fetch counts data
+        fetch("https://localhost:7157/api/admin/counts")
+            .then(response => response.json())
+            .then(data => {
+                setCounts({
+                    doctorCount: data.doctorCount,
+                    patientCount: data.patientCount,
+                    medicineCount: data.medicineCount,
+                    equipmentCount: data.equipmentCount
+                });
+            })
+            .catch(error => console.error("Error fetching dashboard counts:", error));
+    }, []);
 
 
 	useEffect(() => {
@@ -106,8 +123,8 @@ const Dashboard = () => {
 									ticks: {
 										beginAtZero: true,
 										min: 0,
-										max: 5000000,
-										stepSize: 500000
+										max: 10000000,
+										stepSize: 1000000
 									}
 								}]
 							}
@@ -195,7 +212,13 @@ const Dashboard = () => {
 							labels: labels,
 							datasets: [{
 								data: percentages,
-								backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FFFF33'],  // Color array for each slice
+								backgroundColor: [
+									'#FF5733', '#33FF57', '#3357FF', '#FFFF33', // Original colors
+									'#FF33A8', '#33FFF9', '#FF8C33', '#8CFF33', '#FF3333', '#FF9933',
+									'#33FF99', '#9933FF', '#33A8FF', '#FFC733', '#33FF33', '#B833FF',
+									'#FF33C7', '#33FFA8', '#FFB833', '#A8FF33', '#33FF6B', '#33FFBB',
+									'#5733FF', '#FF3357', '#33C7FF' // New colors
+								  ]								  
 							}]
 						},
 						options: {
@@ -243,8 +266,8 @@ const Dashboard = () => {
 						<div className="dash-widget">
 							<span className="dash-widget-bg1"><i className="fa fa-stethoscope" aria-hidden="true"></i></span>
 							<div className="dash-widget-info text-right">
-								<h3>98</h3>
-								<span className="widget-title1">Doctors <i className="fa fa-check" aria-hidden="true"></i></span>
+								<h3>{counts.doctorCount}</h3>
+								<span className="widget-title1">Bác Sĩ <i className="fa fa-check" aria-hidden="true"></i></span>
 							</div>
 						</div>
 					</div>
@@ -252,8 +275,8 @@ const Dashboard = () => {
 						<div className="dash-widget">
 							<span className="dash-widget-bg2"><i className="fa fa-user-o"></i></span>
 							<div className="dash-widget-info text-right">
-								<h3>1072</h3>
-								<span className="widget-title2">Patients <i className="fa fa-check" aria-hidden="true"></i></span>
+								<h3>{counts.patientCount}</h3>
+								<span className="widget-title2">Bệnh Nhân <i className="fa fa-check" aria-hidden="true"></i></span>
 							</div>
 						</div>
 					</div>
@@ -261,8 +284,8 @@ const Dashboard = () => {
 						<div className="dash-widget">
 							<span className="dash-widget-bg3"><i className="fa fa-user-md" aria-hidden="true"></i></span>
 							<div className="dash-widget-info text-right">
-								<h3>72</h3>
-								<span className="widget-title3">Attend <i className="fa fa-check" aria-hidden="true"></i></span>
+								<h3>{counts.medicineCount}</h3>
+								<span className="widget-title3">Thuốc <i className="fa fa-check" aria-hidden="true"></i></span>
 							</div>
 						</div>
 					</div>
@@ -270,8 +293,8 @@ const Dashboard = () => {
 						<div className="dash-widget">
 							<span className="dash-widget-bg4"><i className="fa fa-heartbeat" aria-hidden="true"></i></span>
 							<div className="dash-widget-info text-right">
-								<h3>618</h3>
-								<span className="widget-title4">Pending <i className="fa fa-check" aria-hidden="true"></i></span>
+								<h3>{counts.equipmentCount}</h3>
+								<span className="widget-title4">Thiết Bị <i className="fa fa-check" aria-hidden="true"></i></span>
 							</div>
 						</div>
 					</div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../../admin_assets/css/checkup.css';
@@ -25,10 +26,11 @@ const CheckUp = () => {
     }, [location]);
 
     useEffect(() => {
-                fetch("https://localhost:7157/api/admin/checkup")
+        fetch("https://localhost:7157/api/admin/checkup")
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.checkups)) {
+                    console.log(data.checkups);
                     setCheckups(data.checkups);
                 } else {
                     setCheckups([]);
@@ -44,7 +46,51 @@ const CheckUp = () => {
         }
     }, [flag, passedScheduleData]);
 
+    const hasTimeConflict = (doctorId, date, startTime, endTime) => {
+        return checkups.some(checkup => {
+
+            // Check if it's the same doctor and on the same date
+            if (checkup.doctorId === doctorId && checkup.appointmentDate === date) {
+                const existingStartTime = new Date(`${checkup.appointmentDate}T${checkup.startTime}`);
+                const existingEndTime = new Date(`${checkup.appointmentDate}T${checkup.endTime}`);
+                const newStartTime = new Date(`${date}T${startTime}`);
+                const newEndTime = new Date(`${date}T${endTime}`);
+
+                // Check if times overlap
+                return (newStartTime < existingEndTime && newEndTime > existingStartTime);
+            }
+            return false;
+        });
+    };
+
     const handleAddCheckup = (checkupData) => {
+        const doctorId = checkupData.doctorId;
+        const date = checkupData.date;
+        const startTime = checkupData.startTime;
+        const endTime = checkupData.endTime;
+
+        console.log(hasTimeConflict(parseInt(doctorId), date, `${startTime}:00`, `${endTime}:00`));
+
+        // Check for time conflicts
+        if (hasTimeConflict(parseInt(doctorId), date, `${startTime}:00`, `${endTime}:00`)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Bác sĩ đã có lịch vào thời gian đó',
+            });
+            return;
+        }
+
+        // New validation to check if start time is later than end time
+        if (new Date(`${date}T${startTime}:00`) > new Date(`${date}T${endTime}:00`)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thời gian bắt đầu không thể lớn hơn thời gian kết thúc.',
+            });
+            return;
+        }
+
         const formattedStartTime = `${checkupData.startTime}:00`;
         const formattedEndTime = `${checkupData.endTime}:00`;
 
@@ -58,40 +104,40 @@ const CheckUp = () => {
             doctorId: parseInt(checkupData.doctorId),
             treatmentId: parseInt(checkupData.treatmentId)
         };
-        
+
         fetch("https://localhost:7157/api/admin/checkup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success === true) {
-                if (passedScheduleData) {
-                    fetch(`https://localhost:7157/api/admin/schedule/condition/${passedScheduleData.id}`, {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload),
-                    })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success === true) {
+                    if (passedScheduleData) {
+                        fetch(`https://localhost:7157/api/admin/schedule/condition/${passedScheduleData.id}`, {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload),
+                        })
+                    }
+                    setPassedScheduleData(null);
+                    setIsModalOpen(false);
+                    refetchCheckUpData();
+                    setFlag(false);
                 }
-                setPassedScheduleData(null);
-                setIsModalOpen(false);
-                refetchCheckUpData();
-                setFlag(false);
-            }
-        })
-        .catch((error) => console.error("Error adding checkup:", error));
+            })
+            .catch((error) => console.error("Error adding checkup:", error));
     };
 
     const refetchCheckUpData = () => {
         fetch("https://localhost:7157/api/admin/checkup")
-        .then((response) => response.json())
-        .then((updatedData) => {
-            if (Array.isArray(updatedData.checkups)) {
-                setCheckups(updatedData.checkups);
-            }
-        })
-        .catch((error) => console.error("Error fetching updated schedule:", error));
+            .then((response) => response.json())
+            .then((updatedData) => {
+                if (Array.isArray(updatedData.checkups)) {
+                    setCheckups(updatedData.checkups);
+                }
+            })
+            .catch((error) => console.error("Error fetching updated schedule:", error));
     };
 
     // Map checkups to events for the calendar
@@ -125,8 +171,6 @@ const CheckUp = () => {
                 </button>
                 <br />
                 <br />
-                <input type="text" placeholder="Search by Phone Number" className="search-bar" />
-
                 <Calendar
                     localizer={localizer}
                     events={events}

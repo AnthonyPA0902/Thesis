@@ -57,8 +57,8 @@ const Appointment = () => {
     
         if (!token) {
             Swal.fire({
-                title: 'You need to login!',
-                text: 'Please login to set an appointment.',
+                title: 'Bạn cần phải có tài khoản!',
+                text: 'Hãy đăng nhập để có thể xếp lịch hẹn.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Login',
@@ -107,13 +107,13 @@ const Appointment = () => {
                 Swal.fire({
                     title: 'Xác Nhận Thông Tin Lịch Hẹn',
                     html: `
-                        <strong>Name:</strong> ${formData.name}<br>
+                        <strong>Họ Tên:</strong> ${formData.name}<br>
                         <strong>Email:</strong> ${formData.email}<br>
-                        <strong>Phone:</strong> ${formData.phone}<br>
-                        <strong>Date:</strong> ${formData.date}<br>
-                        <strong>Doctor:</strong> ${selectedDoctor ? selectedDoctor.name : 'N/A'}<br>
-                        <strong>Treatment:</strong> ${selectedTreatment ? selectedTreatment.treatmentName : 'N/A'}<br>
-                        <strong>Price:</strong> ${fetchedPrice} VND
+                        <strong>Số Điện Thoại:</strong> ${formData.phone}<br>
+                        <strong>Ngày Tháng:</strong> ${formData.date}<br>
+                        <strong>Bác Sĩ:</strong> ${selectedDoctor ? selectedDoctor.name : 'N/A'}<br>
+                        <strong>Liệu Trình:</strong> ${selectedTreatment ? selectedTreatment.treatmentName : 'N/A'}<br>
+                        <strong>Gía tiền:</strong> ${fetchedPrice} VND
                     `,
                     showCancelButton: true,
                     confirmButtonText: 'XÁC NHẬN',
@@ -184,7 +184,6 @@ const Appointment = () => {
                                     className="form-select"
                                     value={formData.doctorId}
                                     onChange={handleInputChange}
-                                    required
                                 >
                                     <option value="">Chọn bác sĩ</option>
                                     {doctors.map((doctor) => (
@@ -200,7 +199,6 @@ const Appointment = () => {
                                     className="form-select"
                                     value={formData.treatmentId}
                                     onChange={handleInputChange}
-                                    required
                                 >
                                     <option value="">Chọn dịch vụ</option>
                                     {treatments.map((treatment) => (

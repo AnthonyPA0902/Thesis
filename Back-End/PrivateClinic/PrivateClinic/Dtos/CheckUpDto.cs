@@ -11,5 +11,6 @@
 		public string Room { get; set; }
 		public string DoctorName { get; set; }
 		public string TreatmentName { get; set; }
+		public int DoctorId { get; set; }
 	}
 }

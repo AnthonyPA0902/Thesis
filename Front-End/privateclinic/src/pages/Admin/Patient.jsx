@@ -83,8 +83,13 @@ const Patient = () => {
                 patient.id === updatedPatient.id ? updatedPatient : patient
             )
         );
+        
+        setFilteredPatients((prevFilteredPatients) =>
+            prevFilteredPatients.map((patient) =>
+                patient.id === updatedPatient.id ? updatedPatient : patient
+            )
+        );
     };
-
     const toggleExpanded = (patientId) => {
         setExpanded(expanded === patientId ? null : patientId);
     };
