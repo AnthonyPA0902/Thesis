@@ -30,6 +30,7 @@ namespace PrivateClinic.Controllers.Admin
 					Id = mr.Id,
 					Description = mr.Description,
 					RecordDate = mr.RecordDate,
+					CustomerId = mr.CustomerId,
 					CustomerName = mr.Customer.Name, // Assuming Customer has a Name property
 					Medicines = mr.MedicalRecordMedicines.Select(mmr => new MedicineStorageDto
 					{

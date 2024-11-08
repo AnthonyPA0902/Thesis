@@ -20,25 +20,37 @@ namespace PrivateClinic.Controllers.Admin
 		}
 
 		[HttpGet("doctor")]
-		public async Task<ActionResult> GetDoctors()
+		public async Task<ActionResult> GetDoctors(int page = 1, int pageSize = 5)
 		{
-			var doctors = await _dbContext.Users
-					.Where(user => user.RoleId == 2)
-					.Select(doctor => new DoctorDto
-					{
-						Id = doctor.Id,
-						Name = doctor.Name,
-						Age = doctor.Age,
-						Address = doctor.Address,
-						Email = doctor.Email,
-						Phone = doctor.Phone,
-						Username = doctor.Username,
-						Password = doctor.Password,
-						RoleId = doctor.RoleId,		
-					})
-					.ToListAsync();
+			var doctorsQuery = _dbContext.Users
+				.Where(user => user.RoleId == 2)
+				.Select(doctor => new DoctorDto
+				{
+					Id = doctor.Id,
+					Name = doctor.Name,
+					Age = doctor.Age,
+					Address = doctor.Address,
+					Email = doctor.Email,
+					Phone = doctor.Phone,
+					Username = doctor.Username,
+					Password = doctor.Password,
+					RoleId = doctor.RoleId,
+				});
 
-			return Ok(new { success = true, Doctors = doctors });
+			var totalDoctors = await doctorsQuery.CountAsync();
+			var doctors = await doctorsQuery
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			return Ok(new
+			{
+				success = true,
+				Doctors = doctors,
+				TotalCount = totalDoctors,
+				PageSize = pageSize,
+				CurrentPage = page
+			});
 		}
 
 

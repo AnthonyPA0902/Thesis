@@ -82,6 +82,15 @@ const Login = () => {
                     });
                 } else {
                     setError(data.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tài Khoản Chưa Được Đăng Ký',
+                        text: 'Chuyển hướng tới đăng ký...',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        navigate('/register');
+                    });
                 }
             });
         } catch (error) {

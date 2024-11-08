@@ -47,7 +47,7 @@
 }
 
 /* Increase input field size */
-input[type="text"], input[type="date"], textarea {
+input[type="date"], textarea {
     padding: 12px;  /* Increase padding for more space */
     margin-bottom: 20px;  /* Increase space between form elements */
     margin-right: 30px;

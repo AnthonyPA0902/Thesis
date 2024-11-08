@@ -18,17 +18,39 @@ namespace PrivateClinic.Controllers.Admin
 		}
 
 		[HttpGet("treatment")]
-		public async Task<IActionResult> GetAllTreatments()
+		public async Task<IActionResult> GetAllTreatments(int page = 1, int pageSize = 3, string search = "")
 		{
-			var treatments = await _dbContext.Treatments.ToListAsync();
+			var query = _dbContext.Treatments.AsQueryable();
+
+			// Apply search filter
+			if (!string.IsNullOrEmpty(search))
+			{
+				query = query.Where(t => t.Name.Contains(search));
+			}
+
+			// Apply pagination
+			var treatments = await query
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			var totalTreatments = await query.CountAsync();
+			var totalPages = (int)Math.Ceiling((double)totalTreatments / pageSize);
 
 			if (treatments == null || treatments.Count == 0)
 			{
 				return BadRequest(new { success = false, message = "No treatment found" });
 			}
 
-			return Ok(new { success = true, Treatments = treatments });
+			return Ok(new
+			{
+				success = true,
+				treatments,
+				totalPages,
+				currentPage = page
+			});
 		}
+
 
 		[HttpPost("treatment")]
 		public async Task<IActionResult> AddTreatment([FromForm] TheTreatmentDto treatmentDto, IFormFile image)

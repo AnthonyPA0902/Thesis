@@ -30,6 +30,39 @@ namespace PrivateClinic.Controllers.Admin
 			return Ok(new { success = true, Medicines = medicines });
 		}
 
+
+		[HttpGet("medicine/query")]
+		public async Task<IActionResult> GetAllMedicines(int page = 1, int pageSize = 10, string filter = "")
+		{
+			// Get unique medicine names
+			var uniqueMedicineNames = await _dbContext.MedicineStorages
+				.Where(m => string.IsNullOrEmpty(filter) || m.Name.Contains(filter)) // Filter by name if provided
+				.Select(m => m.Name)
+				.Distinct()
+				.ToListAsync();
+
+			// Pagination: Get medicines based on the current page
+			var medicines = await _dbContext.MedicineStorages
+				.Where(m => string.IsNullOrEmpty(filter) || m.Name.Contains(filter))
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			if (medicines == null || medicines.Count == 0)
+			{
+				return BadRequest(new { success = false, message = "No medicine found" });
+			}
+
+			return Ok(new
+			{
+				success = true,
+				medicines = medicines,
+				uniqueMedicineNames = uniqueMedicineNames, // Return the list of unique medicine names
+				totalMedicines = await _dbContext.MedicineStorages.CountAsync() // Return the total count for pagination
+			});
+		}
+
+
 		[HttpPost("medicine")]
 		public async Task<IActionResult> AddMedicine([FromBody] MedicineDto medicineDto)
 		{

@@ -3,29 +3,37 @@ import '../../admin_assets/css/schedule.css';
 import TreatmentModal from '../../components/TreatmentModal';
 import Swal from 'sweetalert2';
 
-// Treatment Component
 const Treatment = () => {
     const [treatment, setTreatment] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);  // Add state to store totalPages
+    const [currentPage, setCurrentPage] = useState(1);  // Track the current page
+    const [searchTerm, setSearchTerm] = useState('');  // Store the search term
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTreatment, setEditingTreatment] = useState(null);
+    const treatmentsPerPage = 3;  // Same value used in the backend
 
+    // Fetch treatments with pagination and search functionality
     useEffect(() => {
-        fetch("https://localhost:7157/api/admin/treatment")
+        fetchTreatments(currentPage, searchTerm);
+    }, [currentPage, searchTerm]); // Re-fetch when page or search term changes
+
+    const fetchTreatments = (page, search) => {
+        const searchParam = search ? `&search=${search}` : '';  // Add search term to query string
+        fetch(`https://localhost:7157/api/admin/treatment?page=${page}&pageSize=${treatmentsPerPage}${searchParam}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                if (Array.isArray(data.treatments)) {
+                if (data.success) {
                     setTreatment(data.treatments);
+                    setTotalPages(data.totalPages);  // Set total pages from API response
                 } else {
                     setTreatment([]);
+                    setTotalPages(1);  // If no treatments, set total pages to 1
                 }
             })
             .catch((error) => console.error("Error fetching treatments:", error));
-    }, []);
+    };
 
     const handleAddTreatment = (treatmentData) => {
-        console.log("Submitting treatment data:", treatmentData);
-
         const formData = new FormData();
         formData.append("name", treatmentData.name);
         formData.append("session", treatmentData.session);
@@ -51,16 +59,8 @@ const Treatment = () => {
         setIsModalOpen(false);
     };
 
-
     const refetchTreatmentData = () => {
-        fetch("https://localhost:7157/api/admin/treatment")
-            .then((response) => response.json())
-            .then((updatedData) => {
-                if (Array.isArray(updatedData.treatments)) {
-                    setTreatment(updatedData.treatments);
-                }
-            })
-            .catch((error) => console.error("Error fetching updated treatment:", error));
+        fetchTreatments(currentPage, searchTerm); // Re-fetch data after adding/editing
     };
 
     const handleCreateClick = () => {
@@ -104,7 +104,15 @@ const Treatment = () => {
                                 'Treatment has been deleted.',
                                 'success'
                             );
-                            refetchTreatmentData();
+                            // Optimistically update state by removing the deleted treatment from the list
+                            setTreatment(prevTreatments => prevTreatments.filter(t => t.id !== treatmentId));
+
+                            // Check if the current page has treatments left; if not, load the previous page
+                            if (treatment.length === 1 && currentPage > 1) {
+                                setCurrentPage(currentPage - 1); // Go to the previous page if the last treatment is deleted
+                            } else {
+                                refetchTreatmentData(); // Otherwise, just refresh the data
+                            }
                         }
                     })
                     .catch((error) => {
@@ -119,6 +127,14 @@ const Treatment = () => {
         });
     };
 
+    const handleSearchChange = (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        setSearchTerm(searchTerm);
+        setCurrentPage(1); // Reset to first page when search changes
+    };
+
+    // Change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div className="content">
@@ -129,7 +145,13 @@ const Treatment = () => {
                 </button>
                 <br />
                 <br />
-                <input type="text" placeholder="Tìm kiếm theo tên liệu trình" className="search-bar" />
+                <input
+                    type="text"
+                    placeholder="Tìm kiếm theo tên liệu trình"
+                    className="search-bar"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
                 <table className="treatment-table">
                     <thead>
                         <tr>
@@ -144,7 +166,7 @@ const Treatment = () => {
                     <tbody>
                         {Array.isArray(treatment) && treatment.map((treatment, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
+                                <td>{index + 1 + (currentPage - 1) * treatmentsPerPage}</td>
                                 <td>{treatment.name}</td>
                                 <td>{treatment.session}</td>
                                 <td>{treatment.price}</td>
@@ -157,11 +179,33 @@ const Treatment = () => {
                                         />
                                     )}
                                 </td>
-                                <td style={{ textAlign: 'center' }}><button onClick={() => handleEditClick(treatment.id)}><img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" /></button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<button onClick={() => handleDeleteClick(treatment.id)}><img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" /></button></td>
+                                <td style={{ textAlign: 'center' }}>
+                                    <button onClick={() => handleEditClick(treatment.id)}>
+                                        <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
+                                    </button>
+                                    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                    <button onClick={() => handleDeleteClick(treatment.id)}>
+                                        <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+
+                {/* Pagination Controls */}
+                <div className="pagination">
+                    {totalPages > 1 && Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            onClick={() => paginate(index + 1)}
+                            className={currentPage === index + 1 ? "active" : ""}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
+
                 <TreatmentModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}

@@ -179,7 +179,7 @@ const Dashboard = () => {
 				.then(data => {
 					console.log(data);
 					const labels = data.map(item => item.medicineName);
-					const percentages = data.map(item => item.percentageUsed);
+								const percentages = data.map(item => Math.ceil(item.percentageUsed));
 
 					const ctx = document.getElementById("doughnutChart").getContext("2d");
 
@@ -207,7 +207,7 @@ const Dashboard = () => {
 								tooltip: {
 									callbacks: {
 										label: function (tooltipItem) {
-											return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+											return tooltipItem.label + ':' +  Math.ceil(tooltipItem.raw) + '%';
 										}
 									}
 								}

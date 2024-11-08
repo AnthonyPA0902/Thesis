@@ -1,60 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import ScheduleModal from '../../components/ScheduleModal';
-// import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom'; // Import for navigation
-
-
+import { useNavigate } from 'react-router-dom';
 
 const Schedule = () => {
-    const [schedule, setSchedule] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingSchedule, setEditingSchedule] = useState(null);
-    const [searchTerm, setSearchTerm] = useState(""); // State for the search input
-    const navigate = useNavigate(); // Initialize navigate
-
+    const [schedule, setSchedule] = useState([]); // Schedule data state
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
+    const [editingSchedule, setEditingSchedule] = useState(null); // For editing a schedule
+    const [searchTerm, setSearchTerm] = useState(""); // For search input
+    const [currentPage, setCurrentPage] = useState(1); // For current page
+    const [totalRecords, setTotalRecords] = useState(0); // Total records for pagination
+    const [pageSize] = useState(5); // Page size for pagination (Fixed size)
+    const navigate = useNavigate(); // For navigation
 
     useEffect(() => {
-        fetch("https://localhost:7157/api/admin/schedule")
+        // Fetch schedule data with pagination and search term
+        refetchScheduleData(searchTerm, currentPage, pageSize);
+    }, [currentPage, pageSize, searchTerm]); // Include searchTerm in the dependencies array
+
+    const refetchScheduleData = (search = "", page = 1, pageSize = 5) => {
+        fetch(`https://localhost:7157/api/admin/schedule?search=${encodeURIComponent(search)}&page=${page}&pageSize=${pageSize}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                if (Array.isArray(data.schedules)) {
+                if (data.success) {
                     setSchedule(data.schedules);
-                } else {
-                    setSchedule([]);
+                    setTotalRecords(data.totalRecords);
                 }
             })
-            .catch((error) => console.error("Error fetching schedulé:", error));
-    }, []);
-
-    const handleCheckupClick = (scheduleData) => {
-        navigate('/admin/checkup', { state: { scheduleData } }); // Pass data to CheckUp page
+            .catch((error) => console.error("Error fetching updated schedule:", error));
     };
 
+    const handleCheckupClick = (scheduleData) => {
+        navigate('/admin/checkup', { state: { scheduleData } });
+    };
 
     const handleAddSchedule = (scheduleData) => {
-        console.log("Submitting schedule data:", scheduleData);
-
         const payload = {
             name: scheduleData.name,
             phone: scheduleData.phone,
             email: scheduleData.email,
             date: scheduleData.date,
             doctorId: parseInt(scheduleData.doctorId),
-            treatmentId: parseInt(scheduleData.treatmentId)
+            treatmentId: parseInt(scheduleData.treatmentId),
         };
 
         if (editingSchedule) {
             fetch(`https://localhost:7157/api/admin/schedule/${editingSchedule.id}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(payload),
             })
-                .then((response) => response.json())
-                .then(() => refetchScheduleData())
+                .then(() => refetchScheduleData(searchTerm, currentPage, pageSize))
                 .catch((error) => console.error("Error editing schedule:", error));
         } else {
             fetch("https://localhost:7157/api/admin/schedule", {
@@ -64,28 +62,15 @@ const Schedule = () => {
                 },
                 body: JSON.stringify(payload),
             })
-                .then((response) => response.json())
-                .then(() => refetchScheduleData())
-                .catch((error) => console.error("Error updating schedule:", error));
+                .then(() => refetchScheduleData(searchTerm, currentPage, pageSize))
+                .catch((error) => console.error("Error adding schedule:", error));
         }
         setIsModalOpen(false);
     };
 
-    const refetchScheduleData = (search = "") => {
-        fetch(`https://localhost:7157/api/admin/schedule?search=${encodeURIComponent(search)}`)
-            .then((response) => response.json())
-            .then((updatedData) => {
-                if (Array.isArray(updatedData.schedules)) {
-                    setSchedule(updatedData.schedules);
-                }
-            })
-            .catch((error) => console.error("Error fetching updated schedule:", error));
-    };
-
     const handleSearch = () => {
-        refetchScheduleData(searchTerm); // Fetch data based on search term
+        refetchScheduleData(searchTerm, currentPage, pageSize); // Fetch data based on search term
     };
-
 
     const handleCreateClick = () => {
         setEditingSchedule(null);
@@ -102,49 +87,11 @@ const Schedule = () => {
             .catch((error) => console.error("Error fetching schedule:", error));
     };
 
-    
-    // const handleDeleteClick = (scheduleId) => {
-    //     // Show SweetAlert2 confirmation dialog
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: "Do you really want to delete this schedule?",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Delete',
-    //         cancelButtonText: 'Cancel'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
-    //                 method: 'DELETE',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 }
-    //             })
-    //                 .then((response) => response.json())
-    //                 .then((data) => {
-    //                     if (data.success) {
-    //                         Swal.fire(
-    //                             'Deleted!',
-    //                             'Schedule has been deleted.',
-    //                             'success'
-    //                         );
-    //                         refetchScheduleData();
-    //                     }
-    //                 })
-    //                 .catch((error) => {
-    //                     Swal.fire(
-    //                         'Error!',
-    //                         'There was a problem deleting the schedule.',
-    //                         'error'
-    //                     );
-    //                     console.error('Error deleting schedule:', error);
-    //                 });
-    //         }
-    //     });
-    // };
+    const handlePaginationClick = (page) => {
+        setCurrentPage(page);
+    };
 
+    const totalPages = Math.ceil(totalRecords / pageSize); // Total number of pages
 
     return (
         <div className="content">
@@ -181,15 +128,17 @@ const Schedule = () => {
                     <tbody>
                         {Array.isArray(schedule) && schedule.map((schedule, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
+                                <td>{(currentPage - 1) * pageSize + index + 1}</td> {/* Adjust for pagination */}
                                 <td>{schedule.name}</td>
                                 <td>{schedule.phone}</td>
                                 <td>{schedule.email}</td>
                                 <td>{schedule.date}</td>
                                 <td>{schedule.doctorName}</td>
                                 <td>{schedule.treatmentName}</td>
-                                <td style={{ textAlign: 'center' }}><button onClick={() => handleEditClick(schedule.id)}><img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" /></button>
-                                    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <td style={{ textAlign: 'center' }}>
+                                    <button style={{marginRight: '10px'}} onClick={() => handleEditClick(schedule.id)}>
+                                        <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
+                                    </button>
                                     {schedule.condition === "Chưa Xếp Lịch" && (
                                         <button onClick={() => handleCheckupClick(schedule)}>
                                             <img className="icon" src="/admin_assets/img/icon/checkup-icon.png" alt="checkup-icon" />
@@ -200,6 +149,23 @@ const Schedule = () => {
                         ))}
                     </tbody>
                 </table>
+                <div className="pagination">
+                    <button onClick={() => handlePaginationClick(currentPage - 1)} disabled={currentPage === 1}>
+                        Previous
+                    </button>
+                    {[...Array(totalPages)].map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handlePaginationClick(index + 1)}
+                            className={index + 1 === currentPage ? "active" : ""}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                    <button onClick={() => handlePaginationClick(currentPage + 1)} disabled={currentPage === totalPages}>
+                        Next
+                    </button>
+                </div>
                 <ScheduleModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}

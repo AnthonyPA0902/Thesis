@@ -48,3 +48,22 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
+/* Style the container that holds both dropdowns */
+.filter-container {
+    display: flex;         /* Use flexbox */
+    justify-content: space-between; /* Add space between the dropdowns */
+    gap: 20px;             /* Optional: Adds space between the two dropdowns */
+}
+
+/* Adjust styling for individual dropdown containers */
+.dropdown-container {
+    display: flex;
+    flex-direction: column; /* Ensure the label is above the select box */
+    width: 48%; /* Adjust the width of each dropdown */
+}
+
+/* Adjust label spacing if needed */
+.dropdown-container label {
+    margin-bottom: 5px; /* Adds some space between the label and the select */
+}

@@ -6,6 +6,7 @@
 		public string Description { get; set; }
 		public DateOnly? RecordDate { get; set; }
 		public string CustomerName { get; set; }
+		public int CustomerId { get; set; }
 		public List<MedicineStorageDto> Medicines { get; set; } // List to hold medicine details
 	}
 

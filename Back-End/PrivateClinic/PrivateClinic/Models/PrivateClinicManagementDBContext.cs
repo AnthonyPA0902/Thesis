@@ -237,9 +237,7 @@ public partial class PrivateClinicManagementDBContext : DbContext
         {
             entity.ToTable("USER");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .HasColumnName("address");

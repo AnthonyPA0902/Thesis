@@ -46,3 +46,59 @@
 .create-medicine-button:hover {
     background-color: #45a049;
 }
+
+/* Pagination styles */
+.medicine-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.medicine-pagination button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.medicine-pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.medicine-pagination button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.medicine-pagination span {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Medicine filter dropdown */
+.medicine-filter {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.medicine-filter select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    transition: border-color 0.3s ease;
+}
+
+.medicine-filter select:focus {
+    border-color: #007bff;
+}

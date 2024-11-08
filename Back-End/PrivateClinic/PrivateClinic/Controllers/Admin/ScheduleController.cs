@@ -16,12 +16,12 @@ namespace PrivateClinic.Controllers.Admin
 		{
 			_dbContext = dbContext;
 		}
-		[HttpGet("schedule")]
-		public async Task<ActionResult> GetSchedulesInfo([FromQuery] string search = "")
-		{
 
+		[HttpGet("schedule")]
+		public async Task<ActionResult> GetSchedulesInfo([FromQuery] string search = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
+		{
 			var doctors = await _dbContext.Users
-				.Where(user => user.RoleId == 2) // Filter by RoleId
+				.Where(user => user.RoleId == 2)
 				.Select(user => new UserDto
 				{
 					Id = user.Id,
@@ -49,22 +49,29 @@ namespace PrivateClinic.Controllers.Admin
 					EF.Functions.Like(schedule.Doctor.Name, $"%{search}%"));
 			}
 
-			var schedules = await schedulesQuery.Select(schedule => new ScheduleDto
-			{
-				Id = schedule.Id,
-				Name = schedule.Name,
-				Phone = schedule.Phone,
-				Email = schedule.Email,
-				Date = schedule.Date,
-				Condition = schedule.Condition,
-				DoctorId = schedule.DoctorId,  // Send doctorId
-				DoctorName = schedule.Doctor.Name,
-				TreatmentId = schedule.TreatmentId,
-				TreatmentName = schedule.Treatment.Name,
-			}).ToListAsync();
+			// Pagination logic
+			var totalRecords = await schedulesQuery.CountAsync();
+			var schedules = await schedulesQuery
+				.Skip((page - 1) * pageSize) // Skip records for the current page
+				.Take(pageSize) // Take only 'pageSize' records
+				.Select(schedule => new ScheduleDto
+				{
+					Id = schedule.Id,
+					Name = schedule.Name,
+					Phone = schedule.Phone,
+					Email = schedule.Email,
+					Date = schedule.Date,
+					Condition = schedule.Condition,
+					DoctorId = schedule.DoctorId,
+					DoctorName = schedule.Doctor.Name,
+					TreatmentId = schedule.TreatmentId,
+					TreatmentName = schedule.Treatment.Name,
+				})
+				.ToListAsync();
 
-			return Ok(new { success = true, Doctors = doctors, Treatments = treatments, Schedules = schedules });
+			return Ok(new { success = true, Doctors = doctors, Treatments = treatments, Schedules = schedules, TotalRecords = totalRecords });
 		}
+
 
 		[HttpPost("schedule")]
 		public async Task<IActionResult> UpdateScheduleTable([FromBody] ExaminitionAppointment schedule)

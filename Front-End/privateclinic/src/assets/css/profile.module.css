@@ -1,20 +1,21 @@
-/* profile.module.css */
-
 .main {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     color: black;
+    width: 100%; /* Ensure the full width of the page is used */
 }
 
 .profileTable {
-    width: 90%;
+    width: 90%; /* Keeps the table at 90% width of the container */
     margin-top: 20px;
     border-collapse: collapse;
     background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
     border-radius: 10px;
     overflow: hidden;
+    margin-left: auto; /* Center align the table */
+    margin-right: auto; /* Center align the table */
 }
 
 .profileTable thead {
@@ -65,7 +66,7 @@
 
 @media screen and (max-width: 768px) {
     .profileTable {
-        width: 100%;
+        width: 100%; /* Full width for mobile */
         font-size: 0.9em;
     }
 
@@ -88,4 +89,118 @@
 
 .paymentButton:hover {
     background-color: #45a049; /* Darker green on hover */
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.toggleButton {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.toggleButton:hover {
+    background-color: #45a049;
+}
+
+.scheduleContent,
+.profileContent {
+    width: 100%;
+    margin-left: auto; /* Center the content */
+    margin-right: auto; /* Center the content */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #45a049;
+}
+
+.pagination button:disabled {
+    background-color: #454444;
+    cursor: not-allowed;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Popup Overlay */
+.popupOverlay {
+    position: fixed; /* Fixed positioning to stay on top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    display: flex; /* Flexbox to center the popup content */
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    z-index: 1000; /* Ensure it's on top of other content */
+}
+
+/* Popup Content */
+.popupContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px; /* Adjust the width as needed */
+    max-height: 80%; /* Limit the height to prevent overflow */
+    overflow-y: auto; /* Allow scrolling if content is too long */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    position: relative;
+}
+
+/* Popup Heading */
+.popupContent h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+/* Targeting all text inside the popupContent */
+.popupContent p,
+.popupContent h3 {
+    color: black; /* Change text color to black */
+    font-weight: 500; /* Make text bolder */
+}
+
+.popupContent p strong {
+    font-weight: 500; /* Ensure the strong text remains bold */
 }
