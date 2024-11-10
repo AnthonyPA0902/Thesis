@@ -52,6 +52,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[TREATMENT_DETAIL]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[USER]",
          "ObjectType": 0
       }

@@ -31,6 +31,8 @@ public partial class PrivateClinicManagementDBContext : DbContext
 
     public virtual DbSet<Treatment> Treatments { get; set; }
 
+    public virtual DbSet<TreatmentDetail> TreatmentDetails { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -231,6 +233,22 @@ public partial class PrivateClinicManagementDBContext : DbContext
                 .HasColumnName("name");
             entity.Property(e => e.Price).HasColumnName("price");
             entity.Property(e => e.Session).HasColumnName("session");
+        });
+
+        modelBuilder.Entity<TreatmentDetail>(entity =>
+        {
+            entity.ToTable("TREATMENT_DETAIL");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Details)
+                .HasMaxLength(1000)
+                .HasColumnName("details");
+            entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
+
+            entity.HasOne(d => d.Treatment).WithMany(p => p.TreatmentDetails)
+                .HasForeignKey(d => d.TreatmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TREATMENT_DETAIL_TREATMENT");
         });
 
         modelBuilder.Entity<User>(entity =>

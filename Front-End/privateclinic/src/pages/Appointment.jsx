@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useLocation
 import styles from '../assets/css/appointment.module.css';
 import Heading from '../components/Heading';
 import backgroundImage from '../assets/img/appointment-background.jpg';
 import decodeToken from '../components/DecodeToken';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 
 const Appointment = () => {
     const [customerId, setCustomerId] = useState([]);
@@ -18,8 +18,13 @@ const Appointment = () => {
         doctorId: '',
         treatmentId: '',
     });
+    const [isFormDisabled, setIsFormDisabled] = useState(false); // New state to track if form is pre-filled
 
+
+    const location = useLocation(); 
     const navigate = useNavigate();
+
+    const { selectedTreatment } = location.state || {};  // Retrieve selected treatment
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -28,6 +33,13 @@ const Appointment = () => {
             if (decodedToken) {
                 setCustomerId(decodedToken.user_id);
                 console.log(customerId);
+                setFormData(prev => ({
+                    ...prev,
+                    name: decodedToken.user_name || '',
+                    email: decodedToken.user_email || '',
+                    phone: decodedToken.user_phone || '',
+                }));
+                setIsFormDisabled(true);
             }
         };
 
@@ -40,6 +52,16 @@ const Appointment = () => {
             })
             .catch((error) => console.error("Error fetching doctors/treatments:", error));
     }, [customerId]);
+
+        // Pre-fill the treatment input if available
+        useEffect(() => {
+            if (selectedTreatment) {
+                setFormData(prev => ({
+                    ...prev,
+                    treatmentId: selectedTreatment.id,
+                }));
+            }
+        }, [selectedTreatment]);
 
 
     const handleInputChange = (e) => {
@@ -61,8 +83,8 @@ const Appointment = () => {
                 text: 'Hãy đăng nhập để có thể xếp lịch hẹn.',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Login',
-                cancelButtonText: 'Cancel'
+                confirmButtonText: 'Đăng Nhập',
+                cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigate('/login');
@@ -72,9 +94,6 @@ const Appointment = () => {
         }
 
         const initialFormData = {
-            name: '',
-            phone: '',
-            email: '',
             date: '',
             doctorId: '',
             treatmentId: ''
@@ -156,72 +175,109 @@ const Appointment = () => {
 
     return (
         <main className={styles.main} style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}>
-            {/* Header Section */}
-            <Heading title="HẸN LỊCH KHÁM" color="black" />
-            {/* Appointment Section */}
-            <section id="appointment" className="appointment section light-background">
-                <div className="container" data-aos-delay="100">
-
-                    <form method="post" className="php-email-form" onSubmit={handleSubmit}>
-                        <div className="row">
-                            <div className="col-md-4 form-group">
-                                <input type="text" name="name" className="form-control" id="name" placeholder="Họ Tên" value={formData.name} onChange={handleInputChange} required="" autoComplete='true' />
-                            </div>
-                            <div className="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="email" className="form-control" name="email" id="email" placeholder="Email" value={formData.email} onChange={handleInputChange} required="" autoComplete='true' />
-                            </div>
-                            <div className="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="tel" className="form-control" name="phone" id="phone" placeholder="Số điện thoại" value={formData.phone} onChange={handleInputChange} required="" autoComplete='true' />
-                            </div>
+        <Heading title="HẸN LỊCH KHÁM" color="black" />
+        <section id="appointment" className="appointment section light-background">
+            <div className="container" data-aos-delay="100">
+                <form method="post" className="php-email-form" onSubmit={handleSubmit}>
+                    <div className="row">
+                        <div className="col-md-4 form-group">
+                            <label htmlFor="name">Họ Tên</label>
+                            <input
+                                type="text"
+                                name="name"
+                                className="form-control"
+                                id="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required=""
+                                autoComplete='true'
+                                disabled={isFormDisabled}
+                            />
                         </div>
-                        <div className="row">
-                            <div className="col-md-4 form-group mt-3">
-                                <input type="date" name="date" className="form-control datepicker" id="date" placeholder="Ngày Hẹn Khám" value={formData.date} onChange={handleInputChange} required="" />
-                            </div>
-                            <div className="col-md-4 form-group mt-3">
-                                <select
-                                    name="doctorId"
-                                    className="form-select"
-                                    value={formData.doctorId}
-                                    onChange={handleInputChange}
-                                >
-                                    <option value="">Chọn bác sĩ</option>
-                                    {doctors.map((doctor) => (
-                                        <option key={doctor.id} value={doctor.id}>
-                                            {doctor.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-md-4 form-group mt-3">
-                                <select
-                                    name="treatmentId"
-                                    className="form-select"
-                                    value={formData.treatmentId}
-                                    onChange={handleInputChange}
-                                >
-                                    <option value="">Chọn dịch vụ</option>
-                                    {treatments.map((treatment) => (
-                                        <option key={treatment.id} value={treatment.id}>
-                                            {treatment.treatmentName}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                        <div className="col-md-4 form-group mt-3 mt-md-0">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                name="email"
+                                id="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                required=""
+                                autoComplete='true'
+                                disabled={isFormDisabled}
+                            />
                         </div>
-                        <div className="form-group mt-3">
-                            <textarea className="form-control" name="message" rows="5" placeholder="Ghi Chú (Tùy Chọn)"></textarea>
+                        <div className="col-md-4 form-group mt-3 mt-md-0">
+                            <label htmlFor="phone">Số điện thoại</label>
+                            <input
+                                type="tel"
+                                className="form-control"
+                                name="phone"
+                                id="phone"
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                required=""
+                                autoComplete='true'
+                                disabled={isFormDisabled}
+                            />
                         </div>
-                        <div className="mt-3">
-                            <div className="text-center"><button type="submit">Tạo Lịch Hẹn</button></div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4 form-group mt-3">
+                            <label htmlFor="date">Ngày Hẹn Khám</label>
+                            <input
+                                type="date"
+                                name="date"
+                                className="form-control datepicker"
+                                id="date"
+                                value={formData.date}
+                                onChange={handleInputChange}
+                                required=""
+                            />
                         </div>
-                    </form>
-
-                </div>
-
-            </section>
-
-        </main>
+                        <div className="col-md-4 form-group mt-3">
+                            <label htmlFor="doctorId">Chọn bác sĩ</label>
+                            <select
+                                name="doctorId"
+                                className="form-select"
+                                id="doctorId"
+                                value={formData.doctorId}
+                                onChange={handleInputChange}
+                            >
+                                <option value=""></option>
+                                {doctors.map((doctor) => (
+                                    <option key={doctor.id} value={doctor.id}>
+                                        {doctor.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-md-4 form-group mt-3">
+                            <label htmlFor="treatmentId">Chọn dịch vụ</label>
+                            <select
+                                name="treatmentId"
+                                className="form-select"
+                                id="treatmentId"
+                                value={formData.treatmentId}
+                                onChange={handleInputChange}
+                            >
+                                <option value=""></option>
+                                {treatments.map((treatment) => (
+                                    <option key={treatment.id} value={treatment.id}>
+                                        {treatment.treatmentName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="text-center mt-3">
+                        <button type="submit">ĐẶT LỊCH</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
     );
 };
 

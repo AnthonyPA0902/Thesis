@@ -987,6 +987,43 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PrivateClinic.Controllers.DetailController",
+    "Method": "GetTreatmentDetail",
+    "RelativePath": "api/detail/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.DetailController",
+    "Method": "AddTreatmentDetail",
+    "RelativePath": "api/detail/{treatmentId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "treatmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "newDetail",
+        "Type": "PrivateClinic.Models.TreatmentDetail",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.LoginController",
     "Method": "GoogleLogin",
     "RelativePath": "api/google-login",

@@ -58,6 +58,7 @@
     align-items: center;
     justify-content: center;
     text-align: left;
+    gap: 100px;
 }
 
 .serviceContent ul {
@@ -130,4 +131,32 @@
 
 .searchButton:hover {
     background-color: #45a049;
+}
+
+/* Detail button styling */
+.detailButton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff; /* Primary color */
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    cursor: pointer;
+}
+
+.detailButton:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+}
+
+.detailButton:active {
+    transform: translateY(0); /* Reset lift on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly smaller shadow on click */
 }

@@ -1,0 +1,125 @@
+/* Main container for the service details page */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Wrapper to hold both the image and content side by side */
+.detailWrapper {
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: flex-start; /* Align items at the top */
+    width: 100%;
+    max-width: 1200px; /* You can adjust the max-width as needed */
+    margin: 0 auto;
+    background-color: #ffffff; /* Light background color */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.detailWrapper:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+/* Style for the image */
+.detailImage {
+    flex: 1; /* Take up available space */
+    padding: 20px;
+}
+
+.treatmentImage {
+    width: 100%;
+    max-width: 500px; /* You can adjust this depending on your preferred image size */
+    height: auto;
+}
+
+/* Box for the content on the right */
+.detailBox {
+    flex: 1; /* Take up remaining space */
+    padding: 20px;
+    max-width: 600px; /* Set a maximum width for the content */
+    text-align: left;
+}
+
+/* Make the text bold, black, and appealing */
+.detailDescription,
+.detailPrice,
+.detailSession,
+.additionalDetailsHeading,
+.additionalDetailsList li {
+    font-weight: 500; /* Make text bold */
+    color: #000000; /* Black color for better contrast */
+    line-height: 1.3; /* Improve readability */
+    letter-spacing: 0.5px; /* Add some letter spacing */
+}
+
+.detailDescription,
+.detailPrice,
+.detailSession {
+    margin-bottom: 20px;
+    font-size: 17px; /* Slightly larger font size */
+}
+
+.additionalDetailsHeading {
+    font-size: 15px;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #000000; /* Darker color for heading */
+}
+
+.additionalDetailsList {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.additionalDetailsList li p {
+    font-family: sans-serif;
+    line-height: 1.9;
+    text-indent: 40px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000; /* Slightly lighter color for list items */
+}
+
+/* Style the buttons */
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.goBackButton, .makeAppointmentButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.goBackButton {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.goBackButton:hover {
+    background-color: #ddd;
+}
+
+.makeAppointmentButton {
+    background-color: #4CAF50; /* Green color for appointment button */
+    color: white;
+}
+
+.makeAppointmentButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

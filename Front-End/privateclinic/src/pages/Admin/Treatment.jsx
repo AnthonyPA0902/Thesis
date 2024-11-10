@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import TreatmentModal from '../../components/TreatmentModal';
+import TreatmentDetailModal from '../../components/TreatmentDetailModal'; // Import the new modal
 import Swal from 'sweetalert2';
 
 const Treatment = () => {
@@ -8,6 +9,8 @@ const Treatment = () => {
     const [totalPages, setTotalPages] = useState(1);  // Add state to store totalPages
     const [currentPage, setCurrentPage] = useState(1);  // Track the current page
     const [searchTerm, setSearchTerm] = useState('');  // Store the search term
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); // State for detail modal
+    const [selectedTreatmentId, setSelectedTreatmentId] = useState(null); // Store selected treatment id
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTreatment, setEditingTreatment] = useState(null);
     const treatmentsPerPage = 3;  // Same value used in the backend
@@ -23,6 +26,7 @@ const Treatment = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
+                    console.log(data.treatments);
                     setTreatment(data.treatments);
                     setTotalPages(data.totalPages);  // Set total pages from API response
                 } else {
@@ -61,6 +65,11 @@ const Treatment = () => {
 
     const refetchTreatmentData = () => {
         fetchTreatments(currentPage, searchTerm); // Re-fetch data after adding/editing
+    };
+
+    const handleDetailClick = (id) => {
+        setSelectedTreatmentId(id); // Set selected treatment id
+        setIsDetailModalOpen(true); // Open the detail modal
     };
 
     const handleCreateClick = () => {
@@ -160,6 +169,7 @@ const Treatment = () => {
                             <th>Số Buổi</th>
                             <th>Giá Tiền</th>
                             <th>Hình Ảnh</th>
+                            <th>Xem Chi Tiết</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -178,6 +188,9 @@ const Treatment = () => {
                                             style={{ width: "50%", height: "100px" }}
                                         />
                                     )}
+                                </td>
+                                <td style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '120px' }}>
+                                    <button onClick={() => handleDetailClick(treatment.id)}>Xem Chi Tiết</button>
                                 </td>
                                 <td style={{ textAlign: 'center' }}>
                                     <button onClick={() => handleEditClick(treatment.id)}>
@@ -211,6 +224,12 @@ const Treatment = () => {
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={handleAddTreatment}
                     editingTreatment={editingTreatment}
+                />
+
+                <TreatmentDetailModal
+                    isOpen={isDetailModalOpen}
+                    onClose={() => setIsDetailModalOpen(false)}
+                    treatmentId={selectedTreatmentId} // Pass treatment ID to detail modal
                 />
             </div>
         </div>

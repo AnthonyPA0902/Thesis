@@ -22,4 +22,6 @@ public partial class Treatment
     public virtual ICollection<ExaminitionAppointment> ExaminitionAppointments { get; set; } = new List<ExaminitionAppointment>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<TreatmentDetail> TreatmentDetails { get; set; } = new List<TreatmentDetail>();
 }

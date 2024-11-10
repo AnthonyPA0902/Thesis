@@ -16,6 +16,7 @@ import Info from '../pages/Admin/Info';
 import Medicine from '../pages/Admin/Medicine';
 import MedicalRecord from '../pages/Admin/MedicalRecord';
 import Patient from '../pages/Admin/Patient';
+import ServiceDetail from '../pages/ServiceDetail';
 
 // Routes
 const NormalRoutes = [
@@ -23,6 +24,7 @@ const NormalRoutes = [
     { path: '/service', component: Service},
     { path: '/appointment', component: Appointment},
     { path: '/profile', component: Profile},
+    { path: '/detail', component: ServiceDetail},
 ]
 
 const AuthRoutes = [

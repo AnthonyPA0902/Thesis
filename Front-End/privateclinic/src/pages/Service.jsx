@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../assets/css/service.module.css';
 import Heading from '../components/Heading';
 import backgroundImage from '../assets/img/service-background.jpg';
+import { Link } from 'react-router-dom';
+
 
 const Service = () => {
     const [treatments, setTreatments] = useState([]);
@@ -59,27 +61,29 @@ const Service = () => {
             <div id="services" className={styles.services}>
                 {treatments.length > 0 ? (
                     treatments.map((treatment, index) => (
-                        <a href="/appointment" key={index}>
-                            <div className={styles.serviceBox}>
-                                <div className={styles.serviceImage}>
-                                    {treatment.image ? (
-                                        <img
-                                            src={`data:image/jpeg;base64,${treatment.image}`}
-                                            alt={`service-${treatment.id}`}
-                                        />
-                                    ) : (
-                                        <p>No Image Available</p>
-                                    )}
-                                </div>
-                                <div className={styles.serviceContent}>
-                                    <ul>
-                                        <li>Liệu Trình: <span className={styles.bold}>{treatment.name}</span></li>
-                                        <li>Số Buổi: <span className={styles.bold}>{treatment.session}</span></li>
-                                        <li>Số tiền: <span className={styles.bold} style={{color: 'red'}}>{(treatment.price).toLocaleString('en-US')}</span> đồng</li>
-                                    </ul>
-                                </div>
+
+                        <div className={styles.serviceBox} key={index}>
+                            <div className={styles.serviceImage}>
+                                {treatment.image ? (
+                                    <img
+                                        src={`data:image/jpeg;base64,${treatment.image}`}
+                                        alt={`service-${treatment.id}`}
+                                    />
+                                ) : (
+                                    <p>No Image Available</p>
+                                )}
                             </div>
-                        </a>
+                            <div className={styles.serviceContent}>
+                                <ul>
+                                    <li>Liệu Trình: <span className={styles.bold}>{treatment.name}</span></li>
+                                    <li>Số Buổi: <span className={styles.bold}>{treatment.session}</span></li>
+                                    <li>Số tiền: <span className={styles.bold} style={{ color: 'red' }}>{(treatment.price).toLocaleString('en-US')}</span> đồng</li>
+                                </ul>
+                                <Link to={`/detail/?id=${treatment.id}`} className={styles.detailButton}>
+                                    Xem Chi Tiết
+                                </Link>
+                            </div>
+                        </div>
                     ))
                 ) : (
                     <p>Không tìm thấy liệu trình</p> // Message if no results match
