@@ -21,6 +21,8 @@ public partial class Checkup
 
     public string Room { get; set; }
 
+    public string Status { get; set; }
+
     public int DoctorId { get; set; }
 
     public int TreatmentId { get; set; }

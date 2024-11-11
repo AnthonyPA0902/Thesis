@@ -9,6 +9,7 @@
 		public TimeOnly? StartTime { get; set; }
 		public TimeOnly? EndTime { get; set; }
 		public string Room { get; set; }
+		public string Status { get; set; }	
 		public string DoctorName { get; set; }
 		public string TreatmentName { get; set; }
 		public int DoctorId { get; set; }

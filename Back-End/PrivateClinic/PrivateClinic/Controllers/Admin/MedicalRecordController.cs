@@ -18,36 +18,52 @@ namespace PrivateClinic.Controllers.Admin
 		}
 
 		[HttpGet("record")]
-		public async Task<IActionResult> GetAllRecords()
+		public async Task<IActionResult> GetAllRecords(int page = 1, int pageSize = 12)
 		{
-			// Querying the records with associated Customer and MedicalMedicineRecord data
-			var records = await _dbContext.MedicalRecords
-				.Include(mr => mr.Customer) // Include Customer data
-				.Include(mr => mr.MedicalRecordMedicines) // Include related MedicalMedicineRecords
-					.ThenInclude(mmr => mmr.Medicine) // Include Medicine details within each MedicalMedicineRecord
+			var recordsQuery = _dbContext.MedicalRecords
+				.Include(mr => mr.Customer)
+				.Include(mr => mr.MedicalRecordMedicines)
+					.ThenInclude(mmr => mmr.Medicine)
 				.Select(mr => new MedicalRecordDto
 				{
 					Id = mr.Id,
+					CheckUp = mr.Checkup,
+					Treatment = mr.Treatment,
 					Description = mr.Description,
 					RecordDate = mr.RecordDate,
 					CustomerId = mr.CustomerId,
-					CustomerName = mr.Customer.Name, // Assuming Customer has a Name property
+					CustomerName = mr.Customer.Name,
 					Medicines = mr.MedicalRecordMedicines.Select(mmr => new MedicineStorageDto
 					{
 						MedicineId = mmr.MedicineId,
-						MedicineName = mmr.Medicine.Name, // Assuming Medicine has a Name property
-						Quantity = mmr.Quantity
+						MedicineName = mmr.Medicine.Name,
+						Quantity = mmr.Quantity,
+						Note = mmr.Note
 					}).ToList()
-				})
+				});
+
+			// Get the total number of records for pagination
+			var totalRecords = await recordsQuery.CountAsync();
+
+			// Apply pagination
+			var records = await recordsQuery
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
 				.ToListAsync();
 
 			if (records == null || records.Count == 0)
 			{
-				return BadRequest(new { success = false, message = "No record found" });
+				return BadRequest(new { success = false, message = "No records found" });
 			}
 
-			return Ok(new { success = true, Records = records });
+			return Ok(new
+			{
+				success = true,
+				Records = records,
+				TotalRecords = totalRecords
+			});
 		}
+
 
 
 		[HttpPost("record")]
@@ -77,6 +93,8 @@ namespace PrivateClinic.Controllers.Admin
 			// All medicines are valid, so proceed to create the medical record
 			var medicalRecord = new MedicalRecord
 			{
+				Checkup = recordDto.CheckUp,
+				Treatment = recordDto.Treatment,
 				RecordDate = recordDto.RecordDate,
 				Description = recordDto.Description,
 				CustomerId = recordDto.CustomerId,
@@ -96,6 +114,7 @@ namespace PrivateClinic.Controllers.Admin
 					RecordId = medicalRecord.Id,
 					MedicineId = medicineDto.MedicineId,
 					Quantity = medicineDto.Quantity,
+					Note = medicineDto.Note,
 				};
 				_dbContext.MedicalRecordMedicines.Add(medicalMedicineRecord);
 

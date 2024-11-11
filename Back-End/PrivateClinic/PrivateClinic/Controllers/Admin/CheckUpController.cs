@@ -50,6 +50,7 @@ namespace PrivateClinic.Controllers.Admin
 						StartTime = checkup.StartTime,
 						EndTime = checkup.EndTime,
 						Room = checkup.Room,
+						Status = checkup.Status,
 						DoctorName = checkup.Doctor.Name,
 						TreatmentName = checkup.Treatment.Name,
 						DoctorId = checkup.Doctor.Id,
@@ -78,6 +79,7 @@ namespace PrivateClinic.Controllers.Admin
 					StartTime = checkup.StartTime,
 					EndTime = checkup.EndTime,
 					Room = checkup.Room,
+					Status = "Chưa Hoàn Thành",
 					DoctorId = checkup.DoctorId,
 					TreatmentId = checkup.TreatmentId
 				};
@@ -88,5 +90,42 @@ namespace PrivateClinic.Controllers.Admin
 				return Ok(new { success = true, message = "Checkup updated successfully." });
 			}
 		}
+
+		[HttpPut("checkup/{id}")]
+		public async Task<ActionResult<Checkup>> EditCheckUp(int id)
+		{
+			var ck = await _dbContext.Checkups.FindAsync(id);
+
+			if (ck == null)
+			{
+				return BadRequest(new { success = false, message = "Checkup data is null." });
+			}
+
+			ck.Status = "Hoàn Thành";
+
+			_dbContext.Checkups.Update(ck);
+			_dbContext.SaveChanges();
+
+			return Ok(new { success = true, message = "Edit CheckUp Successfully" });
+		}
+
+		[HttpPut("check/{id}")]
+		public async Task<ActionResult<Checkup>> CompleteCheckUp(int id)
+		{
+			var ck = await _dbContext.Checkups.FindAsync(id);
+
+			if (ck == null)
+			{
+				return BadRequest(new { success = false, message = "Checkup data is null." });
+			}
+
+			ck.Status = "Hoàn Thành Tốt";
+
+			_dbContext.Checkups.Update(ck);
+			_dbContext.SaveChanges();
+
+			return Ok(new { success = true, message = "Edit CheckUp Successfully" });
+		}
+
 	}
 }

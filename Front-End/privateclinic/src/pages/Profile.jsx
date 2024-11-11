@@ -28,7 +28,9 @@ const Profile = () => {
                     .then((response) => response.json())
                     .then((data) => {
                         if (Array.isArray(data.schedules)) {
-                            setSchedule(data.schedules);
+                            // Sort schedules by id in descending order
+                            const sortedSchedules = data.schedules.sort((a, b) => b.id - a.id);
+                            setSchedule(sortedSchedules);
                         } else {
                             setSchedule([]); // Ensure schedule is an empty array if data is not as expected
                         }
@@ -41,7 +43,8 @@ const Profile = () => {
                     .then((data) => {
                         if (data.success) {
                             const filteredRecords = data.records.filter(record => String(record.customerId) === String(customerId));
-                            setRecords(filteredRecords); // Set the filtered records
+                            const sortedRecords = filteredRecords.sort((a, b) => b.id - a.id);
+                            setRecords(sortedRecords); // Set the filtered records
                         } else {
                             setRecords([]); // If no records, set an empty array
                         }
@@ -179,7 +182,7 @@ const Profile = () => {
                                     <td>{schedule.doctorName}</td>
                                     <td>{schedule.treatmentName}</td>
                                     <td>{schedule.price}</td>
-                                    <td>{schedule.status}</td>
+                                    <td style={{ fontWeight: '700', color: schedule.status === "Đã Thanh Toán" ? 'green' : schedule.status === "Chưa Thanh Toán" ? 'red' : 'black' }}>{schedule.status}</td>
                                     <td>
                                         {schedule.status === "Chưa Thanh Toán" ? (
                                             <button

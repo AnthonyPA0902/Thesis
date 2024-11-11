@@ -7,6 +7,9 @@ import decodeToken from '../components/DecodeToken';
 import Swal from 'sweetalert2';
 
 const Appointment = () => {
+    const [name, setName] = useState([]);
+    const [email, setEmail] = useState([]);
+    const [phone, setPhone] = useState([]);
     const [customerId, setCustomerId] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [treatments, setTreatments] = useState([]);
@@ -32,12 +35,15 @@ const Appointment = () => {
             const decodedToken = decodeToken(token);
             if (decodedToken) {
                 setCustomerId(decodedToken.user_id);
+                setName(decodedToken.user_name);
+                setEmail(decodedToken.user_email);
+                setPhone(decodedToken.user_phone);
                 console.log(customerId);
                 setFormData(prev => ({
                     ...prev,
-                    name: decodedToken.user_name || '',
-                    email: decodedToken.user_email || '',
-                    phone: decodedToken.user_phone || '',
+                    name: name || '',
+                    email: email || '',
+                    phone: phone || '',
                 }));
                 setIsFormDisabled(true);
             }
@@ -51,7 +57,7 @@ const Appointment = () => {
                 setTreatments(data.treatments);
             })
             .catch((error) => console.error("Error fetching doctors/treatments:", error));
-    }, [customerId]);
+    }, [customerId, name, email, phone]);
 
         // Pre-fill the treatment input if available
         useEffect(() => {
@@ -94,6 +100,9 @@ const Appointment = () => {
         }
 
         const initialFormData = {
+            name: name,
+            email: email,
+            phone: phone,
             date: '',
             doctorId: '',
             treatmentId: ''

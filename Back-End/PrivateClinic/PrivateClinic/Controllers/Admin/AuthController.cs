@@ -59,6 +59,7 @@ namespace PrivateClinic.Controllers.Admin
 					new Claim("user_email", user.Email.ToString()),
 					new Claim("user_phone", user.Phone.ToString()),
 					new Claim("user_username", user.Username.ToString()),
+					new Claim("user_role", user.RoleId.ToString()),
 				}),
 				Expires = DateTime.UtcNow.AddHours(2),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

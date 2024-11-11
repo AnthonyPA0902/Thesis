@@ -37,7 +37,7 @@
 .treatmentImage {
     width: 100%;
     max-width: 500px; /* You can adjust this depending on your preferred image size */
-    height: auto;
+    height: 350px;
 }
 
 /* Box for the content on the right */

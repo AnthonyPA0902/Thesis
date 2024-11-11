@@ -4,6 +4,8 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const RecordModal = ({ isOpen, onClose, onSubmit }) => {
     const [formData, setFormData] = useState({
+        checkup: '',
+        treatment: '',
         description: '',
         recordDate: '',
         customerId: '',
@@ -65,15 +67,19 @@ const RecordModal = ({ isOpen, onClose, onSubmit }) => {
     };
 
     // Submit the form
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventdefault();
         // Prepare the data for submission
         const data = {
+            checkup: formData.checkup,
+            treatment: formData.treatment,
             recordDate: formData.recordDate,
             description: formData.description,
             customerId: formData.customerId, // Assuming this is the selected record's customer ID
             medicines: formData.medicines.map(med => ({
                 medicineId: med.medicineId,
                 quantity: med.quantity,
+                note: med.note,
             })),  // Include both medicineId and quantity
         };
 
@@ -88,8 +94,8 @@ const RecordModal = ({ isOpen, onClose, onSubmit }) => {
 
             const result = await response.json();
             if (result.success) {
-                 // Replace alert with SweetAlert2 success message
-                 Swal.fire({
+                // Replace alert with SweetAlert2 success message
+                Swal.fire({
                     icon: 'success',
                     title: 'Tạo Hồ Sơ Khám Bệnh Thành Công',
                     showConfirmButton: false,
@@ -100,7 +106,7 @@ const RecordModal = ({ isOpen, onClose, onSubmit }) => {
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: result.message || 'Failed to create the record',
+                    title: result.message || 'Tạo Hồ Sơ Thất Bại',
                     showConfirmButton: true,
                 });
             }
@@ -121,6 +127,28 @@ const RecordModal = ({ isOpen, onClose, onSubmit }) => {
                     <form onSubmit={handleSubmit}>
                         <div className={styles['flex-form']}>
                             <div className={styles['left-side']}>
+                                <div className={styles['input-line']}>
+                                    <div>
+                                        <label>Ca Khám:</label>
+                                        <input
+                                            type="text"
+                                            name="checkup"
+                                            className={styles['text-input']}
+                                            value={formData.checkup || ''}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label>Liệu Trình:</label>
+                                        <input
+                                            type="text"
+                                            name="treatment"
+                                            className={styles['text-input']}
+                                            value={formData.treatment || ''}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
                                 <div className={styles['input-line']}>
                                     <div>
                                         <label>Tên Bệnh Nhân:</label>
@@ -180,6 +208,14 @@ const RecordModal = ({ isOpen, onClose, onSubmit }) => {
                                             value={medicine.quantity}
                                             onChange={(e) => handleMedicineChange(e, index)}
                                             min="1"
+                                        />
+                                        <input
+                                            type="text"
+                                            name="note"
+                                            className={styles['note-input']}
+                                            value={medicine.note || ''}
+                                            placeholder="Note"
+                                            onChange={(e) => handleMedicineChange(e, index)}
                                         />
                                         <button className={styles['record-modal-button']} type="button" onClick={() => handleRemoveMedicine(index)}>
                                             Xóa

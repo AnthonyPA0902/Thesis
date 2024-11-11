@@ -9,6 +9,10 @@ public partial class MedicalRecord
 {
     public int Id { get; set; }
 
+    public string Checkup { get; set; }
+
+    public string Treatment { get; set; }
+
     public string Description { get; set; }
 
     public DateOnly? RecordDate { get; set; }

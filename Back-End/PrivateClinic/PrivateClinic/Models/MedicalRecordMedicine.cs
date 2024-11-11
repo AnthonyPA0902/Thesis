@@ -13,6 +13,8 @@ public partial class MedicalRecordMedicine
 
     public int? Quantity { get; set; }
 
+    public string Note { get; set; }
+
     public virtual MedicineStorage Medicine { get; set; }
 
     public virtual MedicalRecord Record { get; set; }

@@ -59,6 +59,9 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.Property(e => e.StartTime)
                 .HasPrecision(0)
                 .HasColumnName("startTime");
+            entity.Property(e => e.Status)
+                .HasMaxLength(40)
+                .HasColumnName("status");
             entity.Property(e => e.TreatmentId).HasColumnName("treatmentId");
 
             entity.HasOne(d => d.Doctor).WithMany(p => p.Checkups)
@@ -139,11 +142,17 @@ public partial class PrivateClinicManagementDBContext : DbContext
             entity.ToTable("MEDICAL_RECORD");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Checkup)
+                .HasMaxLength(50)
+                .HasColumnName("checkup");
             entity.Property(e => e.CustomerId).HasColumnName("customerId");
             entity.Property(e => e.Description)
                 .HasMaxLength(1000)
                 .HasColumnName("description");
             entity.Property(e => e.RecordDate).HasColumnName("recordDate");
+            entity.Property(e => e.Treatment)
+                .HasMaxLength(50)
+                .HasColumnName("treatment");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.MedicalRecords)
                 .HasForeignKey(d => d.CustomerId)
@@ -159,6 +168,9 @@ public partial class PrivateClinicManagementDBContext : DbContext
 
             entity.Property(e => e.RecordId).HasColumnName("recordId");
             entity.Property(e => e.MedicineId).HasColumnName("medicineId");
+            entity.Property(e => e.Note)
+                .HasMaxLength(500)
+                .HasColumnName("note");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
 
             entity.HasOne(d => d.Medicine).WithMany(p => p.MedicalRecordMedicines)

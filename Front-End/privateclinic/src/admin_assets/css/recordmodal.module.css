@@ -12,8 +12,8 @@
     z-index: 1000;
 }
 .popup-modal {
-    width: 90%;  /* Increase width of the modal */
-    max-width: 1000px;  /* Set a larger max width */
+    width: 100%;  /* Increase width of the modal */
+    max-width: 1050px;  /* Set a larger max width */
     margin: 0 auto;
     padding: 30px;  /* Increase padding inside the modal */
     background-color: #fff;
@@ -48,9 +48,9 @@
 
 /* Increase input field size */
 input[type="date"], textarea {
-    padding: 12px;  /* Increase padding for more space */
-    margin-bottom: 20px;  /* Increase space between form elements */
-    margin-right: 30px;
+    padding: 10px;  /* Increase padding for more space */
+    margin-bottom: 10px;  /* Increase space between form elements */
+    margin-right: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -59,12 +59,28 @@ input[type="date"], textarea {
 .input-line {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;  /* Increase spacing between input lines */
+    margin-bottom: 5px;  /* Increase spacing between input lines */
     gap: 20px;
 }
 
 .input-line input {
     width: 100%;  /* Adjust to 48% for input width */
+}
+
+.text-input {
+    padding: 10px;  /* Increase padding for more space */
+    margin-bottom: 5px;  /* Increase space between form elements */
+    margin-right: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.note-input {
+    padding: 10px;
+    margin-bottom: 5px;  /* Increase space between form elements */
+    margin-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .name-select {
@@ -129,5 +145,5 @@ label {
     justify-content: center;
     align-items: center;
     gap: 50px;
-    margin-top: 30px;  /* Increase space between form and footer */
 }
+
