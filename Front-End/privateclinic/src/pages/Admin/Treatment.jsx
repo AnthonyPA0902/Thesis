@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import TreatmentModal from '../../components/TreatmentModal';
 import TreatmentDetailModal from '../../components/TreatmentDetailModal'; // Import the new modal
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 const Treatment = () => {
     const [treatment, setTreatment] = useState([]);
@@ -87,54 +87,54 @@ const Treatment = () => {
             .catch((error) => console.error("Error fetching treatment:", error));
     };
 
-    const handleDeleteClick = (treatmentId) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Do you really want to delete this treatment?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Delete',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`https://localhost:7157/api/admin/treatment/${treatmentId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.success) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Treatment has been deleted.',
-                                'success'
-                            );
-                            // Optimistically update state by removing the deleted treatment from the list
-                            setTreatment(prevTreatments => prevTreatments.filter(t => t.id !== treatmentId));
+    // const handleDeleteClick = (treatmentId) => {
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "Do you really want to delete this treatment?",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Delete',
+    //         cancelButtonText: 'Cancel'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             fetch(`https://localhost:7157/api/admin/treatment/${treatmentId}`, {
+    //                 method: 'DELETE',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 }
+    //             })
+    //                 .then((response) => response.json())
+    //                 .then((data) => {
+    //                     if (data.success) {
+    //                         Swal.fire(
+    //                             'Deleted!',
+    //                             'Treatment has been deleted.',
+    //                             'success'
+    //                         );
+    //                         // Optimistically update state by removing the deleted treatment from the list
+    //                         setTreatment(prevTreatments => prevTreatments.filter(t => t.id !== treatmentId));
 
-                            // Check if the current page has treatments left; if not, load the previous page
-                            if (treatment.length === 1 && currentPage > 1) {
-                                setCurrentPage(currentPage - 1); // Go to the previous page if the last treatment is deleted
-                            } else {
-                                refetchTreatmentData(); // Otherwise, just refresh the data
-                            }
-                        }
-                    })
-                    .catch((error) => {
-                        Swal.fire(
-                            'Error!',
-                            'There was a problem deleting the treatment.',
-                            'error'
-                        );
-                        console.error('Error deleting treatment:', error);
-                    });
-            }
-        });
-    };
+    //                         // Check if the current page has treatments left; if not, load the previous page
+    //                         if (treatment.length === 1 && currentPage > 1) {
+    //                             setCurrentPage(currentPage - 1); // Go to the previous page if the last treatment is deleted
+    //                         } else {
+    //                             refetchTreatmentData(); // Otherwise, just refresh the data
+    //                         }
+    //                     }
+    //                 })
+    //                 .catch((error) => {
+    //                     Swal.fire(
+    //                         'Error!',
+    //                         'There was a problem deleting the treatment.',
+    //                         'error'
+    //                     );
+    //                     console.error('Error deleting treatment:', error);
+    //                 });
+    //         }
+    //     });
+    // };
 
     const handleSearchChange = (event) => {
         const searchTerm = event.target.value.toLowerCase();
@@ -196,10 +196,10 @@ const Treatment = () => {
                                     <button onClick={() => handleEditClick(treatment.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
                                     </button>
-                                    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                    {/* &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                                     <button onClick={() => handleDeleteClick(treatment.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
-                                    </button>
+                                    </button> */}
                                 </td>
                             </tr>
                         ))}

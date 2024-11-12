@@ -7,24 +7,8 @@
       "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\admin\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\dtos\\medicineusagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\dtos\\medicineusagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\admin\\medicalrecordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\medicalrecordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\dtos\\medicalrecorddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\dtos\\medicalrecorddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\dtos\\medicalrecordwithmedicinedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\dtos\\medicalrecordwithmedicinedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\dtos\\checkupdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\dtos\\checkupdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CheckUpDto.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\CheckUpDto.cs",
+              "RelativeDocumentMoniker": "PrivateClinic\\Dtos\\CheckUpDto.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\CheckUpDto.cs",
+              "RelativeToolTip": "PrivateClinic\\Dtos\\CheckUpDto.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA5wA8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T07:35:38.805Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -44,75 +41,9 @@
               "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
               "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
               "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAAAG8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAYwJoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T04:10:40.065Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PatientController.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\PatientController.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\PatientController.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\PatientController.cs",
-              "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\PatientController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T09:32:36.655Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MedicineUsageDto.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\MedicineUsageDto.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Dtos\\MedicineUsageDto.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\MedicineUsageDto.cs",
-              "RelativeToolTip": "PrivateClinic\\Dtos\\MedicineUsageDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T07:14:47.804Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MedicalRecordWithMedicineDto.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\MedicalRecordWithMedicineDto.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Dtos\\MedicalRecordWithMedicineDto.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\MedicalRecordWithMedicineDto.cs",
-              "RelativeToolTip": "PrivateClinic\\Dtos\\MedicalRecordWithMedicineDto.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T07:09:57.063Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MedicalRecordDto.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\MedicalRecordDto.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Dtos\\MedicalRecordDto.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Dtos\\MedicalRecordDto.cs",
-              "RelativeToolTip": "PrivateClinic\\Dtos\\MedicalRecordDto.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAA5wBMAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T07:05:14.734Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MedicalRecordController.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\MedicalRecordController.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\MedicalRecordController.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\MedicalRecordController.cs",
-              "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\MedicalRecordController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T03:19:47.823Z",
+              "WhenOpened": "2024-11-12T01:48:27.924Z",
               "EditorCaption": ""
             }
           ]

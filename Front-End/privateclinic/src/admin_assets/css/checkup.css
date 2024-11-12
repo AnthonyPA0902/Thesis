@@ -97,3 +97,48 @@ table tr:hover {
 .popup-buttons button:focus {
     outline: none;
 };
+
+/* Popup Buttons Container */
+.new-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Button Styles */
+.new-buttons button{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+
+/* Chỉnh Sửa Button (Edit) */
+.new-buttons button:first-child {
+    background-color:#d4fe16;
+    color: white;
+}
+
+.new-buttons button:first-child:hover {
+    background-color: #d4fe16;
+    opacity: 0.8;
+}
+
+/* Xóa Button (Delete Record) */
+.new-buttons button:last-child {
+    background-color: #d10909;
+    color: white;
+}
+
+.new-buttons button:last-child:hover {
+    background-color: #d10909;
+    opacity: 0.8;
+}
+
+/* Close Popup Button (optional) */
+.new-buttons button:focus {
+    outline: none;
+};

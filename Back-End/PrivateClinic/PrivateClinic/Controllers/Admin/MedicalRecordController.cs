@@ -64,8 +64,6 @@ namespace PrivateClinic.Controllers.Admin
 			});
 		}
 
-
-
 		[HttpPost("record")]
 		public async Task<IActionResult> CreateMedicalRecord([FromBody] MedicalRecordWithMedicineDto recordDto)
 		{

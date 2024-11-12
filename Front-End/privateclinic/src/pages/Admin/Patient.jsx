@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PatientModal from '../../components/PatientModal';
 import styles from '../../admin_assets/css/patient.module.css';
+import { Link } from 'react-router-dom';
 
 const Patient = () => {
     const [patients, setPatients] = useState([]);
@@ -141,6 +142,9 @@ const Patient = () => {
                             <p className={styles.infoItem}><strong>Phone:</strong> {patient.phone}</p>
                             <p className={styles.infoItem}><strong>Email:</strong> {patient.email}</p>
                             <p className={styles.infoItem}><strong>Address:</strong> {patient.address}</p>
+                            <Link to={`/admin/patient/record/?id=${patient.id}&name=${patient.name}`} className={styles.detailRecord}>
+                                    Xem Hồ Sơ Khám Bệnh
+                            </Link>
                         </div>
                     )}
                 </div>

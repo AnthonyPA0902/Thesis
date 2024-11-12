@@ -137,7 +137,7 @@ const CheckUpRecordModal = ({ isOpen, onClose, onSubmit, recordData }) => {
                     timer: 2000,
                 });
                 // After the record is created, call the CompleteCheckUp API to update the status
-                const completeResponse = await fetch(`https://localhost:7157/api/admin/check/${checkupId}`, {
+                const completeResponse = await fetch(`https://localhost:7157/api/admin/checkup/complete/${checkupId}`, {
                     method: 'PUT',
                 });
 

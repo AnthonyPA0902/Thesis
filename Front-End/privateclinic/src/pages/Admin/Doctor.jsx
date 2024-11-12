@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import DoctorModal from '../../components/DoctorModal';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 const Doctor = () => {
     const [doctor, setDoctor] = useState([]);
@@ -84,44 +84,44 @@ const Doctor = () => {
             .catch((error) => console.error("Error fetching doctor:", error));
     };
 
-    const handleDeleteClick = (doctorId) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Do you really want to delete this doctor?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Delete',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`https://localhost:7157/api/admin/doctor/${doctorId}`, {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' }
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Doctor has been deleted.',
-                            'success'
-                        );
-                        refetchDoctorData();
-                    }
-                })
-                .catch((error) => {
-                    Swal.fire(
-                        'Error!',
-                        'There was a problem deleting the doctor.',
-                        'error'
-                    );
-                    console.error('Error deleting doctor:', error);
-                });
-            }
-        });
-    };
+    // const handleDeleteClick = (doctorId) => {
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "Do you really want to delete this doctor?",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Delete',
+    //         cancelButtonText: 'Cancel'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             fetch(`https://localhost:7157/api/admin/doctor/${doctorId}`, {
+    //                 method: 'DELETE',
+    //                 headers: { 'Content-Type': 'application/json' }
+    //             })
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 if (data.success) {
+    //                     Swal.fire(
+    //                         'Deleted!',
+    //                         'Doctor has been deleted.',
+    //                         'success'
+    //                     );
+    //                     refetchDoctorData();
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 Swal.fire(
+    //                     'Error!',
+    //                     'There was a problem deleting the doctor.',
+    //                     'error'
+    //                 );
+    //                 console.error('Error deleting doctor:', error);
+    //             });
+    //         }
+    //     });
+    // };
 
     const handleSearch = (e) => {
         const searchValue = e.target.value;
@@ -177,10 +177,10 @@ const Doctor = () => {
                                     <button onClick={() => handleEditClick(doctor.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
                                     </button>
-                                    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                    {/* &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                                     <button onClick={() => handleDeleteClick(doctor.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
-                                    </button>
+                                    </button> */}
                                 </td>
                             </tr>
                         ))}

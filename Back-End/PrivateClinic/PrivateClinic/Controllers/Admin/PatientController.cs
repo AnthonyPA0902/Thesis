@@ -32,6 +32,54 @@ namespace PrivateClinic.Controllers.Admin
 			return Ok(new { success = true, Patients = patients });
 		}
 
+		[HttpGet("patient/record/{id}")]
+		public async Task<IActionResult> GetPatientRecords(int id, int page = 1, int pageSize = 12)
+		{
+			var recordsQuery = _dbContext.MedicalRecords
+				.Include(mr => mr.Customer)
+				.Include(mr => mr.MedicalRecordMedicines)
+					.ThenInclude(mmr => mmr.Medicine)
+				.Where(mr => mr.CustomerId == id)
+				.Select(mr => new MedicalRecordDto
+				{
+					Id = mr.Id,
+					CheckUp = mr.Checkup,
+					Treatment = mr.Treatment,
+					Description = mr.Description,
+					RecordDate = mr.RecordDate,
+					CustomerId = mr.CustomerId,
+					CustomerName = mr.Customer.Name,
+					Medicines = mr.MedicalRecordMedicines.Select(mmr => new MedicineStorageDto
+					{
+						MedicineId = mmr.MedicineId,
+						MedicineName = mmr.Medicine.Name,
+						Quantity = mmr.Quantity,
+						Note = mmr.Note
+					}).ToList()
+				});
+
+			// Get the total number of records for pagination
+			var totalRecords = await recordsQuery.CountAsync();
+
+			// Apply pagination
+			var records = await recordsQuery
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			if (records == null || records.Count == 0)
+			{
+				return Ok(new { success = false, message = "No records found" });
+			}
+
+			return Ok(new
+			{
+				success = true,
+				Records = records,
+				TotalRecords = totalRecords
+			});
+		}
+
 		[HttpPost("patient")]
 		public async Task<IActionResult> UpdatePatientTable([FromBody] User patient)
 		{

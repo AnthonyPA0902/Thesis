@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../../admin_assets/css/medicine.css';
 import MedicineModal from '../../components/MedicineModal';
+import decodeToken from '../../components/DecodeToken';
 
 const Medicine = () => {
     const [medicines, setMedicines] = useState([]); // All medicines
@@ -11,23 +12,31 @@ const Medicine = () => {
     const [page, setPage] = useState(1); // Pagination state
     const [pageSize] = useState(10); // Number of items per page
     const [totalMedicines, setTotalMedicines] = useState(0);
+    const [roleId, setRoleId] = useState(null);
 
     // Move the function declaration here to avoid the ESLint warning
     const fetchMedicines = useCallback(async () => {
-        try {
-            const response = await fetch(`https://localhost:7157/api/admin/medicine/query?page=${page}&pageSize=${pageSize}`);
-            const data = await response.json();
-            if (data.success) {
-                setMedicines(data.medicines);
-                setUniqueMedicines(getUniqueMedicines(data.medicines)); // Get unique medicine names
-                setFilteredMedicines(data.medicines); // Initialize filtered medicines
-                setTotalMedicines(data.totalMedicines);; // Set total medicines from response
-                console.log(data.totalMedicines);
-            } else {
-                alert("No medicines found.");
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            const decodedToken = decodeToken(token);
+            if (decodedToken) {
+                setRoleId(decodedToken.user_role);
+                try {
+                    const response = await fetch(`https://localhost:7157/api/admin/medicine/query?page=${page}&pageSize=${pageSize}`);
+                    const data = await response.json();
+                    if (data.success) {
+                        setMedicines(data.medicines);
+                        setUniqueMedicines(getUniqueMedicines(data.medicines)); // Get unique medicine names
+                        setFilteredMedicines(data.medicines); // Initialize filtered medicines
+                        setTotalMedicines(data.totalMedicines);; // Set total medicines from response
+                        console.log(data.totalMedicines);
+                    } else {
+                        alert("No medicines found.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching medicines:", error);
+                }
             }
-        } catch (error) {
-            console.error("Error fetching medicines:", error);
         }
     }, [page, pageSize]);
 
@@ -119,50 +128,85 @@ const Medicine = () => {
 
     const totalPage = Math.ceil(totalMedicines / pageSize);
 
-    return (
-        <div className="medicine-container">
-            <h2>Kho Thuốc</h2>
-            <button onClick={() => handleOpenModal(null)} className="create-medicine-button">
-                Thêm Thuốc Vào Kho
-            </button>
-
-            {/* Dropdown for selecting unique medicine names */}
-            <div className="medicine-filter">
-                <select onChange={handleFilterChange}>
-                    <option value="">Tất Cả Thuốc</option>
-                    {uniqueMedicines.map((name, index) => (
-                        <option key={index} value={name}>{name}</option>
+    if (roleId === '2') {
+        return (
+            <div className="medicine-container">
+                <h2>Kho Thuốc</h2>
+                {/* Dropdown for selecting unique medicine names */}
+                <div className="medicine-filter">
+                    <select onChange={handleFilterChange}>
+                        <option value="">Tất Cả Thuốc</option>
+                        {uniqueMedicines.map((name, index) => (
+                            <option key={index} value={name}>{name}</option>
+                        ))}
+                    </select>
+                </div>
+    
+                <div className="medicine-grid">
+                    {filteredMedicines.map((medicine) => (
+                        <div key={medicine.id} className="medicine-card" onClick={() => handleOpenModal(medicine)}>
+                            <h3>{medicine.name}</h3>
+                            <p>Còn lại: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
+                            <p>Tổng Số: {medicine.total}</p>
+                            <p>Ngày Hết Hạn: {medicine.expiredDate}</p>
+                        </div>
                     ))}
-                </select>
+                </div>
+    
+                {/* Pagination */}
+                <div className="medicine-pagination">
+                    <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
+                    <span>Page {page}</span>
+                    <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Next</button>
+                </div>
             </div>
-
-            <div className="medicine-grid">
-                {filteredMedicines.map((medicine) => (
-                    <div key={medicine.id} className="medicine-card" onClick={() => handleOpenModal(medicine)}>
-                        <h3>{medicine.name}</h3>
-                        <p>Còn lại: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
-                        <p>Tổng Số: {medicine.total}</p>
-                        <p>Ngày Hết Hạn: {medicine.expiredDate}</p>
-                    </div>
-                ))}
+        );
+    } else {
+        return (
+            <div className="medicine-container">
+                <h2>Kho Thuốc</h2>
+                <button onClick={() => handleOpenModal(null)} className="create-medicine-button">
+                    Thêm Thuốc Vào Kho
+                </button>
+    
+                {/* Dropdown for selecting unique medicine names */}
+                <div className="medicine-filter">
+                    <select onChange={handleFilterChange}>
+                        <option value="">Tất Cả Thuốc</option>
+                        {uniqueMedicines.map((name, index) => (
+                            <option key={index} value={name}>{name}</option>
+                        ))}
+                    </select>
+                </div>
+    
+                <div className="medicine-grid">
+                    {filteredMedicines.map((medicine) => (
+                        <div key={medicine.id} className="medicine-card" onClick={() => handleOpenModal(medicine)}>
+                            <h3>{medicine.name}</h3>
+                            <p>Còn lại: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
+                            <p>Tổng Số: {medicine.total}</p>
+                            <p>Ngày Hết Hạn: {medicine.expiredDate}</p>
+                        </div>
+                    ))}
+                </div>
+    
+                {/* Pagination */}
+                <div className="medicine-pagination">
+                    <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
+                    <span>Page {page}</span>
+                    <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Next</button>
+                </div>
+    
+                {/* Medicine Modal */}
+                <MedicineModal
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    onSubmit={selectedMedicine ? handleEditMedicine : handleAddMedicine}
+                    editingMedicine={selectedMedicine}
+                />
             </div>
-
-            {/* Pagination */}
-            <div className="medicine-pagination">
-                <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
-                <span>Page {page}</span>
-                <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Next</button>
-            </div>
-
-            {/* Medicine Modal */}
-            <MedicineModal
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-                onSubmit={selectedMedicine ? handleEditMedicine : handleAddMedicine}
-                editingMedicine={selectedMedicine}
-            />
-        </div>
-    );
+        );
+    }
 };
 
 export default Medicine;

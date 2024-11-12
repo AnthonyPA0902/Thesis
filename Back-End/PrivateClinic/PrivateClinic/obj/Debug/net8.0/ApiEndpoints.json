@@ -37,32 +37,6 @@
   },
   {
     "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
-    "Method": "CompleteCheckUp",
-    "RelativePath": "api/admin/check/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "PrivateClinic.Models.Checkup",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
     "Method": "GetCheckupInfo",
     "RelativePath": "api/admin/checkup",
     "HttpMethod": "GET",
@@ -91,6 +65,105 @@
     "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
     "Method": "EditCheckUp",
     "RelativePath": "api/admin/checkup/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkup",
+        "Type": "PrivateClinic.Models.Checkup",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.Checkup",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
+    "Method": "DeleteCheckUp",
+    "RelativePath": "api/admin/checkup/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.Checkup",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
+    "Method": "CompleteCheckUp",
+    "RelativePath": "api/admin/checkup/complete/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PrivateClinic.Models.Checkup",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
+    "Method": "GetDoctorCheckupInfo",
+    "RelativePath": "api/admin/checkup/doctor/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.CheckUpController",
+    "Method": "FinishCheckUp",
+    "RelativePath": "api/admin/checkup/finish/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -678,6 +751,32 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.PatientController",
+    "Method": "GetPatientRecords",
+    "RelativePath": "api/admin/patient/record/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PrivateClinic.Controllers.Admin.MedicalRecordController",

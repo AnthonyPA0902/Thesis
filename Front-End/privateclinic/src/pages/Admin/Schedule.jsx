@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import ScheduleModal from '../../components/ScheduleModal';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Schedule = () => {
     const [schedule, setSchedule] = useState([]); // Schedule data state
@@ -75,21 +76,63 @@ const Schedule = () => {
         setIsModalOpen(true);
     };
 
-    const handleEditClick = (id) => {
-        fetch(`https://localhost:7157/api/admin/schedule/${id}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setEditingSchedule(data.schedule);
-                setIsModalOpen(true);
-            })
-            .catch((error) => console.error("Error fetching schedule:", error));
-    };
+    // const handleEditClick = (id) => {
+    //     fetch(`https://localhost:7157/api/admin/schedule/${id}`)
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setEditingSchedule(data.schedule);
+    //             setIsModalOpen(true);
+    //         })
+    //         .catch((error) => console.error("Error fetching schedule:", error));
+    // };
 
     const handlePaginationClick = (page) => {
         setCurrentPage(page);
     };
 
     const totalPages = Math.ceil(totalRecords / pageSize); // Total number of pages
+
+    const handleDeleteClick = (scheduleId) => {
+        // Show SweetAlert2 confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this schedule?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Schedule has been deleted.',
+                            'success'
+                        );
+                        refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate)
+                    } 
+                })
+                .catch((error) => {
+                    Swal.fire(
+                        'Error!',
+                        'There was a problem deleting the schedule.',
+                        'error'
+                    );
+                    console.error('Error deleting schedule:', error);
+                });
+            }
+        });
+    };
 
     return (
         <div className="content">
@@ -143,18 +186,22 @@ const Schedule = () => {
                                 <td>{schedule.date}</td>
                                 <td>{schedule.doctorName}</td>
                                 <td>{schedule.treatmentName}</td>
-                                <td style={{ fontWeight: '700', color: schedule.condition === "Đã Xếp Lịch" ? 'green' : schedule.condition === "Chưa Xếp Lịch" ? 'red' : 'black' }}>
+                                <td style={{ textAlign: 'center', fontWeight: '700', color: schedule.condition === "Đã Xếp Lịch" ? 'green' : schedule.condition === "Chưa Xếp Lịch" ? 'red' : 'black' }}>
                                     {schedule.condition}
-                                </td>
-                                <td style={{ textAlign: 'center' }}>
-                                    <button style={{ marginRight: '10px' }} onClick={() => handleEditClick(schedule.id)}>
-                                        <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
-                                    </button>
+                                    <br />
                                     {schedule.condition === "Chưa Xếp Lịch" && (
                                         <button onClick={() => handleCheckupClick(schedule)}>
                                             <img className="icon" src="/admin_assets/img/icon/checkup-icon.png" alt="checkup-icon" />
                                         </button>
                                     )}
+                                </td>
+                                <td style={{ textAlign: 'center' }}>
+                                    {/* <button style={{ marginRight: '10px', marginBottom: '5px' }} onClick={() => handleEditClick(schedule.id)}>
+                                        <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
+                                    </button> */}
+                                    <button onClick={() => handleDeleteClick(schedule.id)}>
+                                        <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
