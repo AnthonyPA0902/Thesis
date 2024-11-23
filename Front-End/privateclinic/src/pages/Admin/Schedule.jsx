@@ -95,14 +95,14 @@ const Schedule = () => {
     const handleDeleteClick = (scheduleId) => {
         // Show SweetAlert2 confirmation dialog
         Swal.fire({
-            title: 'Are you sure?',
-            text: "Do you really want to delete this schedule?",
+            title: 'Xác nhận thông tin?',
+            text: "Bạn có muốn xóa lịch hẹn này không?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Delete',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed) {
                 fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {

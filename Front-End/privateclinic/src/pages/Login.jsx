@@ -118,10 +118,10 @@ const Login = () => {
                                 </div>
                                 <form onSubmit={handleSubmit} method="post">
                                     <div className="form-group first" style={{ marginBottom: '20px', border: '1px solid gray', padding: '7px' }}>
-                                        <input type="text" className="form-control" id="username" name="username" value={formData.username} placeholder="Tài Khoản" style={{ fontSize: '16px' }} onChange={handleInputChange} />
+                                        <input type="text" className="form-control" id="username" name="username" value={formData.username} placeholder="Tài Khoản *" style={{ fontSize: '16px' }} onChange={handleInputChange} />
                                     </div>
                                     <div className="form-group last mb-3" style={{ border: '1px solid gray', padding: '7px' }}>
-                                        <input type={showPassword ? "text" : "password"} className="form-control" id="password" name="password" value={formData.password} placeholder="Mật Khẩu" style={{ fontSize: '16px' }} onChange={handleInputChange} />
+                                        <input type={showPassword ? "text" : "password"} className="form-control" id="password" name="password" value={formData.password} placeholder="Mật Khẩu *" style={{ fontSize: '16px' }} onChange={handleInputChange} />
                                         <span className={`fa fa-fw ${showPassword ? "fa-eye-slash" : "fa-eye"} field-icon toggle-password`}
                                             onClick={handlePasswordToggle} style={{ cursor: 'pointer' }}></span>
                                     </div>

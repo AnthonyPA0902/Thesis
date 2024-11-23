@@ -32,13 +32,13 @@ const Register = () => {
             newErrors.name = 'Tên không được để trống'
         }
 
-        if (!formData.age) {
-            newErrors.age = 'Tuổi không được để trống'
-        }
+        // if (!formData.age) {
+        //     newErrors.age = 'Tuổi không được để trống'
+        // }
 
-        if (!formData.address) {
-            newErrors.address = 'Địa chỉ không được để trống'
-        }
+        // if (!formData.address) {
+        //     newErrors.address = 'Địa chỉ không được để trống'
+        // }
 
         if (!formData.email) {
             newErrors.email = 'Email không được để trống'
@@ -120,7 +120,7 @@ const Register = () => {
                                         id="name"
                                         name="name"
                                         value={formData.name}
-                                        placeholder="Họ Tên"
+                                        placeholder="Họ Tên *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.name && <div className="error-text">{errors.name}</div>}
@@ -159,7 +159,7 @@ const Register = () => {
                                         id="email"
                                         name="email"
                                         value={formData.email}
-                                        placeholder="Email"
+                                        placeholder="Email *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.email && <div className="error-text">{errors.email}</div>}
@@ -172,7 +172,7 @@ const Register = () => {
                                         id="phone"
                                         name="phone"
                                         value={formData.phone}
-                                        placeholder="Số Điện Thoại"
+                                        placeholder="Số Điện Thoại *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.phone && <div className="error-text">{errors.phone}</div>}
@@ -185,7 +185,7 @@ const Register = () => {
                                         id="username"
                                         name="username"
                                         value={formData.username}
-                                        placeholder="Tài Khoản"
+                                        placeholder="Tài Khoản *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.username && <div className="error-text">{errors.username}</div>}
@@ -198,7 +198,7 @@ const Register = () => {
                                         id="password"
                                         name="password"
                                         value={formData.password}
-                                        placeholder="Mật Khẩu"
+                                        placeholder="Mật Khẩu *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.password && <div className="error-text">{errors.password}</div>}
