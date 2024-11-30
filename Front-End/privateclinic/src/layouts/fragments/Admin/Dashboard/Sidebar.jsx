@@ -72,6 +72,9 @@ const Sidebar = () => {
                                 <li className={location.pathname === "/admin/equipment" ? "active" : ""}>
                                     <a href="/admin/equipment"><i className="fa fa-video-camera"></i> <span>Thiết Bị</span></a>
                                 </li>
+                                <li className={location.pathname === "/admin/report" ? "active" : ""}>
+                                    <a href="/admin/report"><i className="fa fa-file"></i> <span>Báo Cáo</span></a>
+                                </li>
                             </>
                         )}
                     </ul>

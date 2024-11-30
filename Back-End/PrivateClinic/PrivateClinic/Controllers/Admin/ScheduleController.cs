@@ -19,11 +19,11 @@ namespace PrivateClinic.Controllers.Admin
 
 		[HttpGet("schedule")]
 		public async Task<ActionResult> GetSchedulesInfo(
-	[FromQuery] string search = "",
-	[FromQuery] int page = 1,
-	[FromQuery] int pageSize = 5,
-	[FromQuery] string date = "" // Add date parameter
-)
+			[FromQuery] string search = "",
+			[FromQuery] int page = 1,
+			[FromQuery] int pageSize = 5,
+			[FromQuery] string date = "" // Add date parameter
+	)
 		{
 			var doctors = await _dbContext.Users
 				.Where(user => user.RoleId == 2)

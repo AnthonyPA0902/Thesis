@@ -18,6 +18,7 @@ import MedicalRecord from '../pages/Admin/MedicalRecord';
 import Patient from '../pages/Admin/Patient';
 import ServiceDetail from '../pages/ServiceDetail';
 import PatientRecord from '../pages/Admin/PatientRecord';
+import Report from '../pages/Admin/Report';
 
 // Routes
 const NormalRoutes = [
@@ -47,6 +48,7 @@ const AdminRoutes = [
     { path: '/admin/info', component: Info },
     { path: '/admin/medicine', component: Medicine },
     { path: '/admin/record', component: MedicalRecord },
+    { path: '/admin/report', component: Report },
     { path: '/admin/patient', component: Patient },
     { path: '/admin/patient/record', component: PatientRecord },
 ]

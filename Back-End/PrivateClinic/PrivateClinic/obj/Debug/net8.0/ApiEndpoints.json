@@ -816,6 +816,58 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ReportController",
+    "Method": "GetDoctor",
+    "RelativePath": "api/admin/report/doctor/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ReportController",
+    "Method": "GetDoctors",
+    "RelativePath": "api/admin/report/doctors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PrivateClinic.Controllers.Admin.ReportController",
+    "Method": "GenerateReport",
+    "RelativePath": "api/admin/report/generateReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "doctorId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "month",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.Admin.ScheduleController",
     "Method": "GetSchedulesInfo",
     "RelativePath": "api/admin/schedule",
