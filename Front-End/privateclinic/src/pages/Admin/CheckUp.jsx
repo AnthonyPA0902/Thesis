@@ -97,6 +97,31 @@ const CheckUp = () => {
         const startTime = checkupData.startTime;
         const endTime = checkupData.endTime;
 
+        // Check if start time and end time are within the allowed range
+        const startTimeInRange = new Date(`${date}T${startTime}:00`);
+        const endTimeInRange = new Date(`${date}T${endTime}:00`);
+        const minTime = new Date(`${date}T08:00:00`);
+        const maxTime = new Date(`${date}T22:00:00`);
+
+
+        if (startTimeInRange < minTime || startTimeInRange > maxTime) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thời gian bắt đầu phải trong khoảng từ 08:00 đến 22:00.',
+            });
+            return;
+        }
+
+        if (endTimeInRange < minTime || endTimeInRange > maxTime) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thời gian kết thúc phải trong khoảng từ 08:00 đến 22:00.',
+            });
+            return;
+        }
+
         // Check for time conflicts
         if (hasTimeConflict(parseInt(doctorId), date, `${startTime}:00`, `${endTime}:00`)) {
             Swal.fire({
@@ -138,7 +163,7 @@ const CheckUp = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.success === true ) {
+                if (data.success === true) {
                     if (passedScheduleData) {
                         fetch(`https://localhost:7157/api/admin/schedule/condition/${passedScheduleData.id}`, {
                             method: "PUT",
@@ -222,40 +247,52 @@ const CheckUp = () => {
     };
 
     const handleDeleteEvent = () => {
-        // Call the DELETE API to remove the selected event
-        fetch(`https://localhost:7157/api/admin/checkup/${selectedEvent.id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
+        Swal.fire({
+            title: 'Bạn có chắc muốn xóa ca khám này không?',
+            text: 'Sau khi xóa, bạn sẽ không thể khôi phục lại dữ liệu!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with the delete operation
+                fetch(`https://localhost:7157/api/admin/checkup/${selectedEvent.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                })
+                    .then(response => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công',
+                                text: 'Ca khám đã được xóa thành công.',
+                            });
+                            // Refetch the checkup data to update the calendar
+                            refetchCheckUpData();
+                            setSelectedEvent(null);  // Close the event details popup
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Xóa ca khám không thành công.',
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting checkup:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi xóa ca khám.',
+                        });
+                    });
             }
-        })
-            .then(response => response.json())
-            .then((data) => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công',
-                        text: 'Ca khám đã được xóa thành công.',
-                    });
-                    // Refetch the checkup data to update the calendar
-                    refetchCheckUpData();
-                    setSelectedEvent(null);  // Close the event details popup
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Xóa ca khám không thành công.',
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error("Error deleting checkup:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Có lỗi xảy ra khi xóa ca khám.',
-                });
-            });
+        });
     };
 
     // Handler to close the event details popup
@@ -289,7 +326,7 @@ const CheckUp = () => {
             .catch(error => console.error("Error updating checkup status:", error));
     };
 
-    
+
     // Handle the button click to mark the schedule as complete for doctor
     const handleComplete = () => {
         // Send a PUT request to update the status of the selected checkup by its ID
@@ -470,6 +507,7 @@ const CheckUp = () => {
                         onEdit={handleEditCheckup}
                         initialData={passedScheduleData}
                         currentData={eventData}
+                        hasTimeConflict={hasTimeConflict} // Pass the function here
                     />
 
                     <CheckUpRecordModal

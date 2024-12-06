@@ -178,7 +178,7 @@ const Profile = () => {
                             {Array.isArray(currentScheduleRows) && currentScheduleRows.map((schedule, index) => (
                                 <tr key={index}>
                                     <td>{index + 1 + indexOfFirstScheduleRow}</td>
-                                    <td>{schedule.date}</td>
+                                    <td>{new Date(schedule.date).toLocaleDateString('en-GB')}</td>
                                     <td>{schedule.doctorName}</td>
                                     <td>{schedule.treatmentName}</td>
                                     <td>{schedule.price}</td>
@@ -228,7 +228,7 @@ const Profile = () => {
                                     onClick={() => handleCardClick(record)}
                                 >
                                     <h3>
-                                        <p><strong>Ngày:</strong> {new Date(record.recordDate).toLocaleDateString()}</p>
+                                        <p><strong>Ngày:</strong> {new Date(record.recordDate).toLocaleDateString('en-GB')}</p>
                                     </h3>
                                 </div>
                             ))
@@ -262,7 +262,7 @@ const Profile = () => {
                     <div className={styles.popupContent}>
                         <h3>Chi Tiết Hồ Sơ</h3>
                         <p><strong>Họ Tên:</strong> {selectedRecord.customerName}</p>
-                        <p><strong>Ngày Lập:</strong> {new Date(selectedRecord.recordDate).toLocaleDateString()}</p>
+                        <p><strong>Ngày Lập:</strong> {new Date(selectedRecord.recordDate).toLocaleDateString('en-GB')}</p>
                         <p><strong>Thông Tin Chi Tiết:</strong> {selectedRecord.description}</p>
                         <p><strong>Đơn Thuốc:</strong>
                             <div>

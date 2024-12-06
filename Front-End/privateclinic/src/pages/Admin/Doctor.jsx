@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react'; 
+import React, { useState, useEffect, useCallback } from 'react';
 import '../../admin_assets/css/schedule.css';
 import DoctorModal from '../../components/DoctorModal';
 
 const Doctor = () => {
     const [doctors, setDoctors] = useState([]);  // Store all doctors here
+    const [passwordVisibility, setPasswordVisibility] = useState({}); // Track visibility for each doctor
     const [filteredDoctors, setFilteredDoctors] = useState([]);  // Store filtered list
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingDoctor, setEditingDoctor] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [setTotalDoctors] = useState(0);
     const pageSize = 5;
 
     const fetchDoctors = useCallback((page) => {
@@ -19,14 +19,13 @@ const Doctor = () => {
                 if (Array.isArray(data.doctors)) {
                     setDoctors(data.info);  // Store all doctors
                     setFilteredDoctors(data.doctors);  // Initialize filtered doctors with all doctors
-                    setTotalDoctors(data.totalCount);
                 } else {
                     setDoctors([]);
                     setFilteredDoctors([]);
                 }
             })
             .catch((error) => console.error("Error fetching doctors:", error));
-    }, [setTotalDoctors]);  // Empty dependency array so that `fetchDoctors` doesn't change
+    }, []);  // Empty dependency array so that `fetchDoctors` doesn't change
 
     useEffect(() => {
         fetchDoctors(currentPage);
@@ -34,7 +33,7 @@ const Doctor = () => {
 
     useEffect(() => {
         // Filter the doctors based on searchTerm when it changes
-        const filtered = doctors.filter(d => 
+        const filtered = doctors.filter(d =>
             d.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredDoctors(filtered);
@@ -51,7 +50,7 @@ const Doctor = () => {
             password: doctorData.password
         };
 
-        const url = editingDoctor 
+        const url = editingDoctor
             ? `https://localhost:7157/api/admin/doctor/${editingDoctor.id}`
             : "https://localhost:7157/api/admin/doctor";
 
@@ -99,6 +98,14 @@ const Doctor = () => {
     // Paginate the filtered doctors
     const paginatedDoctors = filteredDoctors.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
+    // Toggle password visibility for a specific doctor
+    const togglePasswordVisibility = (id) => {
+        setPasswordVisibility((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id], // Toggle the visibility for the given id
+        }));
+    };
+
     return (
         <div className="content">
             <div className="doctor-container">
@@ -107,10 +114,10 @@ const Doctor = () => {
                     Thêm bác sĩ mới
                 </button>
                 <br /><br />
-                <input 
-                    type="text" 
-                    placeholder="Tìm kiếm theo tên bác sĩ" 
-                    className="search-bar" 
+                <input
+                    type="text"
+                    placeholder="Tìm kiếm theo tên bác sĩ"
+                    className="search-bar"
                     value={searchTerm}
                     onChange={handleSearch}
                 />
@@ -131,22 +138,28 @@ const Doctor = () => {
                     <tbody>
                         {Array.isArray(paginatedDoctors) && paginatedDoctors
                             .map((doctor, index) => (
-                            <tr key={index}>
-                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
-                                <td>{doctor.name}</td>
-                                <td>{doctor.age}</td>
-                                <td>{doctor.address}</td>
-                                <td>{doctor.phone}</td>
-                                <td>{doctor.email}</td>
-                                <td>{doctor.username}</td>
-                                <td>{doctor.password}</td>
-                                <td style={{ textAlign: 'center' }}>
-                                    <button onClick={() => handleEditClick(doctor.id)}>
-                                        <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                                <tr key={index}>
+                                    <td>{(currentPage - 1) * pageSize + index + 1}</td>
+                                    <td>{doctor.name}</td>
+                                    <td>{doctor.age}</td>
+                                    <td>{doctor.address}</td>
+                                    <td>{doctor.phone}</td>
+                                    <td>{doctor.email}</td>
+                                    <td>{doctor.username}</td>
+                                    <td
+                                        onClick={() => togglePasswordVisibility(doctor.id)}
+                                        style={{ cursor: "pointer", userSelect: "none" }}
+                                    >
+                                        {passwordVisibility[doctor.id] ? doctor.password : "••••••••"}
+                                    </td>
+
+                                    <td style={{ textAlign: 'center' }}>
+                                        <button onClick={() => handleEditClick(doctor.id)}>
+                                            <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
                 <div className="pagination">

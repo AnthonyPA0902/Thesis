@@ -107,6 +107,20 @@ const Appointment = () => {
             doctorId: '',
             treatmentId: ''
         };
+
+        const today = new Date();
+        const selectedDate = new Date(formData.date);
+    
+        // Validation for future date
+        if (!formData.date || selectedDate <= today) {
+            Swal.fire({
+                title: 'Ngày không hợp lệ!',
+                text: 'Bạn phải hẹn lịch bắt đầu từ ngày mai.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
     
         const payload = {
             name: formData.name,

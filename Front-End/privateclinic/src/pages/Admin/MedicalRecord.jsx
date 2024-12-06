@@ -14,7 +14,6 @@ const MedicalRecord = () => {
     const [uniqueNames, setUniqueNames] = useState([]);
     const [uniqueDates, setUniqueDates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [setTotalRecords] = useState(0);
     const pageSize = 12;
 
     // Memoize the fetchRecords function to avoid unnecessary re-creations
@@ -25,14 +24,13 @@ const MedicalRecord = () => {
             if (data.success) {
                 setInfo(data.info);
                 setRecords(data.records);
-                setTotalRecords(data.totalRecords);
             } else {
                 alert(data.message);
             }
         } catch (error) {
             console.error('Error fetching records:', error);
         }
-    }, [setTotalRecords]); // Empty dependency array means this function is memoized only once
+    }, []); // Empty dependency array means this function is memoized only once
 
     // Initial fetch on component mount
     useEffect(() => {
@@ -144,7 +142,7 @@ const MedicalRecord = () => {
                         <option value="">Tất Cả</option>
                         {uniqueDates.map((date, index) => (
                             <option key={index} value={date}>
-                                {date}
+                                {new Date(date).toLocaleDateString('en-GB')}
                             </option>
                         ))}
                     </select>
@@ -159,7 +157,7 @@ const MedicalRecord = () => {
                         onClick={() => setSelectedRecord(record)}  // Show details on click
                     >
                         <span>
-                            {record.customerName} - {new Date(record.recordDate).toLocaleDateString()}
+                            {record.customerName} - {new Date(record.recordDate).toLocaleDateString('en-GB')}
                         </span>
                     </div>
                 ))}

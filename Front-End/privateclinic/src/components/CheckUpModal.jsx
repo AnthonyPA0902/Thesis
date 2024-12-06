@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import '../admin_assets/css/modal.css';
+import Swal from "sweetalert2";
 
-const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentData }) => {
+const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentData, hasTimeConflict }) => {
     const [doctors, setDoctors] = useState([]);
     const [treatments, setTreatments] = useState([]);
 
@@ -159,6 +160,81 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
 
     // API call to update an existing checkup
     const updateCheckup = async () => {
+        const docId = formData.doctorId;
+        const day = formData.date;
+        const sTime = formatToHHMMSS(formData.startTime);
+        const eTime = formatToHHMMSS(formData.endTime);
+        const today = new Date();
+        const selectedDate = new Date(formData.date);
+        const selectedStartTime = new Date(`${formData.date}T${formData.startTime}`);
+        const currentTimePlusOneHour = new Date(today.getTime() + 60 * 60 * 1000); // Add 1 hour to the current time
+
+        // Check if start time and end time are within the allowed range
+        const startTimeInRange = new Date(`${day}T${sTime}`);
+        const endTimeInRange = new Date(`${day}T${eTime}`);
+        const minTime = new Date(`${day}T08:00:00`);
+        const maxTime = new Date(`${day}T22:00:00`);
+
+        if (startTimeInRange < minTime || startTimeInRange > maxTime) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thời gian bắt đầu phải trong khoảng từ 08:00 đến 22:00.',
+            });
+            return;
+        }
+
+        if (endTimeInRange < minTime || endTimeInRange > maxTime) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thời gian kết thúc phải trong khoảng từ 08:00 đến 22:00.',
+            });
+            return;
+        }
+
+        // Check for time conflicts
+        if (hasTimeConflict(parseInt(docId), day, `${sTime}`, `${eTime}`)) {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "Bác sĩ đã có lịch vào thời gian đó",
+            });
+            return;
+        }
+
+        // Validate that the selected date is today or later
+        if (selectedDate < new Date(today.toDateString())) {
+            Swal.fire({
+                title: 'Ngày không hợp lệ!',
+                text: 'Ca khám phải bắt đầu từ hôm nay trở đi.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
+        // Validate that the start time is at least 1 hour from the current time
+        if (selectedDate.toDateString() === today.toDateString() && selectedStartTime < currentTimePlusOneHour) {
+            Swal.fire({
+                title: 'Thời gian không hợp lệ!',
+                text: 'Giờ bắt đầu phải ít nhất sau 1 giờ từ thời gian hiện tại.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
+        // Validation for time order
+        if (new Date(`${day}T${sTime}`) > new Date(`${day}T${eTime}`)) {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "Thời gian bắt đầu không thể lớn hơn thời gian kết thúc.",
+            });
+            return;
+        }
+
         const edit = {
             name: formData.name,
             phone: formData.phone,

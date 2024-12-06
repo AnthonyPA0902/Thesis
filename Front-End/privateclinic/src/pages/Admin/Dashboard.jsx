@@ -123,8 +123,8 @@ const Dashboard = () => {
 									ticks: {
 										beginAtZero: true,
 										min: 0,
-										max: 10000000,
-										stepSize: 1000000
+										max: 20000000,
+										stepSize: 2000000
 									}
 								}]
 							}
