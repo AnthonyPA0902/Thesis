@@ -46,6 +46,7 @@ namespace PrivateClinic.Controllers.Admin
 			return Ok(new
 			{
 				success = true,
+				Info = doctorsQuery,
 				Doctors = doctors,
 				TotalCount = totalDoctors,
 				PageSize = pageSize,

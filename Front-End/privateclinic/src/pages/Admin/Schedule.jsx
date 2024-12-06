@@ -116,7 +116,7 @@ const Schedule = () => {
                     if (data.success) {
                         Swal.fire(
                             'Deleted!',
-                            'Schedule has been deleted.',
+                            'Lịch hẹn đã bị hủy.',
                             'success'
                         );
                         refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate)
@@ -186,10 +186,10 @@ const Schedule = () => {
                                 <td>{schedule.date}</td>
                                 <td>{schedule.doctorName}</td>
                                 <td>{schedule.treatmentName}</td>
-                                <td style={{ textAlign: 'center', fontWeight: '700', color: schedule.condition === "Đã Xếp Lịch" ? 'green' : schedule.condition === "Chưa Xếp Lịch" ? 'red' : 'black' }}>
+                                <td style={{ textAlign: 'center', fontWeight: '700', color: schedule.condition === "Đã Xếp Ca" ? 'green' : schedule.condition === "Chưa Xếp Ca" ? 'red' : 'black' }}>
                                     {schedule.condition}
                                     <br />
-                                    {schedule.condition === "Chưa Xếp Lịch" && (
+                                    {schedule.condition === "Chưa Xếp Ca" && (
                                         <button onClick={() => handleCheckupClick(schedule)}>
                                             <img className="icon" src="/admin_assets/img/icon/checkup-icon.png" alt="checkup-icon" />
                                         </button>

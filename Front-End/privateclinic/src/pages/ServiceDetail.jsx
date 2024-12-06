@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'; // Import useNaviga
 import styles from '../assets/css/detail.module.css'; // Import the CSS module
 import Heading from '../components/Heading';
 import backgroundImage from '../assets/img/detail-background.jpg';
+import Swal from 'sweetalert2';
 
 const ServiceDetail = () => {
     const [treatment, setTreatment] = useState(null);
@@ -43,6 +44,23 @@ const ServiceDetail = () => {
     };
 
     const goToAppointment = () => {
+        const token = sessionStorage.getItem('token');
+    
+        if (!token) {
+            Swal.fire({
+                title: 'Bạn cần phải có tài khoản!',
+                text: 'Hãy đăng nhập để có thể xếp lịch hẹn.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đăng Nhập',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login');
+                }
+            });
+            return;
+        }
         // Pass the selected treatment to the appointment page
         navigate('/appointment', { state: { selectedTreatment: treatment } });
     };

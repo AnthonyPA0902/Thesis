@@ -140,7 +140,6 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
             const result = await response.json();
 
             if (result.success) {
-                alert("User registration successful!");
                 onSubmit(formData); // proceed with checkup creation
             } else {
                 alert(result.message);
@@ -151,15 +150,33 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
         }
     };
 
+    const formatToHHMMSS = (time) => {
+        if (!time) return '';
+        const [hours, minutes] = time.split(':');
+        const seconds = '00'; // Adding seconds as '00' if not provided
+        return `${hours}:${minutes}:${seconds}`;
+    };
+
     // API call to update an existing checkup
     const updateCheckup = async () => {
+        const edit = {
+            name: formData.name,
+            phone: formData.phone,
+            date: formData.date,
+            startTime: formatToHHMMSS(formData.startTime),
+            endTime: formatToHHMMSS(formData.endTime),
+            room: formData.room,
+            doctorId: formData.doctorId,
+            treatmentId: formData.treatmentId,
+        };
+
         try {
             const response = await fetch(`https://localhost:7157/api/admin/checkup/${formData.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(edit)
             });
             const result = await response.json();
 

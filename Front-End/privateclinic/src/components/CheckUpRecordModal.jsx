@@ -31,8 +31,10 @@ const CheckUpRecordModal = ({ isOpen, onClose, onSubmit, recordData }) => {
             const formattedEndTime = endDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 
             // Find the customerId by matching customer name
-            console.log(recordData.name);
+            console.log(recordData.name)
+            console.log(customers)
             const customer = customers.find(c => c.name === recordData.name);
+            console.log(customer)
 
             setFormData({
                 checkup: `${formattedStartTime} - ${formattedEndTime}`,  // Combining start and end time
@@ -183,7 +185,7 @@ const CheckUpRecordModal = ({ isOpen, onClose, onSubmit, recordData }) => {
     return (
         <div className={styles['modal-overlay']}>
             <div className={styles['popup-modal']}>
-                <h2>Chi Tiết Hồ Sơ Khám Bệnh</h2>
+                <h2>Tạo Hồ Sơ Khám Bệnh</h2>
                 <div className={styles['modal-body']}>
                     <form onSubmit={handleSubmit}>
                         <div className={styles['flex-form']}>

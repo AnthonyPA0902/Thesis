@@ -172,6 +172,24 @@ const CheckUp = () => {
             .catch((error) => console.error("Error fetching updated schedule:", error));
     };
 
+    const refetchCheckUpDoctorData = () => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            const decodedToken = decodeToken(token);
+            if (decodedToken) {
+                const doctorId = decodedToken.user_id;
+                fetch(`https://localhost:7157/api/admin/checkup/doctor/${doctorId}`)
+                    .then((response) => response.json())
+                    .then((updatedData) => {
+                        if (Array.isArray(updatedData.checkups)) {
+                            setCheckups(updatedData.checkups);
+                        }
+                    })
+                    .catch((error) => console.error("Error fetching updated schedule:", error));
+            }
+        }
+    };
+
     // Map checkups to events for the calendar with different color based on status
     const events = checkups.map((checkup) => ({
         id: `${checkup.id}`,
@@ -252,7 +270,7 @@ const CheckUp = () => {
         setIsRecordModalOpen(true);  // Open the CheckUpRecordModal
     };
 
-    // Handle the button click to mark the schedule as complete
+    // Handle the button click to mark the schedule as complete for employee
     const handleCompleteEvent = () => {
         // Send a PUT request to update the status of the selected checkup by its ID
         fetch(`https://localhost:7157/api/admin/checkup/complete/${selectedEvent.id}`, {
@@ -271,6 +289,30 @@ const CheckUp = () => {
             .catch(error => console.error("Error updating checkup status:", error));
     };
 
+    
+    // Handle the button click to mark the schedule as complete for doctor
+    const handleComplete = () => {
+        // Send a PUT request to update the status of the selected checkup by its ID
+        fetch(`https://localhost:7157/api/admin/checkup/complete/${selectedEvent.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(response => response.json())
+            .then(() => {
+                // After successful update, update the status locally and refetch data
+                setSelectedEvent(prev => ({ ...prev, status: "Hoàn Thành" }));
+                refetchCheckUpDoctorData(); // Refetch the updated checkups
+                setSelectedEvent(null);
+            })
+            .catch(error => console.error("Error updating checkup status:", error));
+    };
+
+
+
+
+
     if (roleId === '2') {
         return (
             <div className="content">
@@ -278,6 +320,26 @@ const CheckUp = () => {
                     <h1>Ca Khám</h1>
                     <br />
                     <br />
+                    {/* Add the new section with the colored circles below the heading */}
+                    <div className="status-circles" style={{ display: 'flex', flexDirection: 'row', gap: '20px', marginBottom: '20px' }}>
+                        <div className="circle blue" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '10px', height: '10px', borderRadius: '50%', color: 'white', fontWeight: 'bold', textAlign: 'center', padding: '10px', fontSize: '14px', backgroundColor: 'blue' }}>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 'bold', color: 'blue' }}>
+                            Chưa Hoàn Thành
+                        </div>
+
+                        <div className="circle green" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '10px', height: '10px', borderRadius: '50%', color: 'white', fontWeight: 'bold', textAlign: 'center', padding: '10px', fontSize: '14px', backgroundColor: 'green' }}>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 'bold', color: 'green' }}>
+                            Đã Hoàn Thành
+                        </div>
+
+                        <div className="circle orange" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '10px', height: '10px', borderRadius: '50%', color: 'black', fontWeight: 'bold', textAlign: 'center', padding: '10px', fontSize: '14px', backgroundColor: 'orange' }}>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 'bold', color: 'orange' }}>
+                            Đã Hoàn Thành & Lập Hồ Sơ
+                        </div>
+                    </div>
                     <Calendar
                         localizer={localizer}
                         events={events}
@@ -327,7 +389,7 @@ const CheckUp = () => {
                                 <p><strong>Phòng Khám:</strong> {selectedEvent.room}</p>
                                 <p><strong>Liệu Trình:</strong> {selectedEvent.treatment}</p>
                                 <div className="popup-buttons">
-                                    <button onClick={handleCompleteEvent}>Hoàn Thành</button>
+                                    <button onClick={handleComplete}>Hoàn Thành</button>
                                     <button onClick={handleOpenRecordModal}>Lập Hồ Sơ</button>  {/* Open the CheckUpRecordModal */}
                                 </div>
                             </div>

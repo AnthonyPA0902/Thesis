@@ -123,7 +123,7 @@ namespace PrivateClinic.Controllers.Admin
 				return NotFound(new { success = false, message = "Schedule not found" });
 			}
 
-			schedule.Condition = "Đã Xếp Lịch"; // Update the condition
+			schedule.Condition = "Đã Xếp Ca"; // Update the condition
 
 			_dbContext.ExaminitionAppointments.Update(schedule);
 			await _dbContext.SaveChangesAsync();

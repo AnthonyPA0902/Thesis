@@ -1,36 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react'; 
 import '../../admin_assets/css/schedule.css';
 import DoctorModal from '../../components/DoctorModal';
-// import Swal from 'sweetalert2';
 
 const Doctor = () => {
-    const [doctor, setDoctor] = useState([]);
-    const [filteredDoctors, setFilteredDoctors] = useState([]);
+    const [doctors, setDoctors] = useState([]);  // Store all doctors here
+    const [filteredDoctors, setFilteredDoctors] = useState([]);  // Store filtered list
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingDoctor, setEditingDoctor] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalDoctors, setTotalDoctors] = useState(0);
+    const [setTotalDoctors] = useState(0);
     const pageSize = 5;
 
-    const fetchDoctors = (page) => {
+    const fetchDoctors = useCallback((page) => {
         fetch(`https://localhost:7157/api/admin/doctor?page=${page}&pageSize=${pageSize}`)
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.doctors)) {
-                    setDoctor(data.doctors);
-                    setFilteredDoctors(data.doctors); // Initialize filtered data
+                    setDoctors(data.info);  // Store all doctors
+                    setFilteredDoctors(data.doctors);  // Initialize filtered doctors with all doctors
                     setTotalDoctors(data.totalCount);
                 } else {
-                    setDoctor([]);
+                    setDoctors([]);
+                    setFilteredDoctors([]);
                 }
             })
             .catch((error) => console.error("Error fetching doctors:", error));
-    };
+    }, [setTotalDoctors]);  // Empty dependency array so that `fetchDoctors` doesn't change
 
     useEffect(() => {
         fetchDoctors(currentPage);
-    }, [currentPage]);
+    }, [currentPage, fetchDoctors]);  // Include `fetchDoctors` in the dependency array
+
+    useEffect(() => {
+        // Filter the doctors based on searchTerm when it changes
+        const filtered = doctors.filter(d => 
+            d.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredDoctors(filtered);
+    }, [searchTerm, doctors]);  // Re-run when searchTerm or doctors changes
 
     const handleAddDoctor = (doctorData) => {
         const payload = {
@@ -84,54 +92,12 @@ const Doctor = () => {
             .catch((error) => console.error("Error fetching doctor:", error));
     };
 
-    // const handleDeleteClick = (doctorId) => {
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: "Do you really want to delete this doctor?",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Delete',
-    //         cancelButtonText: 'Cancel'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             fetch(`https://localhost:7157/api/admin/doctor/${doctorId}`, {
-    //                 method: 'DELETE',
-    //                 headers: { 'Content-Type': 'application/json' }
-    //             })
-    //             .then((response) => response.json())
-    //             .then((data) => {
-    //                 if (data.success) {
-    //                     Swal.fire(
-    //                         'Deleted!',
-    //                         'Doctor has been deleted.',
-    //                         'success'
-    //                     );
-    //                     refetchDoctorData();
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 Swal.fire(
-    //                     'Error!',
-    //                     'There was a problem deleting the doctor.',
-    //                     'error'
-    //                 );
-    //                 console.error('Error deleting doctor:', error);
-    //             });
-    //         }
-    //     });
-    // };
-
     const handleSearch = (e) => {
-        const searchValue = e.target.value;
-        setSearchTerm(searchValue);
-        
-        // Use regex to filter the doctors by name
-        const regex = new RegExp(searchValue, 'i'); // 'i' for case-insensitive search
-        const filtered = doctor.filter(d => regex.test(d.name));
-        setFilteredDoctors(filtered);
+        setSearchTerm(e.target.value);  // Update searchTerm state
     };
+
+    // Paginate the filtered doctors
+    const paginatedDoctors = filteredDoctors.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
     return (
         <div className="content">
@@ -163,9 +129,10 @@ const Doctor = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {Array.isArray(filteredDoctors) && filteredDoctors.map((doctor, index) => (
+                        {Array.isArray(paginatedDoctors) && paginatedDoctors
+                            .map((doctor, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
+                                <td>{(currentPage - 1) * pageSize + index + 1}</td>
                                 <td>{doctor.name}</td>
                                 <td>{doctor.age}</td>
                                 <td>{doctor.address}</td>
@@ -177,10 +144,6 @@ const Doctor = () => {
                                     <button onClick={() => handleEditClick(doctor.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
                                     </button>
-                                    {/* &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-                                    <button onClick={() => handleDeleteClick(doctor.id)}>
-                                        <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
-                                    </button> */}
                                 </td>
                             </tr>
                         ))}
@@ -193,9 +156,9 @@ const Doctor = () => {
                     >
                         Previous
                     </button>
-                    <span>Page {currentPage} of {Math.ceil(totalDoctors / pageSize)}</span>
+                    <span>Page {currentPage} of {Math.ceil(filteredDoctors.length / pageSize)}</span>
                     <button
-                        disabled={currentPage === Math.ceil(totalDoctors / pageSize)}
+                        disabled={currentPage === Math.ceil(filteredDoctors.length / pageSize)}
                         onClick={() => handlePageChange(currentPage + 1)}
                     >
                         Next

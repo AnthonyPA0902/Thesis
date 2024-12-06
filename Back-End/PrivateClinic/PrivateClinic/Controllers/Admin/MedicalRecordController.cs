@@ -59,10 +59,12 @@ namespace PrivateClinic.Controllers.Admin
 			return Ok(new
 			{
 				success = true,
+				Info = recordsQuery,
 				Records = records,
 				TotalRecords = totalRecords
 			});
 		}
+
 
 		[HttpPost("record")]
 		public async Task<IActionResult> CreateMedicalRecord([FromBody] MedicalRecordWithMedicineDto recordDto)

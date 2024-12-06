@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import '../../admin_assets/css/medicalrecord.css';
 import RecordModal from '../../components/RecordModal';
 
 const MedicalRecord = () => {
     const [records, setRecords] = useState([]);
+    const [filteredRecords, setFilteredRecords] = useState([]);
+    const [info, setInfo] = useState([]);
     const [selectedRecord, setSelectedRecord] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedName, setSelectedName] = useState('');
@@ -12,15 +14,16 @@ const MedicalRecord = () => {
     const [uniqueNames, setUniqueNames] = useState([]);
     const [uniqueDates, setUniqueDates] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalRecords, setTotalRecords] = useState(0);
+    const [setTotalRecords] = useState(0);
     const pageSize = 12;
 
-    // Function to fetch records
-    const fetchRecords = async (page = 1) => {
+    // Memoize the fetchRecords function to avoid unnecessary re-creations
+    const fetchRecords = useCallback(async (page = 1) => {
         try {
             const response = await fetch(`https://localhost:7157/api/admin/record?page=${page}&pageSize=${pageSize}`);
             const data = await response.json();
             if (data.success) {
+                setInfo(data.info);
                 setRecords(data.records);
                 setTotalRecords(data.totalRecords);
             } else {
@@ -29,46 +32,61 @@ const MedicalRecord = () => {
         } catch (error) {
             console.error('Error fetching records:', error);
         }
-    };
+    }, [setTotalRecords]); // Empty dependency array means this function is memoized only once
 
     // Initial fetch on component mount
     useEffect(() => {
         fetchRecords(currentPage);
-    }, [currentPage]);
+    }, [currentPage, fetchRecords]); // Now it includes fetchRecords
 
-
-    // Compute unique names and dates whenever records change
+    // Update the list of unique names and dates based on the records
     useEffect(() => {
-        const getUniqueNames = records => Array.from(new Set(records.map(record => record.customerName)));
-        const getUniqueDates = records => Array.from(new Set(records.map(record => new Date(record.recordDate).toLocaleDateString())));
-        setUniqueNames(getUniqueNames(records));
-        setUniqueDates(getUniqueDates(records));
-    }, [records]);
+        const getUniqueNames = info => Array.from(new Set(info.map(record => record.customerName)));
+        const getUniqueDates = info => Array.from(new Set(info.map(record => new Date(record.recordDate).toLocaleDateString())));
+        setUniqueNames(getUniqueNames(info));
+        setUniqueDates(getUniqueDates(info));
+    }, [info]);
 
+    // Handle search and filter logic
+    useEffect(() => {
+        const filtered = info.filter(record => {
+            const nameMatch = selectedName ? record.customerName.includes(selectedName) : true;
+            const recordDate = new Date(record.recordDate).toLocaleDateString();
+            const dateMatch = selectedDate ? recordDate === selectedDate : true;
+            const regexMatch = searchQuery ? new RegExp(searchQuery, 'i').test(record.customerName) : true;
 
-    const handleUpdateRecord = (updatedRecord) => {
-        // Re-fetch records to get updated data
-        fetchRecords();
-        // Close modal after submitting
-        setIsModalOpen(false);
+            return nameMatch && dateMatch && regexMatch;
+        });
+
+        setFilteredRecords(filtered);
+
+        // If filtered records have fewer results than the current page, adjust the page
+        const totalPages = Math.ceil(filtered.length / pageSize);
+        if (currentPage > totalPages && totalPages > 0) {
+            setCurrentPage(totalPages);  // Set to the last page if current exceeds the total pages
+        } else if (filtered.length === 0) {
+            setCurrentPage(1);  // Reset to first page if no results
+        }
+    }, [records, searchQuery, selectedName, selectedDate, currentPage, info]);
+
+    // Handle page change
+    const handlePageChange = (pageNumber) => {
+        const totalPages = Math.ceil(filteredRecords.length / pageSize);
+        if (pageNumber < 1) {
+            setCurrentPage(1);
+        } else if (pageNumber > totalPages) {
+            setCurrentPage(totalPages);
+        } else {
+            setCurrentPage(pageNumber);
+        }
     };
 
-    // Handle search change
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
+    // Get the records for the current page after filtering
+    const getRecordsForCurrentPage = () => {
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return filteredRecords.slice(startIndex, endIndex);
     };
-
-    const filteredRecords = records.filter(record => {
-        const nameMatch = selectedName ? record.customerName.includes(selectedName) : true;
-        const recordDate = new Date(record.recordDate).toLocaleDateString();
-        const dateMatch = selectedDate ? recordDate === selectedDate : true;
-
-        const regexMatch = searchQuery
-            ? new RegExp(searchQuery, 'i').test(record.customerName)
-            : true;
-
-        return nameMatch && dateMatch && regexMatch;
-    });
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -78,7 +96,7 @@ const MedicalRecord = () => {
         setSelectedRecord(null); // Close the popup by clearing the selected record
     };
 
-    const totalPages = Math.ceil(totalRecords / pageSize);
+    const totalPages = Math.ceil(filteredRecords.length / pageSize);
 
     return (
         <div className="content">
@@ -95,7 +113,7 @@ const MedicalRecord = () => {
                     className="search-input"
                     placeholder="Nhập tên hồ sơ..."
                     value={searchQuery}
-                    onChange={handleSearchChange}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
             <div className="filter-container">
@@ -134,7 +152,7 @@ const MedicalRecord = () => {
             </div>
 
             <div className="record-container">
-                {filteredRecords.map((record) => (
+                {getRecordsForCurrentPage().map((record) => (
                     <div
                         className="record-item"
                         key={record.id}
@@ -171,14 +189,14 @@ const MedicalRecord = () => {
 
             <div className="pagination">
                 <button
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
                     Previous
                 </button>
                 <span>Page {currentPage} of {totalPages}</span>
                 <button
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
                     Next
@@ -188,7 +206,6 @@ const MedicalRecord = () => {
             <RecordModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handleUpdateRecord}
             />
         </div>
     );

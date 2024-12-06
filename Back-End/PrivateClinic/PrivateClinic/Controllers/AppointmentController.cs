@@ -54,7 +54,7 @@ namespace PrivateClinic.Controllers
 				Email = schedule.Email,
 				Date = schedule.Date,
 				Status = "Chưa Thanh Toán",
-				Condition = "Chưa Xếp Lịch",
+				Condition = "Chưa Xếp Ca",
 				DoctorId = schedule.DoctorId,
 				CustomerId = schedule.CustomerId,
 				TreatmentId = schedule.TreatmentId
