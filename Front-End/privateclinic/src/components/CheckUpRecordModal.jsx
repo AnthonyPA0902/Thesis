@@ -160,7 +160,7 @@ const CheckUpRecordModal = ({ isOpen, onClose, onSubmit, recordData }) => {
                 }
 
                 // Call onSubmit function passed from parent to update the UI
-                onSubmit(result);
+                onSubmit();
                 onClose();
             } else {
                 Swal.fire({

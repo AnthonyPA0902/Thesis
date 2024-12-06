@@ -32,13 +32,13 @@ const Register = () => {
             newErrors.name = 'Tên không được để trống'
         }
 
-        // if (!formData.age) {
-        //     newErrors.age = 'Tuổi không được để trống'
-        // }
+        if (!formData.age) {
+            newErrors.age = 'Tuổi không được để trống'
+        }
 
-        // if (!formData.address) {
-        //     newErrors.address = 'Địa chỉ không được để trống'
-        // }
+        if (!formData.address) {
+            newErrors.address = 'Địa chỉ không được để trống'
+        }
 
         if (!formData.email) {
             newErrors.email = 'Email không được để trống'
@@ -133,7 +133,7 @@ const Register = () => {
                                         id="age"
                                         name="age"
                                         value={formData.age}
-                                        placeholder="Tuổi"
+                                        placeholder="Tuổi *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.age && <div className="error-text">{errors.age}</div>}
@@ -146,7 +146,7 @@ const Register = () => {
                                         id="address"
                                         name="address"
                                         value={formData.address}
-                                        placeholder="Địa Chỉ"
+                                        placeholder="Địa Chỉ *"
                                         onChange={handleInputChange}
                                     />
                                     {errors.address && <div className="error-text">{errors.address}</div>}

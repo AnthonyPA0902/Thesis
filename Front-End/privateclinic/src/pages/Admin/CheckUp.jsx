@@ -138,7 +138,7 @@ const CheckUp = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.success === true) {
+                if (data.success === true ) {
                     if (passedScheduleData) {
                         fetch(`https://localhost:7157/api/admin/schedule/condition/${passedScheduleData.id}`, {
                             method: "PUT",
@@ -273,7 +273,7 @@ const CheckUp = () => {
     // Handle the button click to mark the schedule as complete for employee
     const handleCompleteEvent = () => {
         // Send a PUT request to update the status of the selected checkup by its ID
-        fetch(`https://localhost:7157/api/admin/checkup/complete/${selectedEvent.id}`, {
+        fetch(`https://localhost:7157/api/admin/checkup/finish/${selectedEvent.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -293,7 +293,7 @@ const CheckUp = () => {
     // Handle the button click to mark the schedule as complete for doctor
     const handleComplete = () => {
         // Send a PUT request to update the status of the selected checkup by its ID
-        fetch(`https://localhost:7157/api/admin/checkup/complete/${selectedEvent.id}`, {
+        fetch(`https://localhost:7157/api/admin/checkup/finish/${selectedEvent.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -309,9 +309,13 @@ const CheckUp = () => {
             .catch(error => console.error("Error updating checkup status:", error));
     };
 
+    const handleCreateRecordForDoctor = () => {
+        refetchCheckUpDoctorData();
+    }
 
-
-
+    const handleCreateRecord = () => {
+        refetchCheckUpData();
+    }
 
     if (roleId === '2') {
         return (
@@ -373,7 +377,7 @@ const CheckUp = () => {
                     <CheckUpRecordModal
                         isOpen={isRecordModalOpen}  // Control visibility with this state
                         onClose={() => setIsRecordModalOpen(false)}
-                        onSubmit={handleAddCheckup}
+                        onSubmit={handleCreateRecordForDoctor}
                         recordData={passedEvent}
                     />
 
@@ -471,7 +475,7 @@ const CheckUp = () => {
                     <CheckUpRecordModal
                         isOpen={isRecordModalOpen}  // Control visibility with this state
                         onClose={() => setIsRecordModalOpen(false)}
-                        onSubmit={handleAddCheckup}
+                        onSubmit={handleCreateRecord}
                         recordData={passedEvent}
                     />
 
