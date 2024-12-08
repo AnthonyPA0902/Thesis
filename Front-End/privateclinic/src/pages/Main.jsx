@@ -160,8 +160,7 @@ const Main = () => {
                                         </div>
                                 </div>
                                 <div className="member-info">
-                                    <h4>Walter White</h4>
-                                    <span>Trưởng Khoa</span>
+                                    <h4>Ngô Thanh Hải</h4>
                                 </div>
                             </div>
                         </div>
@@ -178,8 +177,7 @@ const Main = () => {
                                         </div>
                                 </div>
                                 <div className="member-info">
-                                    <h4>Sarah Jhonson</h4>
-                                    <span>Bộ Phận Dược</span>
+                                    <h4>Nguyễn Thùy Dương</h4>
                                 </div>
                             </div>
                         </div>
@@ -196,8 +194,7 @@ const Main = () => {
                                         </div>
                                 </div>
                                 <div className="member-info">
-                                    <h4>William Anderson</h4>
-                                    <span>Bộ Phận Tim Mạch</span>
+                                    <h4>Nguyễn Văn Tài</h4>
                                 </div>
                             </div>
                         </div>
@@ -214,8 +211,7 @@ const Main = () => {
                                         </div>
                                 </div>
                                 <div className="member-info">
-                                    <h4>Amanda Jepson</h4>
-                                    <span>Bộ Phận Thần Kinh</span>
+                                    <h4>Phan Thị Thanh</h4>
                                 </div>
                             </div>
                         </div>

@@ -135,7 +135,7 @@ const Medicine = () => {
                 {/* Dropdown for selecting unique medicine names */}
                 <div className="medicine-filter">
                     <select onChange={handleFilterChange}>
-                        <option value="">Tất Cả Thuốc</option>
+                        <option value="">Chọn Thuốc</option>
                         {uniqueMedicines.map((name, index) => (
                             <option key={index} value={name}>{name}</option>
                         ))}
@@ -146,8 +146,8 @@ const Medicine = () => {
                     {filteredMedicines.map((medicine) => (
                         <div key={medicine.id} className="medicine-card" onClick={() => handleOpenModal(medicine)}>
                             <h3>{medicine.name}</h3>
-                            <p>Còn lại: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
-                            <p>Tổng Số: {medicine.total}</p>
+                            <p>Số Lượng Hiện Có: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
+                            <p>Sức Chứa: {medicine.total}</p>
                             <p>Ngày Hết Hạn: {medicine.expiredDate}</p>
                         </div>
                     ))}
@@ -155,9 +155,9 @@ const Medicine = () => {
     
                 {/* Pagination */}
                 <div className="medicine-pagination">
-                    <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
-                    <span>Page {page}</span>
-                    <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Next</button>
+                    <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Trước</button>
+                    <span>Trang {page}</span>
+                    <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Sau</button>
                 </div>
             </div>
         );
@@ -172,7 +172,7 @@ const Medicine = () => {
                 {/* Dropdown for selecting unique medicine names */}
                 <div className="medicine-filter">
                     <select onChange={handleFilterChange}>
-                        <option value="">Tất Cả Thuốc</option>
+                        <option value="">Chọn Thuốc</option>
                         {uniqueMedicines.map((name, index) => (
                             <option key={index} value={name}>{name}</option>
                         ))}
@@ -183,8 +183,8 @@ const Medicine = () => {
                     {filteredMedicines.map((medicine) => (
                         <div key={medicine.id} className="medicine-card" onClick={() => handleOpenModal(medicine)}>
                             <h3>{medicine.name}</h3>
-                            <p>Còn lại: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
-                            <p>Tổng Số: {medicine.total}</p>
+                            <p>Số Lượng Hiện Có: <span style={{ color: 'red', fontSize: '20px' }}>{medicine.available}</span></p>
+                            <p>Sức Chứa: {medicine.total}</p>
                             <p>Ngày Hết Hạn: {medicine.expiredDate}</p>
                         </div>
                     ))}
@@ -192,9 +192,9 @@ const Medicine = () => {
     
                 {/* Pagination */}
                 <div className="medicine-pagination">
-                    <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
-                    <span>Page {page}</span>
-                    <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Next</button>
+                    <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Trước</button>
+                    <span>Trang {page}</span>
+                    <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPage}>Sau</button>
                 </div>
     
                 {/* Medicine Modal */}

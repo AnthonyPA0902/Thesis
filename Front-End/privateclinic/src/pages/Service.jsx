@@ -91,9 +91,9 @@ const Service = () => {
             </div>
 
             <div className={styles.pagination}>
-                <button onClick={() => handlePagination(currentPage - 1)} disabled={currentPage <= 1}>Prev</button>
+                <button onClick={() => handlePagination(currentPage - 1)} disabled={currentPage <= 1}>Trước</button>
                 <span>{currentPage} / {totalPages}</span>
-                <button onClick={() => handlePagination(currentPage + 1)} disabled={currentPage >= totalPages}>Next</button>
+                <button onClick={() => handlePagination(currentPage + 1)} disabled={currentPage >= totalPages}>Sau</button>
             </div>
         </main>
     );

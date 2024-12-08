@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import ScheduleModal from '../../components/ScheduleModal';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 const Schedule = () => {
     const [schedule, setSchedule] = useState([]); // Schedule data state
@@ -70,21 +70,21 @@ const Schedule = () => {
         setIsModalOpen(false);
     };
 
-    
+
     const handleCreateClick = () => {
         setEditingSchedule(null);
         setIsModalOpen(true);
     };
 
-    // const handleEditClick = (id) => {
-    //     fetch(`https://localhost:7157/api/admin/schedule/${id}`)
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setEditingSchedule(data.schedule);
-    //             setIsModalOpen(true);
-    //         })
-    //         .catch((error) => console.error("Error fetching schedule:", error));
-    // };
+    const handleEditClick = (id) => {
+        fetch(`https://localhost:7157/api/admin/schedule/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setEditingSchedule(data.schedule);
+                setIsModalOpen(true);
+            })
+            .catch((error) => console.error("Error fetching schedule:", error));
+    };
 
     const handlePaginationClick = (page) => {
         setCurrentPage(page);
@@ -92,53 +92,71 @@ const Schedule = () => {
 
     const totalPages = Math.ceil(totalRecords / pageSize); // Total number of pages
 
-    const handleDeleteClick = (scheduleId) => {
-        // Show SweetAlert2 confirmation dialog
-        Swal.fire({
-            title: 'Xác nhận thông tin?',
-            text: "Bạn có muốn xóa lịch hẹn này không?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Xóa',
-            cancelButtonText: 'Hủy'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        Swal.fire(
-                            'Deleted!',
-                            'Lịch hẹn đã bị hủy.',
-                            'success'
-                        );
-                        refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate)
-                    } 
-                })
-                .catch((error) => {
-                    Swal.fire(
-                        'Error!',
-                        'There was a problem deleting the schedule.',
-                        'error'
-                    );
-                    console.error('Error deleting schedule:', error);
-                });
-            }
-        });
-    };
+    // Calculate the range of pages to display (4 pages at a time)
+    const maxPagesToShow = 4;
+
+    // Ensure that there are always 4 pages displayed at most, even when near the last page
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    // Adjust the startPage if the endPage is close to the totalPages
+    if (endPage === totalPages) {
+        startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+    }
+
+    // Create an array of page numbers to display
+    const pageNumbers = [];
+    for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+    }
+
+    // const handleDeleteClick = (scheduleId) => {
+    //     // Show SweetAlert2 confirmation dialog
+    //     Swal.fire({
+    //         title: 'Xác nhận thông tin?',
+    //         text: "Bạn có muốn xóa lịch hẹn này không?",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Xóa',
+    //         cancelButtonText: 'Hủy'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
+    //                 method: 'DELETE',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 }
+    //             })
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 if (data.success) {
+    //                     Swal.fire(
+    //                         'Deleted!',
+    //                         'Lịch hẹn đã bị hủy.',
+    //                         'success'
+    //                     );
+    //                     refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate)
+    //                 } 
+    //             })
+    //             .catch((error) => {
+    //                 Swal.fire(
+    //                     'Error!',
+    //                     'There was a problem deleting the schedule.',
+    //                     'error'
+    //                 );
+    //                 console.error('Error deleting schedule:', error);
+    //             });
+    //         }
+    //     });
+    // };
 
     return (
         <div className="content">
             <div className="schedule-container">
                 <h1>Danh sách lịch hẹn khám</h1>
-                <button className="register-button" onClick={() => handleCreateClick()}>
+                <button className="register-button" style={{ display: 'none' }} onClick={() => handleCreateClick()}>
                     Tạo lịch hẹn khám mới
                 </button>
                 <br />
@@ -183,7 +201,7 @@ const Schedule = () => {
                                 <td>{schedule.name}</td>
                                 <td>{schedule.phone}</td>
                                 <td>{schedule.email}</td>
-                                <td>{schedule.date}</td>
+                                <td>{new Date(schedule.date).toLocaleDateString('en-GB')}</td>
                                 <td>{schedule.doctorName}</td>
                                 <td>{schedule.treatmentName}</td>
                                 <td style={{ textAlign: 'center', fontWeight: '700', color: schedule.condition === "Đã Xếp Ca" ? 'green' : schedule.condition === "Chưa Xếp Ca" ? 'red' : 'black' }}>
@@ -196,12 +214,12 @@ const Schedule = () => {
                                     )}
                                 </td>
                                 <td style={{ textAlign: 'center' }}>
-                                    {/* <button style={{ marginRight: '10px', marginBottom: '5px' }} onClick={() => handleEditClick(schedule.id)}>
+                                    <button style={{ marginRight: '10px', marginBottom: '5px' }} onClick={() => handleEditClick(schedule.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
-                                    </button> */}
-                                    <button onClick={() => handleDeleteClick(schedule.id)}>
-                                        <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
                                     </button>
+                                    {/* <button onClick={() => handleDeleteClick(schedule.id)}>
+                                        <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
+                                    </button> */}
                                 </td>
                             </tr>
                         ))}
@@ -209,19 +227,20 @@ const Schedule = () => {
                 </table>
                 <div className="pagination">
                     <button onClick={() => handlePaginationClick(currentPage - 1)} disabled={currentPage === 1}>
-                        Previous
+                        Trước
                     </button>
-                    {[...Array(totalPages)].map((_, index) => (
+                    {pageNumbers.map((page) => (
                         <button
-                            key={index}
-                            onClick={() => handlePaginationClick(index + 1)}
-                            className={index + 1 === currentPage ? "active" : ""}
+                            key={page}
+                            onClick={() => handlePaginationClick(page)}
+                            className={page === currentPage ? "active" : ""}
                         >
-                            {index + 1}
+                            {page}
                         </button>
                     ))}
+
                     <button onClick={() => handlePaginationClick(currentPage + 1)} disabled={currentPage === totalPages}>
-                        Next
+                        Sau
                     </button>
                 </div>
                 <ScheduleModal

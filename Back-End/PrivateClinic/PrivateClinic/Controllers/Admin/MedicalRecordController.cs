@@ -65,6 +65,44 @@ namespace PrivateClinic.Controllers.Admin
 			});
 		}
 
+		[HttpGet("record/{id}")]
+		public async Task<IActionResult> GetRecord(int id)
+		{
+			var records = _dbContext.MedicalRecords
+				.Include(mr => mr.Customer)
+				.Include(mr => mr.MedicalRecordMedicines)
+					.ThenInclude(mmr => mmr.Medicine)
+				.Where(mr => mr.CustomerId == id)
+				.Select(mr => new MedicalRecordDto
+				{
+					Id = mr.Id,
+					CheckUp = mr.Checkup,
+					Treatment = mr.Treatment,
+					Description = mr.Description,
+					RecordDate = mr.RecordDate,
+					CustomerId = mr.CustomerId,
+					CustomerName = mr.Customer.Name,
+					Medicines = mr.MedicalRecordMedicines.Select(mmr => new MedicineStorageDto
+					{
+						MedicineId = mmr.MedicineId,
+						MedicineName = mmr.Medicine.Name,
+						Quantity = mmr.Quantity,
+						Note = mmr.Note
+					}).ToList()
+				});
+
+			if (records == null)
+			{
+				return BadRequest(new { success = false, message = "No records found" });
+			}
+
+			return Ok(new
+			{
+				success = true,
+				Records = records,
+				message = "Get record successfully"
+			});
+		}
 
 		[HttpPost("record")]
 		public async Task<IActionResult> CreateMedicalRecord([FromBody] MedicalRecordWithMedicineDto recordDto)

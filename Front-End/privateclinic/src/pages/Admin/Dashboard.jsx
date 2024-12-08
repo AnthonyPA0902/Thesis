@@ -97,7 +97,7 @@ const Dashboard = () => {
 						data: {
 							labels: labels,
 							datasets: [{
-								label: "Daily Revenue",
+								label: "Doanh thu thường ngày",
 								data: revenueData,
 								borderColor: "rgba(75, 192, 192, 1)",
 								backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -155,7 +155,7 @@ const Dashboard = () => {
 						data: {
 							labels: labels,
 							datasets: [{
-								label: "Number of Orders",
+								label: "Số lịch hẹn được đặt",
 								data: counts,
 								backgroundColor: "rgba(54, 162, 235, 0.6)",
 								borderColor: "rgba(54, 162, 235, 1)",
@@ -322,7 +322,7 @@ const Dashboard = () => {
 			<div className="row">
 				<div className="col-md-6">
 					<div style={{ padding: "0 20px" }}>
-						<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Số Đơn Theo Ngày</h3>
+						<h3 style={{ textAlign: "center", marginBottom: "10px" }}>Số Lịch Hẹn Theo Ngày</h3>
 						<div style={{ margin: '0 auto' }}>
 							<canvas id="barChart" style={{ width: '300px', height: '400px' }}></canvas>
 						</div>

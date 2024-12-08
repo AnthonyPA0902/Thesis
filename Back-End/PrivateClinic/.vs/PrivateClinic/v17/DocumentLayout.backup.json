@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\admin\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\admin\\checkupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|c:\\users\\admin\\onedrive\\desktop\\thesis\\project\\back-end\\privateclinic\\privateclinic\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5B58370-1955-43D8-B50F-952816B7066D}|PrivateClinic\\PrivateClinic.csproj|solutionrelative:privateclinic\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CheckUpController.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "RelativeToolTip": "PrivateClinic\\Controllers\\Admin\\CheckUpController.cs",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Title": "ProfileController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\ProfileController.cs",
+              "RelativeDocumentMoniker": "PrivateClinic\\Controllers\\ProfileController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\OneDrive\\Desktop\\Thesis\\Project\\Back-End\\PrivateClinic\\PrivateClinic\\Controllers\\ProfileController.cs",
+              "RelativeToolTip": "PrivateClinic\\Controllers\\ProfileController.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAJAAAACEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-05T05:25:58.293Z",
+              "WhenOpened": "2024-12-08T04:37:49.39Z",
               "EditorCaption": ""
             }
           ]

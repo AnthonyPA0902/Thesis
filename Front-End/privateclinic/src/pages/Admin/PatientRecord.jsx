@@ -85,7 +85,7 @@ const PatientRecord = () => {
                             onClick={() => setSelectedRecord(record)}  // Show details on click
                         >
                             <span>
-                                {record.customerName} - {new Date(record.recordDate).toLocaleDateString()}
+                                {record.customerName} - {new Date(record.recordDate).toLocaleDateString('en-GB')}
                             </span>
                         </div>
                     ))
@@ -98,7 +98,7 @@ const PatientRecord = () => {
                         <button className="record-detail-close-button" onClick={handleCloseRecordDetail}>X</button>
                         <h2><i>Chi Tiết Hồ Sơ</i></h2>
                         <p><strong>Họ Tên:</strong> {selectedRecord.customerName}</p>
-                        <p><strong>Ngày Lập Hồ Sơ:</strong> {new Date(selectedRecord.recordDate).toLocaleDateString()}</p>
+                        <p><strong>Ngày Lập Hồ Sơ:</strong> {new Date(selectedRecord.recordDate).toLocaleDateString('en-GB')}</p>
                         <p><strong>Ca Khám:</strong> {selectedRecord.checkUp}</p>
                         <p><strong>Liệu Trình:</strong> {selectedRecord.treatment}</p>
                         <p><strong>Thông Tin Chi Tiết:</strong> {selectedRecord.description}</p>
@@ -119,14 +119,14 @@ const PatientRecord = () => {
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                 >
-                    Previous
+                    Trước
                 </button>
-                <span>Page {currentPage} of {totalPages}</span>
+                <span>Trang {currentPage} / {totalPages}</span>
                 <button
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                 >
-                    Next
+                    Sau
                 </button>
             </div>
         </div>

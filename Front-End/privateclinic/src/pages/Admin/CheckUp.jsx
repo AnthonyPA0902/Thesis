@@ -241,15 +241,33 @@ const CheckUp = () => {
     };
 
     const handleEditEvent = (event) => {
+        if (selectedEvent.status !== null) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Không thể sửa ca khám đã hoàn thành',
+                text: 'Ca khám này đã hoàn thành, bạn không thể xóa.',
+            });
+            return; // Prevent further action if status is not "Chưa Hoàn Thành"
+        }
+    
         setEventData(event); // Pass the selected event data to CheckUpModal
         setSelectedEvent(null);
         setIsModalOpen(true);  // Open the CheckUpModal
     };
 
     const handleDeleteEvent = () => {
+        if (selectedEvent.status !== null) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Không thể xóa ca khám đã hoàn thành',
+                text: 'Ca khám này đã hoàn thành, bạn không thể chỉnh sửa.',
+            });
+            return; // Prevent further action if status is not "Chưa Hoàn Thành"
+        }
+
         Swal.fire({
             title: 'Bạn có chắc muốn xóa ca khám này không?',
-            text: 'Sau khi xóa, bạn sẽ không thể khôi phục lại dữ liệu!',
+            text: 'Hãy xem xét kỹ thông tin trước khi xóa!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Xóa',

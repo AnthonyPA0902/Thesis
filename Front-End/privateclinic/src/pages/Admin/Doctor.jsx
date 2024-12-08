@@ -130,8 +130,8 @@ const Doctor = () => {
                             <th>Địa Chỉ</th>
                             <th>Số điện thoại</th>
                             <th>Email</th>
-                            <th>Username</th>
-                            <th>Password</th>
+                            <th>Tên tài khoản</th>
+                            <th>Mật khẩu</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -167,14 +167,14 @@ const Doctor = () => {
                         disabled={currentPage === 1}
                         onClick={() => handlePageChange(currentPage - 1)}
                     >
-                        Previous
+                        Trước
                     </button>
-                    <span>Page {currentPage} of {Math.ceil(filteredDoctors.length / pageSize)}</span>
+                    <span>Trang {currentPage} / {Math.ceil(filteredDoctors.length / pageSize)}</span>
                     <button
                         disabled={currentPage === Math.ceil(filteredDoctors.length / pageSize)}
                         onClick={() => handlePageChange(currentPage + 1)}
                     >
-                        Next
+                        Sau
                     </button>
                 </div>
                 <DoctorModal

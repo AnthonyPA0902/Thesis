@@ -816,6 +816,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PrivateClinic.Controllers.Admin.MedicalRecordController",
+    "Method": "GetRecord",
+    "RelativePath": "api/admin/record/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PrivateClinic.Controllers.Admin.ReportController",
     "Method": "GetDoctor",
     "RelativePath": "api/admin/report/doctor/{id}",

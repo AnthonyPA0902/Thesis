@@ -14,7 +14,7 @@ const Profile = () => {
     const [showPopup, setShowPopup] = useState(false);  // State to control popup visibility
     const [selectedRecord, setSelectedRecord] = useState(null); // State to store the selected record
     const rowsPerPage = 5; // Number of rows to display per page
-    const rowsInPage = 4; // Number of rows to display per page
+    const rowsInPage = 8; // Number of rows to display per page
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -38,13 +38,20 @@ const Profile = () => {
                     .catch((error) => console.error("Error fetching schedule:", error));
 
                 // Fetching medical records data
-                fetch(`https://localhost:7157/api/admin/record`)
+                fetch(`https://localhost:7157/api/admin/record/${customerId}`)
                     .then((response) => response.json())
                     .then((data) => {
                         if (data.success) {
-                            const filteredRecords = data.records.filter(record => String(record.customerId) === String(customerId));
-                            const sortedRecords = filteredRecords.sort((a, b) => b.id - a.id);
+                            console.log(data.records);
+                            const sortedRecords = data.records.sort((a, b) => {
+                                const dateA = new Date(a.recordDate);
+                                const dateB = new Date(b.recordDate);
+                                
+                                console.log("Comparing: ", dateA, dateB); // Log the parsed date values
+                                return dateB - dateA; // Sort descending
+                            });
                             setRecords(sortedRecords); // Set the filtered records
+                            console.log(sortedRecords);
                         } else {
                             setRecords([]); // If no records, set an empty array
                         }
@@ -165,7 +172,7 @@ const Profile = () => {
                     <table className={styles.profileTable}>
                         <thead>
                             <tr>
-                                <th>STT Lịch Hẹn</th>
+                                <th>STT</th>
                                 <th>Ngày hẹn</th>
                                 <th>Bác sĩ khám</th>
                                 <th>Dịch vụ khám</th>
@@ -178,7 +185,7 @@ const Profile = () => {
                             {Array.isArray(currentScheduleRows) && currentScheduleRows.map((schedule, index) => (
                                 <tr key={index}>
                                     <td>{index + 1 + indexOfFirstScheduleRow}</td>
-                                    <td>{new Date(schedule.date).toLocaleDateString('en-GB')}</td>
+                                    <td style={{fontWeight: '700'}}>{new Date(schedule.date).toLocaleDateString('en-GB')}</td>
                                     <td>{schedule.doctorName}</td>
                                     <td>{schedule.treatmentName}</td>
                                     <td>{schedule.price}</td>
@@ -204,14 +211,14 @@ const Profile = () => {
                             onClick={() => handleSchedulePageChange(schedulePage - 1)}
                             disabled={schedulePage === 1}
                         >
-                            Prev
+                            Trước
                         </button>
-                        <span>Page {schedulePage} of {totalSchedulePages}</span>
+                        <span>Trang {schedulePage} / {totalSchedulePages}</span>
                         <button
                             onClick={() => handleSchedulePageChange(schedulePage + 1)}
                             disabled={schedulePage === totalSchedulePages}
                         >
-                            Next
+                            Sau
                         </button>
                     </div>
                 </div>
@@ -221,9 +228,9 @@ const Profile = () => {
                 <div className={styles.profileContent}>
                     <div className={styles.cardGrid}>
                         {records.length > 0 ? (
-                            currentRecordRows.map((record) => (
+                            currentRecordRows.map((record, index) => (
                                 <div
-                                    key={record.Id}
+                                    key={record.Id || `record-${index}`}
                                     className={styles.card}
                                     onClick={() => handleCardClick(record)}
                                 >
@@ -243,14 +250,14 @@ const Profile = () => {
                             onClick={() => handleRecordPageChange(recordsPage - 1)}
                             disabled={recordsPage === 1}
                         >
-                            Prev
+                            Trước
                         </button>
-                        <span>Page {recordsPage} of {totalRecordPages}</span>
+                        <span>Trang {recordsPage} / {totalRecordPages}</span>
                         <button
                             onClick={() => handleRecordPageChange(recordsPage + 1)}
                             disabled={recordsPage === totalRecordPages}
                         >
-                            Next
+                            Sau
                         </button>
                     </div>
                 </div>
@@ -263,18 +270,19 @@ const Profile = () => {
                         <h3>Chi Tiết Hồ Sơ</h3>
                         <p><strong>Họ Tên:</strong> {selectedRecord.customerName}</p>
                         <p><strong>Ngày Lập:</strong> {new Date(selectedRecord.recordDate).toLocaleDateString('en-GB')}</p>
+                        <p><strong>Ca Khám:</strong> {selectedRecord.checkUp}</p>
+                        <p><strong>Liệu Trình:</strong> {selectedRecord.treatment}</p>
                         <p><strong>Thông Tin Chi Tiết:</strong> {selectedRecord.description}</p>
-                        <p><strong>Đơn Thuốc:</strong>
-                            <div>
+                        <div>
+                            <strong>Đơn Thuốc:</strong>
+                            <ul>
                                 {selectedRecord.medicines.map((medicine) => (
-                                    <ul key={medicine.medicineId}>
-                                        <li>
-                                            <p>Tên Thuốc: {medicine.medicineName} - Số Lượng: {medicine.quantity}</p>
-                                        </li>
-                                    </ul>
+                                    <li key={medicine.medicineId}>
+                                        Tên Thuốc: {medicine.medicineName} - Số Lượng: {medicine.quantity} - {medicine.note}
+                                    </li>
                                 ))}
-                            </div>
-                        </p>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             )}

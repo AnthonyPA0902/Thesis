@@ -142,7 +142,7 @@ const Login = () => {
                                             onError={handleGoogleFailure}
                                             render={(renderProps) => (
                                                 <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="google btn d-flex justify-content-center align-items-center" style={{ borderRadius: '15px', height: '45px' }}>
-                                                    <span className="icon-google mr-3"></span> Đăng Nhập Với Google
+                                                    <span className="icon-google mr-3">Đăng Nhập Với Google</span>
                                                 </button>
                                             )}
                                         />

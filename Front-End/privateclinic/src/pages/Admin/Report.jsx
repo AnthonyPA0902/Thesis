@@ -134,7 +134,7 @@ const Report = () => {
             </button>
 
             {/* Loading State */}
-            {loading && <div className={styles.loading}>Xin đợi giây lát, báo cáo đang được tạo...</div>}
+            {loading && <div className={styles.loading}>Xin đợi giây lát, hệ thống đang kiểm tra dữ liệu...</div>}
         </div>
     );
 };

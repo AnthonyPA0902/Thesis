@@ -77,10 +77,10 @@ const Footer = () => {
           <div className="col-lg-2 col-md-3 footer-links">
             <h4>Các Bác Sĩ</h4>
             <ul>
-              <li><a href="/#doctors">Walter White</a></li>
-              <li><a href="/#doctors">Sarah Jhonson</a></li>
-              <li><a href="/#doctors">William Anderson</a></li>
-              <li><a href="/#doctors">Amanda Jepson</a></li>
+              <li><a href="/#doctors">Ngô Thanh Hải</a></li>
+              <li><a href="/#doctors">Nguyễn Thùy Dương</a></li>
+              <li><a href="/#doctors">Nguyễn Văn Tài</a></li>
+              <li><a href="/#doctors">Phạm Thị Thanh</a></li>
             </ul>
           </div>
 
@@ -98,9 +98,9 @@ const Footer = () => {
       </div>
 
       <div className="container copyright text-center mt-4">
-        <p>© <span>Copyright 2024</span> <strong className="px-1 sitename">Cleveland Clinic</strong> <span>All Rights Reserved</span></p>
+        <p>© <span>Bản quyền 2024</span> <strong className="px-1 sitename">Cleveland Clinic</strong> <span>Các quyền được bảo vệ</span></p>
         <div className="credits">
-          Designed by <a href="https://google.com/">PA</a>
+          Thiết kế bởi <a href="https://google.com/">PA</a>
         </div>
       </div>
 

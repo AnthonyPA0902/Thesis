@@ -147,19 +147,57 @@
     cursor: not-allowed;
 }
 
+/* Medical Record */
+.card {
+    position: relative; /* Allow absolute positioning for folder tab */
+    border: 1px solid #ddd;
+    padding: 30px 20px 20px; /* Add more padding at the top for the folder tab */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-image: url('../../../public/assets/img/folder-image.png');  /* Folder image */
+    background-size: cover;
+    background-position: center;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -20px; /* Tab above the card */
+    left: 10px;
+    width: 50px; /* Adjust tab width */
+    height: 20px; /* Adjust tab height */
+    background-color: #4CAF50; /* Tab color */
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners for tab */
+}
+
+.card h3 {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 1.1em;
+    color: #333;
+    text-align: center;
+}
+
+.card p {
+    font-size: 0.9em;
+    color: #555;
+    text-align: center;
+    font-weight: 800;
+}
+
+.card:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+    cursor: pointer;
+    transform: translateY(-5px); /* Slight hover animation */
+}
+
 .cardGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 45px;
     padding: 20px;
-}
-
-.card {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    justify-items: center;
 }
 
 /* Popup Overlay */
@@ -181,7 +219,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 400px; /* Adjust the width as needed */
+    width: 800px; /* Adjust the width as needed */
     max-height: 80%; /* Limit the height to prevent overflow */
     overflow-y: auto; /* Allow scrolling if content is too long */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */

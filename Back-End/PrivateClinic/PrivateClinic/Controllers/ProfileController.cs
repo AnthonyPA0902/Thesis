@@ -134,9 +134,16 @@ namespace PrivateClinic.Controllers
 				message.From = new MailAddress("anb2014637@student.ctu.edu.vn");
 				message.To.Add("ioephuocan@gmail.com");
 				message.Subject = "Xác Nhận Lịch Hẹn Khám";
-				message.Body = $"Đơn thanh toán lịch hẹn khám của khách hàng {newOrder.CustomerName} người vào ngày {newOrder.Date} " +
-					$"đã được xác nhận thành công.\n" +
-				   $"Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !!!";
+				message.Body = $"Lịch hẹn khám của khách hàng {newOrder.CustomerName} vào ngày {newOrder.Date} " +
+				  $"đã được xác nhận và thanh toán thành công.\n" +
+				  $"Thông tin chi tiết:\n" +
+				  $"- Ngày hẹn: {newOrder.Date}\n" +
+				  $"- Tổng tiền: {newOrder.Total}\n" +
+				  $"- Phương thức: {newOrder.Method}\n" +
+				  $"- Trạng thái: {newOrder.Status}\n" +
+				  $"- Dịch vụ: {newOrder.Treatment.Name}\n" +
+				  $"\nNhân viên của chúng tôi sẽ sắp xếp ca khám cho bạn. Nếu có vấn đề gì chúng tôi sẽ liên hệ với bạn qua số điện thoại !!!" +
+				  $"\nXin cảm ơn bạn đã sử dụng dịch vụ của phòng khám Cleveland !!!";
 
 				using (var client = new SmtpClient("smtp.gmail.com"))
 				{

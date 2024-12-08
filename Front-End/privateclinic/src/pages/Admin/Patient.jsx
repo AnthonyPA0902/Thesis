@@ -137,11 +137,11 @@ const Patient = () => {
                     </div>
                     {expanded === patient.id && (
                         <div className={styles.accordionContent}>
-                            <p className={styles.infoItem}><strong>Name:</strong> {patient.name}</p>
-                            <p className={styles.infoItem}><strong>Age:</strong> {patient.age}</p>
-                            <p className={styles.infoItem}><strong>Phone:</strong> {patient.phone}</p>
+                            <p className={styles.infoItem}><strong>Họ Tên:</strong> {patient.name}</p>
+                            <p className={styles.infoItem}><strong>Tuổi:</strong> {patient.age}</p>
+                            <p className={styles.infoItem}><strong>Số Điện Thoại:</strong> {patient.phone}</p>
                             <p className={styles.infoItem}><strong>Email:</strong> {patient.email}</p>
-                            <p className={styles.infoItem}><strong>Address:</strong> {patient.address}</p>
+                            <p className={styles.infoItem}><strong>Địa Chỉ:</strong> {patient.address}</p>
                             <Link to={`/admin/patient/record/?id=${patient.id}&name=${patient.name}`} className={styles.detailRecord}>
                                     Xem Hồ Sơ Khám Bệnh
                             </Link>
@@ -155,14 +155,14 @@ const Patient = () => {
                     disabled={currentPage === 1}
                     onClick={() => handlePageChange(currentPage - 1)}
                 >
-                    Previous
+                    Trước
                 </button>
-                <span>Page {currentPage} of {totalPages}</span>
+                <span>Trang {currentPage} / {totalPages}</span>
                 <button
                     disabled={currentPage === totalPages}
                     onClick={() => handlePageChange(currentPage + 1)}
                 >
-                    Next
+                    Sau
                 </button>
             </div>
 

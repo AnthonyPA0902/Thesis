@@ -99,7 +99,7 @@ const MedicalRecord = () => {
     return (
         <div className="content">
             <h1>Hồ Sơ Khám Bệnh</h1>
-            <div className="modal-open-button">
+            <div className="modal-open-button" style={{display: 'none'}}>
                 <button className="record-button" onClick={handleOpenModal}>Tạo Hồ Sơ</button>
             </div>
             <br />
@@ -190,14 +190,14 @@ const MedicalRecord = () => {
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
-                    Previous
+                    Trước
                 </button>
-                <span>Page {currentPage} of {totalPages}</span>
+                <span>Trang {currentPage} / {totalPages}</span>
                 <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
-                    Next
+                    Sau
                 </button>
             </div>
 
