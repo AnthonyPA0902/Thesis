@@ -13,6 +13,7 @@ const Dashboard = () => {
         fetch("https://localhost:7157/api/admin/counts")
             .then(response => response.json())
             .then(data => {
+				console.log(data);
                 setCounts({
                     doctorCount: data.doctorCount,
                     patientCount: data.patientCount,

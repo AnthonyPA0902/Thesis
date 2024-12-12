@@ -74,9 +74,13 @@ const CheckUp = () => {
         }
     }, [flag, passedScheduleData]);
 
-    const hasTimeConflict = (doctorId, date, startTime, endTime) => {
-        return checkups.some(checkup => {
+    const hasTimeConflict = (doctorId, date, startTime, endTime, currentCheckupId) => {
+        // Filter out the checkup being adjusted
+        const otherCheckups = checkups.filter(checkup => checkup.id !== currentCheckupId);
+        console.log(otherCheckups);
 
+        // Check for time conflict with the remaining checkups
+        return otherCheckups.some(checkup => {
             // Check if it's the same doctor and on the same date
             if (checkup.doctorId === doctorId && checkup.appointmentDate === date) {
                 const existingStartTime = new Date(`${checkup.appointmentDate}T${checkup.startTime}`);
@@ -85,24 +89,32 @@ const CheckUp = () => {
                 const newEndTime = new Date(`${date}T${endTime}`);
 
                 // Check if times overlap
-                return (newStartTime < existingEndTime && newEndTime > existingStartTime);
+                return newStartTime < existingEndTime && newEndTime > existingStartTime;
             }
             return false;
         });
     };
 
+    const handleAddEvent = () => {
+        setEventData(null);
+        setPassedScheduleData(null);
+        setIsModalOpen(true);  // Open the CheckUpModal
+    };
+
     const handleAddCheckup = (checkupData) => {
+        const checkupId = checkupData.id;
         const doctorId = checkupData.doctorId;
         const date = checkupData.date;
         const startTime = checkupData.startTime;
         const endTime = checkupData.endTime;
+        const today = new Date();
+        const currentTimePlusOneHour = new Date(today.getTime() + 60 * 60 * 1000); 
 
         // Check if start time and end time are within the allowed range
         const startTimeInRange = new Date(`${date}T${startTime}:00`);
         const endTimeInRange = new Date(`${date}T${endTime}:00`);
         const minTime = new Date(`${date}T08:00:00`);
         const maxTime = new Date(`${date}T22:00:00`);
-
 
         if (startTimeInRange < minTime || startTimeInRange > maxTime) {
             Swal.fire({
@@ -122,12 +134,13 @@ const CheckUp = () => {
             return;
         }
 
-        // Check for time conflicts
-        if (hasTimeConflict(parseInt(doctorId), date, `${startTime}:00`, `${endTime}:00`)) {
+        // Check if the duration is exactly 30 minutes
+        const durationInMinutes = (endTimeInRange - startTimeInRange) / (1000 * 60);
+        if (durationInMinutes !== 30) {
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi',
-                text: 'Bác sĩ đã có lịch vào thời gian đó',
+                text: 'Thời gian khám phải là 30 phút.',
             });
             return;
         }
@@ -138,6 +151,38 @@ const CheckUp = () => {
                 icon: 'error',
                 title: 'Lỗi',
                 text: 'Thời gian bắt đầu không thể lớn hơn thời gian kết thúc.',
+            });
+            return;
+        }
+
+        // Validate that the start time is at least 1 hour from the current time
+        if (date === today.toDateString() && startTime < currentTimePlusOneHour) {
+            Swal.fire({
+                title: 'Thời gian không hợp lệ!',
+                text: 'Giờ bắt đầu phải ít nhất sau 1 giờ từ thời gian hiện tại.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
+        // Validate that the selected date is today or later
+        if (date < new Date(today.toDateString())) {
+            Swal.fire({
+                title: 'Ngày không hợp lệ!',
+                text: 'Ca khám phải bắt đầu từ hôm nay trở đi.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
+        // Check for time conflicts
+        if (hasTimeConflict(parseInt(doctorId), date, `${startTime}:00`, `${endTime}:00`, checkupId)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Bác sĩ đã có lịch vào thời gian đó',
             });
             return;
         }
@@ -172,7 +217,7 @@ const CheckUp = () => {
                         })
                     }
                     setPassedScheduleData(null);
-
+                    setIsModalOpen(false);
                     refetchCheckUpData();
                     setFlag(false);
                 }
@@ -241,7 +286,7 @@ const CheckUp = () => {
     };
 
     const handleEditEvent = (event) => {
-        if (selectedEvent.status !== null) {
+        if (selectedEvent.status !== "Chưa Hoàn Thành") {
             Swal.fire({
                 icon: 'error',
                 title: 'Không thể sửa ca khám đã hoàn thành',
@@ -249,14 +294,15 @@ const CheckUp = () => {
             });
             return; // Prevent further action if status is not "Chưa Hoàn Thành"
         }
-    
+
         setEventData(event); // Pass the selected event data to CheckUpModal
         setSelectedEvent(null);
+        setPassedScheduleData(null);
         setIsModalOpen(true);  // Open the CheckUpModal
     };
 
     const handleDeleteEvent = () => {
-        if (selectedEvent.status !== null) {
+        if (selectedEvent.status !== "Chưa Hoàn Thành") {
             Swal.fire({
                 icon: 'error',
                 title: 'Không thể xóa ca khám đã hoàn thành',
@@ -321,32 +367,84 @@ const CheckUp = () => {
 
     // Open the CheckUpRecordModal when clicking "Lập Hồ Sơ"
     const handleOpenRecordModal = () => {
+        if (selectedEvent.status !== "Hoàn Thành") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Không Thể Lập Hồ Sơ',
+                text: 'Ca khám này chưa hoàn thành hoặc đã lập hồ sơ.',
+            });
+            return; // Prevent further action if status is not "Chưa Hoàn Thành"
+        }
+
         handleCloseEventDetails();
         setIsRecordModalOpen(true);  // Open the CheckUpRecordModal
     };
 
     // Handle the button click to mark the schedule as complete for employee
-    const handleCompleteEvent = () => {
-        // Send a PUT request to update the status of the selected checkup by its ID
-        fetch(`https://localhost:7157/api/admin/checkup/finish/${selectedEvent.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
-            .then(response => response.json())
-            .then(() => {
-                // After successful update, update the status locally and refetch data
-                setSelectedEvent(prev => ({ ...prev, status: "Hoàn Thành" }));
-                refetchCheckUpData(); // Refetch the updated checkups
-                setSelectedEvent(null);
-            })
-            .catch(error => console.error("Error updating checkup status:", error));
-    };
+    // const handleCompleteEvent = () => {
+    //     // Send a PUT request to update the status of the selected checkup by its ID
+    //     fetch(`https://localhost:7157/api/admin/checkup/finish/${selectedEvent.id}`, {
+    //         method: "PUT",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .then(() => {
+    //             // After successful update, update the status locally and refetch data
+    //             setSelectedEvent(prev => ({ ...prev, status: "Hoàn Thành" }));
+    //             refetchCheckUpData(); // Refetch the updated checkups
+    //             setSelectedEvent(null);
+    //         })
+    //         .catch(error => console.error("Error updating checkup status:", error));
+    // };
 
 
     // Handle the button click to mark the schedule as complete for doctor
     const handleComplete = () => {
+        if (selectedEvent.status === "Hoàn Thành" || selectedEvent.status === "Hoàn Thành Tốt") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Đã Xác Nhận',
+                text: 'Ca khám đã được hoàn thành.',
+            });
+            return; // Prevent further action if status is not "Chưa Hoàn Thành"
+        }
+
+        const currentDate = new Date(); // Current date and time
+        const appointmentDate = new Date(selectedEvent.start); // Parse appointment date
+        const endTime = new Date(selectedEvent.end); // Parse appointment end time
+        console.log(currentDate);
+        console.log(appointmentDate);
+        console.log(endTime);
+        // Validation: Check if the date is in the past
+        const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        const appointmentDateWithoutTime = new Date(appointmentDate.getFullYear(), appointmentDate.getMonth(), appointmentDate.getDate());
+        console.log(currentDateWithoutTime);
+        console.log(appointmentDateWithoutTime);
+        if (appointmentDateWithoutTime > currentDateWithoutTime) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Không Thể Xác Nhận Hoàn Thành',
+                text: 'Ca khám chưa được tiến hành.',
+                confirmButtonText: 'OK',
+            });
+            return; // Stop execution
+        }
+
+        // If the date is today, validate the end time
+        if (appointmentDateWithoutTime.getTime() === currentDateWithoutTime.getTime()) {
+            if (endTime > currentDate) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Không Thể Xác Nhận Hoàn Thành',
+                    text: 'Chưa đến thời gian kết thúc ca khám',
+                    confirmButtonText: 'OK',
+                });
+                return; // Stop execution
+            }
+        }
+
         // Send a PUT request to update the status of the selected checkup by its ID
         fetch(`https://localhost:7157/api/admin/checkup/finish/${selectedEvent.id}`, {
             method: "PUT",
@@ -368,9 +466,9 @@ const CheckUp = () => {
         refetchCheckUpDoctorData();
     }
 
-    const handleCreateRecord = () => {
-        refetchCheckUpData();
-    }
+    // const handleCreateRecord = () => {
+    //     refetchCheckUpData();
+    // }
 
     if (roleId === '2') {
         return (
@@ -462,7 +560,7 @@ const CheckUp = () => {
             <div className="content">
                 <div className="container">
                     <h1>Ca Khám</h1>
-                    <button className="register-button" onClick={() => setIsModalOpen(true)}>
+                    <button className="register-button" onClick={handleAddEvent}>
                         Tạo Ca Khám Mới
                     </button>
                     <br />
@@ -528,12 +626,12 @@ const CheckUp = () => {
                         hasTimeConflict={hasTimeConflict} // Pass the function here
                     />
 
-                    <CheckUpRecordModal
+                    {/* <CheckUpRecordModal
                         isOpen={isRecordModalOpen}  // Control visibility with this state
                         onClose={() => setIsRecordModalOpen(false)}
                         onSubmit={handleCreateRecord}
                         recordData={passedEvent}
-                    />
+                    /> */}
 
                     {selectedEvent && (
                         <div className="popup-overlay" onClick={handleCloseEventDetails}>
@@ -550,10 +648,10 @@ const CheckUp = () => {
                                 <p><strong>Thời Gian Khám:</strong> {`${selectedEvent.start.toLocaleTimeString()} - ${selectedEvent.end.toLocaleTimeString()}`}</p>
                                 <p><strong>Phòng Khám:</strong> {selectedEvent.room}</p>
                                 <p><strong>Liệu Trình:</strong> {selectedEvent.treatment}</p>
-                                <div className="popup-buttons">
+                                {/* <div className="popup-buttons">
                                     <button onClick={handleCompleteEvent}>Hoàn Thành</button>
-                                    <button onClick={handleOpenRecordModal}>Lập Hồ Sơ</button>  {/* Open the CheckUpRecordModal */}
-                                </div>
+                                    <button onClick={handleOpenRecordModal}>Lập Hồ Sơ</button>  
+                                </div> */}
                             </div>
                         </div>
                     )}

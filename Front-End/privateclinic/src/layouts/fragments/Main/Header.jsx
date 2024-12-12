@@ -33,7 +33,7 @@ const Header = () => {
                 <div className="topbar d-flex align-items-center">
                     <div className="container d-flex justify-content-center justify-content-md-between">
                         <div className="d-none d-md-flex align-items-center">
-                            <i className="bi bi-clock me-1"></i> Thứ 2 - Thứ 7, 8:00 - 22:00
+                            <i className="bi bi-clock me-1"></i> Thứ 2 - Chủ Nhật, 8:00 - 22:00
                         </div>
                         <div className="d-flex align-items-center">
                             <i className="bi bi-person-circle me-1"></i><a href="/login" style={{ color: 'white', fontWeight: 'bold' }}> Chào Mừng, {customerName} </a>
@@ -76,7 +76,7 @@ const Header = () => {
                 <div className="topbar d-flex align-items-center">
                     <div className="container d-flex justify-content-center justify-content-md-between">
                         <div className="d-none d-md-flex align-items-center">
-                            <i className="bi bi-clock me-1"></i> Thứ 2 - Thứ 7, 8:00 - 22:00
+                            <i className="bi bi-clock me-1"></i> Thứ 2 - Chủ Nhật, 8:00 - 22:00
                         </div>
                         <div className="d-flex align-items-center">
                             <i className="bi bi-person-fill me-1"></i><a href="/login" style={{ color: 'white', fontWeight: 'bold' }}> Đăng Nhập </a>

@@ -64,14 +64,14 @@ const PatientModal = ({ isOpen, onClose, onSubmit, editingPatient }) => {
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.popupModal}>
-                <h2>Edit Patient Information</h2>
+                <h2>Chỉnh Sửa Thông Tin Bệnh Nhân</h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Name"
+                        placeholder="Họ Tên"
                         required
                     />
                     <input
@@ -79,7 +79,7 @@ const PatientModal = ({ isOpen, onClose, onSubmit, editingPatient }) => {
                         name="age"
                         value={formData.age}
                         onChange={handleInputChange}
-                        placeholder="Age"
+                        placeholder="Tuổi"
                         required
                     />
                     <input
@@ -87,7 +87,7 @@ const PatientModal = ({ isOpen, onClose, onSubmit, editingPatient }) => {
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        placeholder="Address"
+                        placeholder="Địa Chỉ"
                         required
                     />
                     <input
@@ -95,7 +95,7 @@ const PatientModal = ({ isOpen, onClose, onSubmit, editingPatient }) => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        placeholder="Phone"
+                        placeholder="Số Điện Thoại"
                         required
                     />
                     <input
@@ -107,8 +107,8 @@ const PatientModal = ({ isOpen, onClose, onSubmit, editingPatient }) => {
                         required
                     />
                     <div className={styles.buttonContainer}>
-                        <button type="submit" className={styles.submitButton}>Save</button>
-                        <button type="button" onClick={onClose} className={styles.closeButton}>Close</button>
+                        <button type="submit" className={styles.submitButton}>Lưu</button>
+                        <button type="button" onClick={onClose} className={styles.closeButton}>Đóng</button>
                     </div>
                 </form>
             </div>

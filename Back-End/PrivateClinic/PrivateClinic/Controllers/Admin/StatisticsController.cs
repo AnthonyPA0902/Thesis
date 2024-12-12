@@ -122,8 +122,8 @@ namespace PrivateClinic.Controllers.Admin
 		[HttpGet("counts")]
 		public async Task<ActionResult<DashboardCountsDto>> GetCounts()
 		{
-			var doctorCount = await _dbContext.Users.CountAsync(u => u.RoleId == 1);
-			var patientCount = await _dbContext.Users.CountAsync(u => u.RoleId == 2);
+			var doctorCount = await _dbContext.Users.CountAsync(u => u.RoleId == 2);
+			var patientCount = await _dbContext.Users.CountAsync(u => u.RoleId == 1);
 			var medicineCount = await _dbContext.MedicineStorages.CountAsync();
 			var equipmentCount = await _dbContext.Equipment.CountAsync();
 

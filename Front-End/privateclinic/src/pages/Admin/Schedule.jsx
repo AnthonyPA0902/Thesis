@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../admin_assets/css/schedule.css';
 import ScheduleModal from '../../components/ScheduleModal';
 import { useNavigate } from 'react-router-dom';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 const Schedule = () => {
     const [schedule, setSchedule] = useState([]); // Schedule data state
@@ -110,47 +110,47 @@ const Schedule = () => {
         pageNumbers.push(i);
     }
 
-    // const handleDeleteClick = (scheduleId) => {
-    //     // Show SweetAlert2 confirmation dialog
-    //     Swal.fire({
-    //         title: 'Xác nhận thông tin?',
-    //         text: "Bạn có muốn xóa lịch hẹn này không?",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Xóa',
-    //         cancelButtonText: 'Hủy'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
-    //                 method: 'DELETE',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 }
-    //             })
-    //             .then((response) => response.json())
-    //             .then((data) => {
-    //                 if (data.success) {
-    //                     Swal.fire(
-    //                         'Deleted!',
-    //                         'Lịch hẹn đã bị hủy.',
-    //                         'success'
-    //                     );
-    //                     refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate)
-    //                 } 
-    //             })
-    //             .catch((error) => {
-    //                 Swal.fire(
-    //                     'Error!',
-    //                     'There was a problem deleting the schedule.',
-    //                     'error'
-    //                 );
-    //                 console.error('Error deleting schedule:', error);
-    //             });
-    //         }
-    //     });
-    // };
+    const handleDeleteClick = (scheduleId) => {
+        // Show SweetAlert2 confirmation dialog
+        Swal.fire({
+            title: 'Xác nhận thông tin?',
+            text: "Bạn có muốn xóa lịch hẹn này không?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`https://localhost:7157/api/admin/schedule/${scheduleId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Lịch hẹn đã bị hủy.',
+                            'success'
+                        );
+                        refetchScheduleData(searchTerm, currentPage, pageSize, selectedDate)
+                    } 
+                })
+                .catch((error) => {
+                    Swal.fire(
+                        'Error!',
+                        'There was a problem deleting the schedule.',
+                        'error'
+                    );
+                    console.error('Error deleting schedule:', error);
+                });
+            }
+        });
+    };
 
     return (
         <div className="content">
@@ -217,9 +217,9 @@ const Schedule = () => {
                                     <button style={{ marginRight: '10px', marginBottom: '5px' }} onClick={() => handleEditClick(schedule.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/edit-icon.png" alt="edit-icon" />
                                     </button>
-                                    {/* <button onClick={() => handleDeleteClick(schedule.id)}>
+                                    <button onClick={() => handleDeleteClick(schedule.id)}>
                                         <img className="icon" src="/admin_assets/img/icon/delete-icon.png" alt="edit-icon" />
-                                    </button> */}
+                                    </button>
                                 </td>
                             </tr>
                         ))}

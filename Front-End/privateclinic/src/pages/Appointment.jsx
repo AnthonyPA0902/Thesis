@@ -152,7 +152,7 @@ const Appointment = () => {
                         <strong>Họ Tên:</strong> ${formData.name}<br>
                         <strong>Email:</strong> ${formData.email}<br>
                         <strong>Số Điện Thoại:</strong> ${formData.phone}<br>
-                        <strong>Ngày Tháng:</strong> ${formData.date}<br>
+                        <strong>Ngày Tháng:</strong> ${new Date(formData.date).toLocaleDateString('en-GB')}<br>
                         <strong>Bác Sĩ:</strong> ${selectedDoctor ? selectedDoctor.name : 'N/A'}<br>
                         <strong>Liệu Trình:</strong> ${selectedTreatment ? selectedTreatment.treatmentName : 'N/A'}<br>
                         <strong>Gía tiền:</strong> ${fetchedPrice} VND

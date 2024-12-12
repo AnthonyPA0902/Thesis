@@ -8,12 +8,14 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
 
     // Memoize the initial form state to avoid recreating it on every render
     const initialFormState = useMemo(() => ({
+        id: '',
         name: '',
         phone: '',
         date: '',
         startTime: '',
         endTime: '',
         room: '',
+        status: '',
         doctorId: '',
         treatmentId: ''
     }), []);
@@ -30,7 +32,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
         const hours = d.getHours().toString().padStart(2, '0'); // Ensure 2 digits for hours
         const minutes = d.getMinutes().toString().padStart(2, '0'); // Ensure 2 digits for minutes
         const seconds = d.getSeconds().toString().padStart(2, '0'); // Ensure 2 digits for minutes
-        return `${hours}:${minutes}:${seconds}`; 
+        return `${hours}:${minutes}:${seconds}`;
     };
 
     // Format the date (if needed, depending on the input format expected)
@@ -69,6 +71,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
                 startTime: formatTime(currentData.start), // Format the start time
                 endTime: formatTime(currentData.end), // Format the end time
                 room: currentData.room,
+                status: currentData.status,
                 doctorId: currentData.doctorId,
                 treatmentId: currentData.treatmentId
             });
@@ -160,6 +163,8 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
 
     // API call to update an existing checkup
     const updateCheckup = async () => {
+        const checkupId = parseInt(formData.id, 10);
+        console.log(checkupId)
         const docId = formData.doctorId;
         const day = formData.date;
         const sTime = formatToHHMMSS(formData.startTime);
@@ -193,12 +198,13 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
             return;
         }
 
-        // Check for time conflicts
-        if (hasTimeConflict(parseInt(docId), day, `${sTime}`, `${eTime}`)) {
+        // Check if the duration is exactly 30 minutes
+        const durationInMinutes = (endTimeInRange - startTimeInRange) / (1000 * 60);
+        if (durationInMinutes !== 30) {
             Swal.fire({
-                icon: "error",
-                title: "Lỗi",
-                text: "Bác sĩ đã có lịch vào thời gian đó",
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thời gian khám phải là 30 phút.',
             });
             return;
         }
@@ -208,7 +214,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
             Swal.fire({
                 title: 'Ngày không hợp lệ!',
                 text: 'Ca khám phải bắt đầu từ hôm nay trở đi.',
-                icon: 'warning',
+                icon: 'error',
                 confirmButtonText: 'OK',
             });
             return;
@@ -219,7 +225,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
             Swal.fire({
                 title: 'Thời gian không hợp lệ!',
                 text: 'Giờ bắt đầu phải ít nhất sau 1 giờ từ thời gian hiện tại.',
-                icon: 'warning',
+                icon: 'error',
                 confirmButtonText: 'OK',
             });
             return;
@@ -235,6 +241,16 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
             return;
         }
 
+        // Check for time conflicts
+        if (hasTimeConflict(parseInt(docId), day, `${sTime}`, `${eTime}`, checkupId)) {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "Bác sĩ đã có lịch vào thời gian đó",
+            });
+            return;
+        }
+
         const edit = {
             name: formData.name,
             phone: formData.phone,
@@ -242,6 +258,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
             startTime: formatToHHMMSS(formData.startTime),
             endTime: formatToHHMMSS(formData.endTime),
             room: formData.room,
+            status: formData.status,
             doctorId: formData.doctorId,
             treatmentId: formData.treatmentId,
         };
@@ -284,6 +301,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
     const handleClose = () => {
         setFormData(initialFormState);
         setIsSetMode(false);
+        setIsEditMode(false);
         onClose();
     };
 
@@ -373,7 +391,7 @@ const CheckUpModal = ({ isOpen, onClose, onSubmit, onEdit, initialData, currentD
                         required
                     />
                     <div className="button-container">
-                        <button type="submit" className="submit-button">Đăng Ký</button>
+                        <button type="submit" className="submit-button">{isEditMode ? "Cập Nhật" : "Đăng Ký"}</button>
                         <button type="button" onClick={handleClose} className="close-button">Đóng</button>
                     </div>
                 </form>

@@ -42,6 +42,20 @@ const MedicineModal = ({ isOpen, onClose, onSubmit, editingMedicine }) => {
             return; // Stop the submission if the condition is met
         }
 
+        const today = new Date();
+        const selectedDate = new Date(formData.expiredDate);
+
+        // Validation for future date
+        if (!formData.expiredDate || selectedDate <= today) {
+            Swal.fire({
+                title: 'Ngày không hợp lệ!',
+                text: 'Ngày hết hạn phải ở tương lai.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
         onSubmit(formData);
         onClose();
     };
