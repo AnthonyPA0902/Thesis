@@ -49,14 +49,14 @@ const ServiceDetail = () => {
         if (!token) {
             Swal.fire({
                 title: 'Bạn cần phải có tài khoản!',
-                text: 'Hãy đăng nhập để có thể xếp lịch hẹn.',
+                text: 'Hãy đăng ký tài khoản để có thể xếp lịch hẹn.',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Đăng Nhập',
+                confirmButtonText: 'Đăng Ký',
                 cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    navigate('/login');
+                    navigate('/register');
                 }
             });
             return;

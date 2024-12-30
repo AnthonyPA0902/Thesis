@@ -55,7 +55,7 @@ const DoctorModal = ({ isOpen, onClose, onSubmit, editingDoctor }) => {
     return (
         <div className="modal-overlay">
             <div className="popup-modal">
-                <h2>{editingDoctor ? 'Chỉnh sửa thông tin bác sĩ' : 'Thêm bác sĩ'}</h2>
+                <h2>{editingDoctor ? 'Chỉnh sửa thông tin' : 'Thêm bác sĩ'}</h2>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
